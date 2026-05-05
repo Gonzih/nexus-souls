@@ -15,7 +15,7 @@ const repos: { name: string; desc: string; lang: Lang }[] = [
   { name: "nexus-trading-service", desc: "Wallets, order execution, Polymarket", lang: "TypeScript" },
   { name: "nexus-data-service", desc: "Watchlists, alerts, market data", lang: "TypeScript" },
   { name: "nexus-mcp", desc: "MCP server — Claude Code, Cursor integration", lang: "TypeScript" },
-  { name: "nexus", desc: "Core product binary — amai-agent", lang: "Rust" },
+  { name: "nexus", desc: "Core product binary — nexus-agent", lang: "Rust" },
   { name: "nexus-protocols", desc: "Intelligence frameworks + operating protocols", lang: "Markdown" },
   { name: "nexus-research-agents-code", desc: "Ensemble models, agent code research", lang: "Research" },
   { name: "nexus-research-agent-jailing", desc: "Agent sandboxing + security research", lang: "Research" },
