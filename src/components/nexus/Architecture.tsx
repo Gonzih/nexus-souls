@@ -7,7 +7,7 @@ const services = [
   { name: "shepherd", port: ":8084", desc: "Agent Lifecycle + Orchestration" },
   { name: "soul-log", port: ":8086", desc: "Immutable Event Ledger" },
   { name: "agent-jail", port: ":8082", desc: "Sandboxed Execution" },
-  { name: "amai-mcp", port: ":8089", desc: "MCP Interface (Claude, Cursor)" },
+  { name: "nexus-mcp", port: ":8089", desc: "MCP Interface (Claude, Cursor)" },
 ];
 
 const capabilities = [
