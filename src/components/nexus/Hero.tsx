@@ -114,7 +114,7 @@ export const Hero = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 border-t border-foreground/15">
               {stats.map((s) => (
-                <div key={s.label} className="py-5 pr-4 border-r last:border-r-0 border-foreground/10">
+                <div key={s.label} className="py-5 pl-4 pr-4 border-r last:border-r-0 border-foreground/10">
                   <div className="font-serif-display text-3xl md:text-4xl text-foreground">
                     <Counter to={s.value} delay={1} duration={1.5} />
                   </div>
