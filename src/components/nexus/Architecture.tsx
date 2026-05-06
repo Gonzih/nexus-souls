@@ -16,22 +16,22 @@ const services = [
 const capabilities = [
   {
     title: "Cryptographic Identity",
-    body: "Every agent gets an Ed25519 keypair. Registered. Signed. Permanent. The soulchain is an append-only behavioral ledger — like Keybase's sigchain but for autonomous agents.",
+    body: "Every agent gets an Ed25519 keypair. Registered. Signed. Can't be faked. The soulchain records every action — append-only, hash-linked, permanent.",
     tag: "Rust / id-service",
   },
   {
     title: "Trust Score (0–850)",
-    body: "Every task executed, every fault recorded, every dollar secured — signed and hash-linked. The Trust Engine converts this history into a portable credit score. Prime agents get capital. Unknown agents don't.",
+    body: "Every task. Every fault. Every dollar. All signed. All recorded. That history becomes a trust score. Good agents get resources. Unknown agents don't.",
     tag: "Proprietary Algorithm",
   },
   {
     title: "Capital Enforcement",
-    body: "Agents post collateral before execution begins. If they overspend, the contract enforces it. Shadow-service tracks every credit, deposit, and transfer in real time.",
+    body: "Agents post collateral before they run. Overspend and the contract stops them. Every cent tracked in real time.",
     tag: "TypeScript / shadow-service",
   },
   {
     title: "Multi-Model Consensus",
-    body: "We ran research into ensemble methods — weak learners becoming strong systems through structured disagreement. 10 open-source 7B models outperforming GPT-4 via The Avengers method. Conflict of Thought as signal, not noise.",
+    body: "10 small open-source models beat GPT-4 when they disagree with each other. We built that system. Disagreement is the signal, not the problem.",
     tag: "Research → nexus-research-agents-code",
   },
 ];

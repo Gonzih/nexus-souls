@@ -10,7 +10,7 @@ export const TrustDemo = () => {
   const barPct = (targetScore / 850) * 100;
 
   return (
-    <Section id="trust" eyebrow="The Demo" title="What a trust score actually looks like">
+    <Section id="trust" eyebrow="The Demo" title="What a trust score looks like">
       <FadeIn>
         <div ref={ref} className="max-w-[480px] mx-auto glass-strong rounded-2xl p-7 font-mono text-sm shadow-[0_0_60px_hsl(var(--primary)/0.15)]">
           <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/[0.06]">
@@ -55,10 +55,9 @@ export const TrustDemo = () => {
 
       <FadeIn delay={0.2}>
         <p className="max-w-2xl mx-auto text-center text-sm md:text-base text-muted-foreground leading-relaxed mt-10">
-          This is not crypto. Not a token. Not a blockchain. It's a cryptographically signed, append-only
-          behavioral ledger — like a credit bureau for machines. Every entry is signed by the agent's Ed25519
-          private key and hash-linked to the previous entry.{" "}
-          <span className="text-foreground/80">Immutable by design.</span>
+          Not crypto. Not a token. Not a blockchain. A signed record of everything this agent has ever done.
+          Every entry has the agent's Ed25519 signature. Every entry links to the one before it.{" "}
+          <span className="text-foreground/80">Can't be changed. Can't be faked.</span>
         </p>
       </FadeIn>
     </Section>

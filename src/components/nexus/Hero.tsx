@@ -27,7 +27,7 @@ export const Hero = () => {
           className="inline-flex items-center gap-2 px-3 py-1.5 mb-8 glass rounded-full text-xs font-mono text-muted-foreground"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          NEXUS · INFRASTRUCTURE FOR AGENT TRUST
+          NEXUS · AGENT TRUST INFRASTRUCTURE
         </motion.div>
 
         <motion.h1
@@ -37,7 +37,7 @@ export const Hero = () => {
           className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-8"
         >
           <span className="text-gradient-hero">
-            The world is deploying AI agents with no identity, no history, no accountability.
+            AI agents are running everywhere. No ID. No records. Nobody watching.
           </span>
         </motion.h1>
 
@@ -47,8 +47,8 @@ export const Hero = () => {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="text-base md:text-lg text-foreground/60 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          We built the infrastructure layer that fixes that. Cryptographic identity. Behavioral ledger.
-          Trust scoring. Open source.
+          We built what should have existed from the start. Cryptographic identity. Behavioral ledger.
+          Trust scoring. All open source.
         </motion.p>
 
         <motion.div
@@ -61,7 +61,7 @@ export const Hero = () => {
             onClick={scrollToArch}
             className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary-glow transition-all hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)]"
           >
-            Explore the Architecture
+            See the Architecture
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
           <a
