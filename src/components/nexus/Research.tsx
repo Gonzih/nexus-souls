@@ -12,14 +12,14 @@ const research = [
 export const Research = () => (
   <Section id="research" eyebrow="The research" title={<>We researched <span className="text-accent-blue italic">before</span> we built.</>}>
     <FadeIn>
-      <div className="flex gap-px bg-foreground/10 border border-foreground/10 overflow-x-auto snap-x snap-mandatory">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/10 border border-foreground/10">
         {research.map((r) => (
           <a
             key={r.title}
             href={r.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="snap-start shrink-0 w-[300px] md:w-[340px] bg-background p-7 group hover:bg-secondary/50 transition-colors"
+            className="bg-background p-7 group hover:bg-secondary/50 transition-colors flex flex-col"
           >
             <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-6">{r.tag}</div>
             <h3 className="font-serif-display text-2xl mb-4 text-foreground leading-tight">{r.title}</h3>
