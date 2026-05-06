@@ -1,23 +1,21 @@
-# PLAN — Copy Rewrite (retardmaxxed)
+# PLAN — Attribution Update (fix/attribution-links)
 
 ## Task
-Rewrite all text copy on the nexus-souls site: brutally simple, visceral, punchy.
-Billboard logic. First-grader clarity. No corporate gloss. Angry and obvious, not clever.
-Do NOT touch JSX structure, layout, classNames, imports, or logic. Text strings only.
+In Footer.tsx, change "Built by Max Gonzih" → "Built by Maksim Soltan" and add clickable
+icon links for X (x.com/Gonzih) and GitHub (github.com/Gonzih) next to the name.
+Use lucide-react icons consistent with the existing site style.
 
 ## Approach
-Single-pass rewrite across 7 component files. Edit only string literals.
-Keep earned technical terms: Ed25519, soulchain, MCP, HIPAA, EU AI Act. Cut everything soft.
+Single-file edit to `src/components/nexus/Footer.tsx`:
+- Import `Github` and `Twitter` from lucide-react (both are used elsewhere in the codebase)
+- Replace the text-only attribution with name + icon links side-by-side
+- Keep the existing 3-column grid layout intact
+- Icons: w-4 h-4, hover:text-primary transition-colors (matches site patterns)
 
 ## Files to touch
-- src/components/nexus/Hero.tsx
-- src/components/nexus/Problem.tsx
-- src/components/nexus/Architecture.tsx
-- src/components/nexus/Convergence.tsx
-- src/components/nexus/Harnesses.tsx
-- src/components/nexus/Research.tsx
-- src/components/nexus/TrustDemo.tsx
+- src/components/nexus/Footer.tsx (only)
 
 ## Risks
-- Convergence title is ReactNode (already widened in prior PR) — preserve JSX fragment
-- Verify build passes after all edits
+- `Twitter` icon name may differ in lucide-react 0.462.0 — verify after npm install
+- Layout: the right column currently has text + email; dropping the email and adding icons
+  changes the visual balance slightly, but it's cleaner
