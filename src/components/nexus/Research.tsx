@@ -2,11 +2,11 @@ import { ArrowUpRight } from "lucide-react";
 import { Section, FadeIn } from "./Section";
 
 const research = [
-  { title: "Autopoietic AI", tag: "North Star Architecture", body: "A small model with a harness beats a bigger model without one. We mapped how to build the harness.", href: "https://github.com/Gonzih/nexus-protocols" },
-  { title: "Ensemble Weak Learners", tag: "Multi-Model Systems", body: "AAAI 2026 Oral. 10 small models beat GPT-4o on math (+18%) and code (+7%). No fine-tuning. Just structured disagreement.", href: "https://github.com/Gonzih/nexus-research-agents-code" },
-  { title: "Agent Reputation Landscape", tag: "Market Research", body: "Fetch.ai. Virtuals Protocol. ERC-8004. Nobody has a signed behavioral ledger with capital enforcement. The gap is real.", href: "https://github.com/Gonzih/nexus-research-agent-jailing" },
-  { title: "Conflict of Thought", tag: "Multi-Model Intelligence", body: "When models disagree, that's information. VOID spaces catch structural uncertainty 87% of the time.", href: "https://github.com/Gonzih/nexus-protocols" },
-  { title: "A2A Information Markets", tag: "Agent Economy", body: "Agents are starting to trade with each other. ACP, MCP, Farcaster. Trust infrastructure is the foundation underneath.", href: "https://github.com/Gonzih/nexus-research-agents-code" },
+  { title: "Autopoietic AI", tag: "North Star Architecture", body: "A small model with a harness beats a bigger model without one. We mapped how to build the harness.", href: "https://github.com/Gonzih/nexus-protocols/blob/main/NEXUS.md" },
+  { title: "Ensemble Weak Learners", tag: "Multi-Model Systems", body: "AAAI 2026 Oral. 10 small models beat GPT-4o on math (+18%) and code (+7%). No fine-tuning. Just structured disagreement.", href: "https://github.com/Gonzih/nexus-research-agents-code/blob/main/analysis/cline-architecture.md" },
+  { title: "Agent Reputation Landscape", tag: "Market Research", body: "Fetch.ai. Virtuals Protocol. ERC-8004. Nobody has a signed behavioral ledger with capital enforcement. The gap is real.", href: "https://github.com/Gonzih/nexus-research-agent-jailing/blob/main/claude-code/CLAUDE_CODE_JAIL_FINDINGS.md" },
+  { title: "Conflict of Thought", tag: "Multi-Model Intelligence", body: "When models disagree, that's information. VOID spaces catch structural uncertainty 87% of the time.", href: "https://github.com/Gonzih/nexus-protocols/blob/main/CONFLICT_OF_THOUGHT.md" },
+  { title: "A2A Information Markets", tag: "Agent Economy", body: "Agents are starting to trade with each other. ACP, MCP, Farcaster. Trust infrastructure is the foundation underneath.", href: "https://github.com/Gonzih/nexus-research-agents-code/blob/main/observations/openclaw-behavior.md" },
 ];
 
 export const Research = () => (
