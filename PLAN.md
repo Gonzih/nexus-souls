@@ -1,21 +1,24 @@
-# PLAN — Attribution Update (fix/attribution-links)
+# PLAN — Add Favicon (feat/favicon)
 
 ## Task
-In Footer.tsx, change "Built by Max Gonzih" → "Built by Maksim Soltan" and add clickable
-icon links for X (x.com/Gonzih) and GitHub (github.com/Gonzih) next to the name.
-Use lucide-react icons consistent with the existing site style.
+Add a custom favicon to the nexus-souls site using `/Users/feral/Downloads/money brain.png`.
+- Copy into `public/favicon.png` (resized to max 512×512)
+- Generate `public/favicon-32.png` (32×32 version)
+- Wire up in `index.html`: `<link rel="icon" type="image/png" href="/favicon.png">`
+- Remove the existing `favicon.ico` reference
 
 ## Approach
-Single-file edit to `src/components/nexus/Footer.tsx`:
-- Import `Github` and `Twitter` from lucide-react (both are used elsewhere in the codebase)
-- Replace the text-only attribution with name + icon links side-by-side
-- Keep the existing 3-column grid layout intact
-- Icons: w-4 h-4, hover:text-primary transition-colors (matches site patterns)
+Use macOS `sips` (already available at `/usr/bin/sips`) to resize:
+- `sips --resampleHeightWidthMax 512 source.png -o public/favicon.png`
+- `sips --resampleHeightWidth 32 32 source.png -o public/favicon-32.png`
+
+Then edit `index.html` to replace the `.ico` link with the PNG one.
 
 ## Files to touch
-- src/components/nexus/Footer.tsx (only)
+- `public/favicon.png` (new)
+- `public/favicon-32.png` (new)
+- `index.html` (replace favicon link)
 
 ## Risks
-- `Twitter` icon name may differ in lucide-react 0.462.0 — verify after npm install
-- Layout: the right column currently has text + email; dropping the email and adding icons
-  changes the visual balance slightly, but it's cleaner
+- Source image may already be ≤512×512 — sips handles that fine (no-op resize)
+- `favicon.ico` file stays in `public/` but is no longer referenced — that's fine
