@@ -5,17 +5,17 @@ const cards = [
   {
     icon: Fingerprint,
     title: "No Identity",
-    body: "An AI agent running a medical diagnosis has the same identity as one you spun up five minutes ago. Zero provenance. Zero accountability.",
+    body: "The agent running your medical diagnosis is identical to one spun up five minutes ago. You cannot tell them apart. Neither can anyone else.",
   },
   {
     icon: Clock,
     title: "No History",
-    body: "You can't know if an agent has failed 40% of tasks before trusting it with your supply chain. There is no credit bureau for machines.",
+    body: "That agent could have failed 40% of its tasks before you trusted it with your supply chain. You'd never know. There's no record.",
   },
   {
     icon: ShieldX,
     title: "No Enforcement",
-    body: "When an agent overspends, misbehaves, or produces unverifiable output — there is no ledger entry. It just... happened. And no one can prove it.",
+    body: "Agent overspends. Makes things up. Misbehaves. No log entry. No proof. It just happened. Nobody can prove it.",
   },
 ];
 
@@ -23,7 +23,7 @@ export const Problem = () => (
   <Section
     id="problem"
     eyebrow="The Problem"
-    title="Humans have FICO. Businesses have Dun & Bradstreet. AI agents have nothing."
+    title="No ID. No history. No enforcement. That's where we are."
   >
     <div className="grid md:grid-cols-3 gap-5 mb-14">
       {cards.map((c, i) => (
@@ -41,8 +41,7 @@ export const Problem = () => (
     <FadeIn delay={0.3}>
       <blockquote className="border-l-2 border-primary pl-6 py-2 max-w-3xl">
         <p className="text-xl md:text-2xl font-medium text-foreground/90 italic leading-snug">
-          "The first company to solve agent trust at the infrastructure level owns the rails the entire
-          autonomous economy runs on."
+          "Whoever builds agent trust infrastructure first owns the foundation everything else runs on."
         </p>
       </blockquote>
     </FadeIn>

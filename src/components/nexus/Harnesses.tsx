@@ -6,7 +6,7 @@ const harnesses = [
     name: "cc-agent",
     npm: "@gonzih/cc-agent",
     icon: Terminal,
-    desc: "MCP server for spawning AI subagents across multiple drivers — Claude, OpenAI, Gemini, Aider, Qwen, Kimi, DeepSeek, Amp, Codex, and more. Works with any MCP-compatible client — Claude Desktop, Cursor, cc-tg, or your own integration. The coordination backbone — spawn agents, manage jobs, monitor cost, orchestrate multi-step tasks across any repo.",
+    desc: "Spawns AI agents across Claude, OpenAI, Gemini, Aider, and more. Manages jobs. Tracks cost. Works with any MCP client.",
     link: "https://github.com/Gonzih/cc-agent",
     npm_link: "https://www.npmjs.com/package/@gonzih/cc-agent",
   },
@@ -14,7 +14,7 @@ const harnesses = [
     name: "cc-tg",
     npm: "@gonzih/cc-tg",
     icon: Bot,
-    desc: "Telegram ↔ Claude Code bridge. One npx command turns any project directory into a fully autonomous AI operator reachable from your phone. Ships with the Void Operator programming pre-seeded.",
+    desc: "Telegram ↔ Claude Code. One npx command. Your phone is the control panel. Ships with Void Operator pre-loaded.",
     link: "https://github.com/Gonzih/cc-tg",
     npm_link: "https://www.npmjs.com/package/@gonzih/cc-tg",
   },
@@ -22,7 +22,7 @@ const harnesses = [
     name: "cc-agent-ui",
     npm: "@gonzih/cc-agent-ui",
     icon: LayoutGrid,
-    desc: "Live canvas UI for cc-agent. Infinite scrollable grid of agent terminals — watch your agent fleet execute in real time. Runs in Docker, zero config.",
+    desc: "Live grid of agent terminals. Watch them run. Docker. Zero config.",
     link: "https://github.com/Gonzih/cc-agent-ui",
     npm_link: "https://www.npmjs.com/package/@gonzih/cc-agent-ui",
   },
@@ -32,11 +32,10 @@ export const Harnesses = () => (
   <Section
     id="harnesses"
     eyebrow="The Harness Layer"
-    title="One command. Your project becomes an AI operator."
+    title="One command. Your project runs AI agents."
   >
     <p className="text-sm text-muted-foreground max-w-2xl mb-12 -mt-6 leading-relaxed">
-      cc-agent, cc-tg, and cc-agent-ui form the meta-harness family — the human interface layer
-      that sits above Nexus infrastructure. Open source. npm-published. Run anywhere.
+      Three tools. Open source. One npx command. Your project runs AI agents.
     </p>
 
     <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -87,7 +86,7 @@ export const Harnesses = () => (
           <div><span className="text-primary/60"># 1.</span> <span className="text-muted-foreground">Get a bot token from @BotFather on Telegram</span></div>
           <div><span className="text-primary/60"># 2.</span> <span className="text-muted-foreground">Get your Claude token</span></div>
           <div className="mt-3 text-foreground">TELEGRAM_BOT_TOKEN=<span className="text-accent">xxx</span> CLAUDE_CODE_TOKEN=<span className="text-accent">yyy</span> npx <span className="text-primary">@gonzih/cc-tg</span></div>
-          <div className="text-muted-foreground/50 text-xs mt-2"># Claude Code is now live in your project. Talk to it from Telegram.</div>
+          <div className="text-muted-foreground/50 text-xs mt-2"># Claude Code is live. Talk to it from Telegram.</div>
         </div>
       </div>
     </FadeIn>

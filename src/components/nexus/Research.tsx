@@ -5,42 +5,42 @@ const research = [
   {
     title: "Autopoietic AI",
     tag: "North Star Architecture",
-    body: "Agents that synthesize their own constraint layers — harnesses that fix illegal actions automatically. A smaller model + harness beats a larger model without one. We mapped the full implementation path.",
+    body: "A small model with a harness beats a bigger model without one. We mapped how to build the harness.",
     cta: "Read the research →",
     href: "https://github.com/Gonzih/nexus-protocols",
   },
   {
     title: "Ensemble Weak Learners",
     tag: "Multi-Model Systems",
-    body: "The Avengers (AAAI 2026 Oral): 10 open-source ~7B models surpass GPT-4o on math (+18%) and code (+7%) with zero fine-tuning. We benchmarked this pattern and mapped it to our agent stack.",
+    body: "AAAI 2026 Oral. 10 small models beat GPT-4o on math (+18%) and code (+7%). No fine-tuning. Just structured disagreement. We built that.",
     cta: "View research →",
     href: "https://github.com/Gonzih/nexus-research-agents-code",
   },
   {
     title: "Agent Reputation Landscape",
     tag: "Market Research",
-    body: "We surveyed the entire emerging space — from Fetch.ai to Virtuals Protocol to ERC-8004. Nobody has an append-only signed behavioral ledger combined with capital enforcement. The gap is real.",
+    body: "We checked everyone building in this space. Fetch.ai. Virtuals Protocol. ERC-8004. Nobody has a signed behavioral ledger with capital enforcement. The gap is real.",
     cta: "Explore →",
     href: "https://github.com/Gonzih/nexus-research-agent-jailing",
   },
   {
     title: "Conflict of Thought",
     tag: "Multi-Model Intelligence",
-    body: "Disagreement between models isn't noise — it's compressed energy. We built a framework that maps friction points between AI lenses and converts them into directional signal. VOID spaces identify structural uncertainty in 87% of cases.",
+    body: "When models disagree, that's information. We built a system that turns disagreement into directional signal. VOID spaces catch structural uncertainty 87% of the time.",
     cta: "See protocols →",
     href: "https://github.com/Gonzih/nexus-protocols",
   },
   {
     title: "A2A Information Markets",
     tag: "Agent Economy",
-    body: "Agent-to-agent commerce is forming. ACP, MCP, Farcaster rails. We mapped the protocols, the primitives, and where trust infrastructure becomes the necessary layer underneath it all.",
+    body: "Agents are starting to trade with each other. ACP, MCP, Farcaster. We mapped the protocols. Trust infrastructure is the foundation underneath all of it.",
     cta: "Read report →",
     href: "https://github.com/Gonzih/nexus-research-agents-code",
   },
 ];
 
 export const Research = () => (
-  <Section id="research" eyebrow="The Research" title="We didn't guess. We researched.">
+  <Section id="research" eyebrow="The Research" title="We researched before we built.">
     <FadeIn>
       <div className="flex gap-5 overflow-x-auto pb-6 -mx-6 px-6 snap-x snap-mandatory scrollbar-thin">
         {research.map((r) => (

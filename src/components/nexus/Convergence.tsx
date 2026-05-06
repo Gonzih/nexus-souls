@@ -22,12 +22,11 @@ export const Convergence = () => (
   <Section
     id="convergence"
     eyebrow="The Convergence Pipeline"
-    title={<>Never depend on one.<br />Never accept one answer.</>}
+    title={<>One model. One answer. That's a guess.<br />We run all of them.</>}
   >
     <p className="text-sm text-muted-foreground max-w-2xl -mt-6 mb-12 leading-relaxed">
-      A 7-step pipeline that fans your query to every major LLM simultaneously, runs a consensus engine,
-      enforces compliance policy, and returns a structured result with full cryptographic provenance.
-      Disagreement between models is not noise — it's the signal.
+      Your query goes to every major LLM at once. They argue. We grade the argument. You get an answer
+      with proof — compliance checked, audit trail locked, full provenance.
     </p>
 
     <div className="grid lg:grid-cols-2 gap-10 items-start">
@@ -58,7 +57,7 @@ export const Convergence = () => (
       <div className="space-y-4">
         <FadeIn>
           <div className="text-xs text-muted-foreground uppercase tracking-wider font-mono mb-4">
-            available as MCP tools — works with Claude Code, Cursor, any MCP client
+            MCP tools — drop into Claude Code, Cursor, or any MCP client
           </div>
         </FadeIn>
         {tools.map((t, i) => (
