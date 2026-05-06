@@ -1,24 +1,38 @@
-# PLAN — Add Favicon (feat/favicon)
+# Plan: Animate Hero Planet Visual
 
 ## Task
-Add a custom favicon to the nexus-souls site using `/Users/feral/Downloads/money brain.png`.
-- Copy into `public/favicon.png` (resized to max 512×512)
-- Generate `public/favicon-32.png` (32×32 version)
-- Wire up in `index.html`: `<link rel="icon" type="image/png" href="/favicon.png">`
-- Remove the existing `favicon.ico` reference
+Animate the static `Orbits` SVG component in `Hero.tsx` to create a living, ambient planetary visualization. All motion should be calm and slow — distant-planet telescope aesthetic.
 
 ## Approach
-Use macOS `sips` (already available at `/usr/bin/sips`) to resize:
-- `sips --resampleHeightWidthMax 512 source.png -o public/favicon.png`
-- `sips --resampleHeightWidth 32 32 source.png -o public/favicon-32.png`
 
-Then edit `index.html` to replace the `.ico` link with the PNG one.
+Convert the static `Orbits` component to use Framer Motion's `motion.g` / `motion.circle` elements for GPU-composited, continuous rotation and pulse animations.
+
+### Elements to animate
+
+1. **Orbital rings** (`motion.g` per ring)
+   - Each ellipse gets its own `motion.g`
+   - Alternating CW/CCW rotation (`rotate: 360` vs `rotate: -360`)
+   - Durations: 45s → 60s → 80s → 100s → 130s (inner fastest, outer slowest)
+   - `style={{ transformOrigin: "300px 300px" }}` to rotate around SVG center
+   - `ease: "linear"`, `repeat: Infinity`
+
+2. **Spiral arms** (single `motion.g` wrapping both arms)
+   - Both dot arms inside one group — they rotate together as a galaxy
+   - Duration: ~120s, CW, linear, infinite
+   - `style={{ transformOrigin: "300px 300px" }}`
+
+3. **Center glow** (`motion.circle` on both inner circles)
+   - Opacity keyframes: [0.7, 1, 0.7] on inner (r=14), [0.15, 0.4, 0.15] on outer (r=34)
+   - Duration: ~4s, easeInOut, infinite; outer slightly phase-shifted (delay: 0.5)
+
+4. **Corner crosshairs** (`motion.g` per crosshair)
+   - Opacity keyframes: [0.3, 0.7, 0.3]
+   - Duration: 3–4.5s per crosshair, staggered by 0.75s delay
 
 ## Files to touch
-- `public/favicon.png` (new)
-- `public/favicon-32.png` (new)
-- `index.html` (replace favicon link)
+- `src/components/nexus/Hero.tsx` — only file
 
-## Risks
-- Source image may already be ≤512×512 — sips handles that fine (no-op resize)
-- `favicon.ico` file stays in `public/` but is no longer referenced — that's fine
+## Constraints
+- No new dependencies (Framer Motion already installed)
+- `transformOrigin: "300px 300px"` required for correct SVG group rotation
+- Keep animation durations very slow (ambient feel, not flashy)

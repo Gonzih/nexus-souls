@@ -9,41 +9,84 @@ const stats = [
   { value: 1, label: "person" },
 ];
 
-// Decorative orbital diagram (line-art, like the reference)
+// Decorative orbital diagram — animated with Framer Motion
+const RING_RADII = [80, 130, 190, 260, 340];
+// Durations in seconds: inner fastest, outer slowest; alternating CW / CCW
+const RING_DURATIONS = [45, 60, 80, 100, 130];
+const CROSSHAIR_POSITIONS = [[80,80],[520,90],[540,520],[60,500]] as const;
+
+const armCenter = { transformOrigin: "300px 300px" } as const;
+
 const Orbits = () => (
   <svg viewBox="0 0 600 600" className="w-full h-full" fill="none" stroke="currentColor">
+    {/* Orbital rings — each rotates at its own speed, alternating direction */}
     <g className="text-primary-foreground/30">
-      {[80, 130, 190, 260, 340].map((r, i) => (
-        <ellipse key={r} cx="300" cy="300" rx={r} ry={r * 0.55}
-          transform={`rotate(${i * 18} 300 300)`}
-          strokeWidth="0.6" strokeDasharray={i % 2 ? "2 4" : "0"} />
+      {RING_RADII.map((r, i) => (
+        <motion.g
+          key={r}
+          style={armCenter}
+          animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
+          transition={{ duration: RING_DURATIONS[i], repeat: Infinity, ease: "linear" }}
+        >
+          <ellipse
+            cx="300" cy="300" rx={r} ry={r * 0.55}
+            transform={`rotate(${i * 18} 300 300)`}
+            strokeWidth="0.6"
+            strokeDasharray={i % 2 ? "2 4" : "0"}
+          />
+        </motion.g>
       ))}
     </g>
-    {/* dotted spiral arms */}
-    {Array.from({ length: 220 }).map((_, i) => {
-      const t = i / 220;
-      const a = t * Math.PI * 6;
-      const r = 30 + t * 230;
-      const x = 300 + Math.cos(a) * r;
-      const y = 300 + Math.sin(a) * r * 0.55;
-      return <circle key={i} cx={x} cy={y} r={1 - t * 0.5} className="fill-primary-foreground/70" />;
-    })}
-    {Array.from({ length: 220 }).map((_, i) => {
-      const t = i / 220;
-      const a = Math.PI + t * Math.PI * 6;
-      const r = 30 + t * 230;
-      const x = 300 + Math.cos(a) * r;
-      const y = 300 + Math.sin(a) * r * 0.55;
-      return <circle key={`b${i}`} cx={x} cy={y} r={1 - t * 0.5} className="fill-primary-glow/80" />;
-    })}
-    <circle cx="300" cy="300" r="14" className="fill-primary-glow" />
-    <circle cx="300" cy="300" r="34" className="fill-primary-glow/20" />
-    {/* tiny stars */}
-    {[[80,80],[520,90],[540,520],[60,500]].map(([x,y],i) => (
-      <g key={i} className="text-primary-foreground/40">
-        <line x1={x-6} y1={y} x2={x+6} y2={y} strokeWidth="0.6" />
-        <line x1={x} y1={y-6} x2={x} y2={y+6} strokeWidth="0.6" />
-      </g>
+
+    {/* Spiral arms — both arms rotate together as a galaxy */}
+    <motion.g
+      style={armCenter}
+      animate={{ rotate: 360 }}
+      transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+    >
+      {Array.from({ length: 220 }).map((_, i) => {
+        const t = i / 220;
+        const a = t * Math.PI * 6;
+        const r = 30 + t * 230;
+        const x = 300 + Math.cos(a) * r;
+        const y = 300 + Math.sin(a) * r * 0.55;
+        return <circle key={i} cx={x} cy={y} r={1 - t * 0.5} className="fill-primary-foreground/70" />;
+      })}
+      {Array.from({ length: 220 }).map((_, i) => {
+        const t = i / 220;
+        const a = Math.PI + t * Math.PI * 6;
+        const r = 30 + t * 230;
+        const x = 300 + Math.cos(a) * r;
+        const y = 300 + Math.sin(a) * r * 0.55;
+        return <circle key={`b${i}`} cx={x} cy={y} r={1 - t * 0.5} className="fill-primary-glow/80" />;
+      })}
+    </motion.g>
+
+    {/* Center glow — gentle pulse */}
+    <motion.circle
+      cx="300" cy="300" r="14"
+      className="fill-primary-glow"
+      animate={{ opacity: [0.7, 1, 0.7] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+    />
+    <motion.circle
+      cx="300" cy="300" r="34"
+      className="fill-primary-glow/20"
+      animate={{ opacity: [0.15, 0.45, 0.15] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+    />
+
+    {/* Corner crosshairs — staggered fade */}
+    {CROSSHAIR_POSITIONS.map(([x, y], i) => (
+      <motion.g
+        key={i}
+        className="text-primary-foreground/40"
+        animate={{ opacity: [0.25, 0.65, 0.25] }}
+        transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.75 }}
+      >
+        <line x1={x - 6} y1={y} x2={x + 6} y2={y} strokeWidth="0.6" />
+        <line x1={x} y1={y - 6} x2={x} y2={y + 6} strokeWidth="0.6" />
+      </motion.g>
     ))}
   </svg>
 );
