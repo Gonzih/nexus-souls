@@ -7,31 +7,43 @@ interface SectionProps {
   title: ReactNode;
   children: ReactNode;
   className?: string;
+  variant?: "cream" | "ink";
 }
 
-export const Section = ({ id, eyebrow, title, children, className = "" }: SectionProps) => (
-  <section id={id} className={`relative py-28 px-6 ${className}`}>
-    <div className="max-w-6xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-        className="mb-14"
-      >
-        {eyebrow && (
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">{eyebrow}</div>
-        )}
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-4xl leading-[1.1]">{title}</h2>
-      </motion.div>
-      {children}
-    </div>
-  </section>
-);
+export const Section = ({ id, eyebrow, title, children, className = "", variant = "cream" }: SectionProps) => {
+  const isInk = variant === "ink";
+  return (
+    <section
+      id={id}
+      className={`relative py-24 md:py-32 px-6 md:px-10 ${isInk ? "panel-ink" : "bg-background"} ${className}`}
+    >
+      {isInk && <div className="absolute inset-0 dot-bg-ink opacity-25 pointer-events-none" />}
+      <div className="relative max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-14 max-w-3xl"
+        >
+          {eyebrow && (
+            <div className={`font-mono text-[10px] uppercase tracking-[0.24em] mb-5 ${isInk ? "text-primary-glow" : "text-primary"}`}>
+              — {eyebrow}
+            </div>
+          )}
+          <h2 className={`font-serif-display text-4xl md:text-5xl lg:text-6xl font-light leading-[1.02] ${isInk ? "text-primary-foreground" : "text-foreground"}`}>
+            {title}
+          </h2>
+        </motion.div>
+        {children}
+      </div>
+    </section>
+  );
+};
 
 export const FadeIn = ({ children, delay = 0 }: { children: ReactNode; delay?: number }) => (
   <motion.div
-    initial={{ opacity: 0, y: 24 }}
+    initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.6, delay }}

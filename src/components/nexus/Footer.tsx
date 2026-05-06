@@ -1,24 +1,25 @@
 import { Github, Twitter } from "lucide-react";
 
 export const Footer = () => (
-  <footer className="border-t border-white/[0.06] py-10 px-6 mt-10">
-    <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 items-center text-sm">
-      <div className="font-mono text-muted-foreground text-xs md:text-sm">
-        Nexus Infrastructure — Open Source
+  <footer className="panel-ink py-8 px-8 md:px-10">
+    <div className="max-w-6xl mx-auto flex flex-wrap gap-6 items-center justify-between text-sm">
+      <div className="flex items-center gap-2.5">
+        <div className="w-7 h-7 border border-primary-foreground/40 flex items-center justify-center">
+          <div className="w-2.5 h-2.5 bg-primary-glow rotate-45" />
+        </div>
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-foreground/80">Nexus</span>
       </div>
-      <nav className="flex justify-center gap-6 text-muted-foreground">
-        <a href="https://github.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">GitHub</a>
-        <a href="https://github.com/Gonzih/nexus-protocols" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Protocols</a>
-        <a href="https://github.com/Gonzih?tab=repositories&q=research" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Research</a>
+
+      <nav className="flex gap-6 font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/60">
+        <a href="https://github.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">GitHub</a>
+        <a href="https://github.com/Gonzih/nexus-protocols" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">Protocols</a>
+        <a href="https://github.com/Gonzih?tab=repositories&q=research" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">Research</a>
       </nav>
-      <div className="md:text-right text-muted-foreground text-xs md:text-sm flex md:justify-end items-center gap-2 flex-wrap">
-        <span>Built by Maksim Soltan</span>
-        <a href="https://x.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" aria-label="X">
-          <Twitter className="w-4 h-4" />
-        </a>
-        <a href="https://github.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" aria-label="GitHub">
-          <Github className="w-4 h-4" />
-        </a>
+
+      <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/60">
+        <span>Open source · trust at scale</span>
+        <a href="https://x.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow" aria-label="X"><Twitter className="w-3.5 h-3.5" /></a>
+        <a href="https://github.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow" aria-label="GitHub"><Github className="w-3.5 h-3.5" /></a>
       </div>
     </div>
   </footer>
