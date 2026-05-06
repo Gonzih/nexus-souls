@@ -1,6 +1,7 @@
 import { Hero } from "@/components/nexus/Hero";
 import { Problem } from "@/components/nexus/Problem";
 import { Architecture } from "@/components/nexus/Architecture";
+import { Harnesses } from "@/components/nexus/Harnesses";
 import { Research } from "@/components/nexus/Research";
 import { Repos } from "@/components/nexus/Repos";
 import { TrustDemo } from "@/components/nexus/TrustDemo";
@@ -12,6 +13,7 @@ const Index = () => {
       <Hero />
       <Problem />
       <Architecture />
+      <Harnesses />
       <Research />
       <Repos />
       <TrustDemo />
