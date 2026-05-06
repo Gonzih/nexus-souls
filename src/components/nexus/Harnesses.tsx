@@ -6,7 +6,7 @@ const harnesses = [
     name: "cc-agent",
     npm: "@gonzih/cc-agent",
     icon: Terminal,
-    desc: "MCP server for spawning Claude Code subagents. The coordination backbone — spawn agents, manage jobs, monitor cost, orchestrate multi-step tasks across any repo.",
+    desc: "MCP server for spawning Claude Code subagents. Works with any MCP-compatible client — Claude Desktop, Cursor, cc-tg, or your own integration. The coordination backbone — spawn agents, manage jobs, monitor cost, orchestrate multi-step tasks across any repo.",
     link: "https://github.com/Gonzih/cc-agent",
     npm_link: "https://www.npmjs.com/package/@gonzih/cc-agent",
   },
