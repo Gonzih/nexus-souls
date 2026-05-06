@@ -5,8 +5,13 @@ type Lang = "Rust" | "TypeScript" | "Markdown" | "Research";
 
 const repos: { name: string; desc: string; lang: Lang }[] = [
   { name: "cc-agent", desc: "MCP server for spawning Claude Code subagents — coordinator backbone", lang: "TypeScript" },
-  { name: "cc-tg", desc: "Telegram ↔ Claude Code bridge with Void Operator pre-seeded", lang: "TypeScript" },
+  { name: "cc-tg", desc: "Telegram ↔ Claude Code bridge with Void Operator programming pre-seeded", lang: "TypeScript" },
   { name: "cc-agent-ui", desc: "Live canvas UI — infinite scrollable grid of agent terminals", lang: "TypeScript" },
+  { name: "nexus-convergence-mcp", desc: "MCP server — converge_query, evidence ladder, compliance, disagreements", lang: "TypeScript" },
+  { name: "nexus-convergence-service", desc: "7-step multi-LLM convergence pipeline orchestrator", lang: "TypeScript" },
+  { name: "nexus-compliance-service", desc: "Runtime policy enforcement — HIPAA, EU AI Act, NIST, Custom", lang: "TypeScript" },
+  { name: "nexus-consensus-service", desc: "Semantic similarity, inversion detection, truth stability scoring", lang: "TypeScript" },
+  { name: "nexus-evidence-service", desc: "Immutable Evidence Ladder — hash-linked append-only audit trail", lang: "TypeScript" },
   { name: "nexus-soul-core", desc: "Agent loop, provider routing, tool registry", lang: "Rust" },
   { name: "nexus-soul-coder", desc: "Coding tools for autonomous agents", lang: "Rust" },
   { name: "nexus-id-service", desc: "Cryptographic identity + soulchain ledger", lang: "Rust" },
@@ -38,7 +43,7 @@ const langStyle: Record<Lang, string> = {
 };
 
 export const Repos = () => (
-  <Section id="repos" eyebrow="The Code" title="24 open source repositories. All public.">
+  <Section id="repos" eyebrow="The Code" title="29 open source repositories. All public.">
     <p className="font-mono text-sm text-muted-foreground mb-10 -mt-8">github.com/Gonzih</p>
 
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
