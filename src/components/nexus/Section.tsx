@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 interface SectionProps {
   id?: string;
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   className?: string;
 }

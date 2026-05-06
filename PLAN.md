@@ -1,19 +1,26 @@
-# Plan: Harnesses Section + GitHub Pages Deploy
+# Plan: Convergence Pipeline Section + Content Deepdive
 
 ## Task Summary
-Add a "Harnesses" section showcasing cc-agent, cc-tg, and cc-agent-ui as the meta-harness layer above Nexus infrastructure. Also add a GitHub Actions workflow to deploy the site to gonzih.github.io.
+Add a Convergence Pipeline section as a new React component, wire it into Index.tsx, add 3 convergence services to Architecture.tsx, update Hero stats, and add 5 convergence repos to Repos.tsx. No visual/styling changes — text content only.
 
 ## Approach
-Direct implementation — the task has clear specs. No architectural decisions needed beyond following the provided code patterns.
+Straight implementation following the spec. Only content changes, no design changes.
+
+## Key Fix Required
+`Section.tsx` types `title` as `string` — must change to `ReactNode` so Convergence can use JSX (`<>Never depend...<br/>...</>`).
 
 ## Files to touch
-- `src/components/nexus/Harnesses.tsx` — new component (create)
-- `src/pages/Index.tsx` — import + insert `<Harnesses />` between Architecture and Research
-- `src/components/nexus/Hero.tsx` — update stats (10→13 microservices, 21→24 open source repos)
-- `src/components/nexus/Repos.tsx` — add 3 cc-agent repos at top, update section title count
-- `.github/workflows/deploy.yml` — new GitHub Actions workflow (create)
-- `vite.config.ts` — verify base is `/` (no change needed, defaults to `/`)
+- `src/components/nexus/Section.tsx` — change `title: string` to `title: ReactNode`
+- `src/components/nexus/Convergence.tsx` — CREATE new component
+- `src/pages/Index.tsx` — add `<Convergence />` between Architecture and Harnesses
+- `src/components/nexus/Architecture.tsx` — add 3 convergence services to mesh
+- `src/components/nexus/Hero.tsx` — update microservices 13→16, repos 24→29
+- `src/components/nexus/Repos.tsx` — add 5 convergence repos, update title to "29 open source repositories"
+
+## Counts
+- Current repos: 24. Adding: nexus-convergence-mcp, nexus-convergence-service, nexus-compliance-service, nexus-consensus-service, nexus-evidence-service → 29 total
+- Current microservices: 13. Adding convergence(:8090), consensus(:8091), compliance(:8092) → 16 total
+- Architecture mesh: was 6, becomes 9
 
 ## Risks
-- `lovable-tagger` plugin might cause issues in CI — it's dev-only and already guarded by `mode === "development"` check
-- `Repos.tsx` title currently says "21 open source repositories" — needs updating to "24"
+- Section.tsx `title: string` → must widen to `ReactNode` before creating Convergence component or build fails

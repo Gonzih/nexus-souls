@@ -8,6 +8,9 @@ const services = [
   { name: "soul-log", port: ":8086", desc: "Immutable Event Ledger" },
   { name: "agent-jail", port: ":8082", desc: "Sandboxed Execution" },
   { name: "nexus-mcp", port: ":8089", desc: "MCP Interface (Claude, Cursor)" },
+  { name: "convergence", port: ":8090", desc: "Multi-LLM Fan-out + 7-step Pipeline" },
+  { name: "consensus", port: ":8091", desc: "Semantic Similarity + Agreement Scoring" },
+  { name: "compliance", port: ":8092", desc: "Policy Enforcement (HIPAA / EU AI Act)" },
 ];
 
 const capabilities = [
