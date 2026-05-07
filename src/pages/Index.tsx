@@ -4,6 +4,7 @@ import { Architecture } from "@/components/nexus/Architecture";
 import { Convergence } from "@/components/nexus/Convergence";
 import { Harnesses } from "@/components/nexus/Harnesses";
 import { Research } from "@/components/nexus/Research";
+import { CaseStudyTeaser } from "@/components/nexus/CaseStudyTeaser";
 import { Repos } from "@/components/nexus/Repos";
 import { TrustDemo } from "@/components/nexus/TrustDemo";
 import { Footer } from "@/components/nexus/Footer";
@@ -17,6 +18,7 @@ const Index = () => {
       <Convergence />
       <Harnesses />
       <Research />
+      <CaseStudyTeaser />
       <Repos />
       <TrustDemo />
       <Footer />
