@@ -5,7 +5,7 @@ import { Counter } from "./Counter";
 const stats = [
   { value: 1415, label: "tests written" },
   { value: 16, label: "microservices" },
-  { value: 29, label: "open source repos" },
+  { value: 30, label: "open source repos" },
   { value: 1, label: "person" },
 ];
 

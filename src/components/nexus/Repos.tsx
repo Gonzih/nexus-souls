@@ -33,6 +33,7 @@ const repos: { name: string; desc: string; lang: Lang }[] = [
   { name: "nexus-soul-google-tools", desc: "Google tools integration", lang: "Rust" },
   { name: "nexus-research-finetune-llms", desc: "LLM fine-tuning research", lang: "Research" },
   { name: "nexus-research-hw", desc: "Hardware research", lang: "Research" },
+  { name: "nexus-reasoning-graph", desc: "Claude Code plugin — captures tool results via sliding window chunking, embeds them locally, builds a cosine-similarity influence graph, renders as a live D3 force visualization. Tracks what influenced what in an AI reasoning session.", lang: "TypeScript" },
 ];
 
 const langStyle: Record<Lang, string> = {
@@ -43,7 +44,7 @@ const langStyle: Record<Lang, string> = {
 };
 
 export const Repos = () => (
-  <Section id="repos" eyebrow="The code" title={<>29 repositories. <span className="text-accent-blue italic">All public.</span></>}>
+  <Section id="repos" eyebrow="The code" title={<>30 repositories. <span className="text-accent-blue italic">All public.</span></>}>
     <p className="font-mono text-xs uppercase tracking-[0.22em] text-foreground/50 mb-10 -mt-6">github.com/Gonzih</p>
 
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/10 border border-foreground/10">
