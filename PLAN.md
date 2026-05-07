@@ -1,38 +1,27 @@
-# Plan: Animate Hero Planet Visual
+# PLAN — Surface Nexus Research Themes
 
-## Task
-Animate the static `Orbits` SVG component in `Hero.tsx` to create a living, ambient planetary visualization. All motion should be calm and slow — distant-planet telescope aesthetic.
+## Task Restatement
+Weave the nexus-research themes (geometry of language, agent identity, trust infrastructure, adversarial robustness, reasoning provenance) into the public-facing nexus-souls site. Keep the existing design intact. Link to github.com/Gonzih/nexus-research.
 
-## Approach
+## Approaches Considered
 
-Convert the static `Orbits` component to use Framer Motion's `motion.g` / `motion.circle` elements for GPU-composited, continuous rotation and pulse animations.
+**A. Add new Research.tsx cards only**
+Simple. No structural change. Adds depth to the existing Research section. Risk: section grows to 8 cards (5 existing + 3 new) — acceptable in a 3-col grid.
 
-### Elements to animate
+**B. Rewrite/replace existing Research cards**
+Risky — loses existing copy that's been validated. Out of scope.
 
-1. **Orbital rings** (`motion.g` per ring)
-   - Each ellipse gets its own `motion.g`
-   - Alternating CW/CCW rotation (`rotate: 360` vs `rotate: -360`)
-   - Durations: 45s → 60s → 80s → 100s → 130s (inner fastest, outer slowest)
-   - `style={{ transformOrigin: "300px 300px" }}` to rotate around SVG center
-   - `ease: "linear"`, `repeat: Infinity`
+**C. Add a separate "Foundations" section**
+More structural, but the task says don't overhaul the design. Over-engineering.
 
-2. **Spiral arms** (single `motion.g` wrapping both arms)
-   - Both dot arms inside one group — they rotate together as a galaxy
-   - Duration: ~120s, CW, linear, infinite
-   - `style={{ transformOrigin: "300px 300px" }}`
+## Chosen Approach: A (add cards + minor Hero tweak)
 
-3. **Center glow** (`motion.circle` on both inner circles)
-   - Opacity keyframes: [0.7, 1, 0.7] on inner (r=14), [0.15, 0.4, 0.15] on outer (r=34)
-   - Duration: ~4s, easeInOut, infinite; outer slightly phase-shifted (delay: 0.5)
+**Files to touch:**
+- `src/components/nexus/Research.tsx` — add 3 new cards: Geometry of Language, Adversarial Robustness, Reasoning Provenance
+- `src/components/nexus/Hero.tsx` — one-line tweak to description to surface the research angle
 
-4. **Corner crosshairs** (`motion.g` per crosshair)
-   - Opacity keyframes: [0.3, 0.7, 0.3]
-   - Duration: 3–4.5s per crosshair, staggered by 0.75s delay
+**Not touching:** Section.tsx, Repos.tsx, Architecture.tsx, Index.tsx, Problem.tsx
 
-## Files to touch
-- `src/components/nexus/Hero.tsx` — only file
-
-## Constraints
-- No new dependencies (Framer Motion already installed)
-- `transformOrigin: "300px 300px"` required for correct SVG group rotation
-- Keep animation durations very slow (ambient feel, not flashy)
+## Risks
+- nexus-research repo is empty — all 3 new cards link to the repo root (https://github.com/Gonzih/nexus-research)
+- 8 cards in a 3-col grid: rows will be 3+3+2, which is fine

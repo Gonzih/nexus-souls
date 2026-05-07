@@ -129,8 +129,8 @@ export const Hero = () => {
               className="mt-8 max-w-md text-base text-foreground/70 leading-relaxed"
             >
               Cryptographic identity, behavioral ledger, and trust scoring
-              for AI agents. Open source infrastructure for what should
-              have existed from the start.
+              for AI agents. Built on research into language geometry,
+              adversarial robustness, and reasoning provenance.
             </motion.p>
           </div>
 
