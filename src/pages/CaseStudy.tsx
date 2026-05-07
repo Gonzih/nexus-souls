@@ -104,19 +104,21 @@ const CaseStudy = () => {
               harm.
             </p>
           </div>
-          <FadeIn>
-            <aside className="lg:col-span-5 panel-ink p-8 relative">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">— The thesis</div>
-              <p className="font-serif-display text-2xl leading-snug text-primary-foreground">
-                Courts can ask the question. The industry has no mechanism to answer it.
-              </p>
-              <div className="mt-6 pt-6 border-t border-primary-foreground/15">
-                <p className="text-sm text-primary-foreground/70 leading-relaxed">
-                  Nexus is that mechanism — a temporal, auditable substrate for AI decisions.
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <aside className="panel-ink p-8 relative">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">— The thesis</div>
+                <p className="font-serif-display text-2xl leading-snug text-primary-foreground">
+                  Courts can ask the question. The industry has no mechanism to answer it.
                 </p>
-              </div>
-            </aside>
-          </FadeIn>
+                <div className="mt-6 pt-6 border-t border-primary-foreground/15">
+                  <p className="text-sm text-primary-foreground/70 leading-relaxed">
+                    Nexus is that mechanism — a temporal, auditable substrate for AI decisions.
+                  </p>
+                </div>
+              </aside>
+            </FadeIn>
+          </div>
         </div>
       </Section>
 
@@ -175,24 +177,26 @@ const CaseStudy = () => {
               <span className="text-foreground font-medium">that is visible.</span>
             </p>
           </div>
-          <FadeIn>
-            <aside className="lg:col-span-2 panel p-7">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">— Two failure modes</div>
-              <ul className="space-y-5 text-sm text-foreground/75">
-                <li className="pb-5 border-b border-foreground/10">
-                  <span className="block text-foreground font-medium mb-1">"The AI missed it."</span>
-                  Vague. Undifferentiated. Indefensible.
-                </li>
-                <li>
-                  <span className="block text-foreground font-medium mb-1">
-                    "The note entered 13 minutes after the decision ran. No mechanism delayed
-                    the decision until the record was complete."
-                  </span>
-                  Different failure. Different liable party.
-                </li>
-              </ul>
-            </aside>
-          </FadeIn>
+          <div className="lg:col-span-2">
+            <FadeIn>
+              <aside className="panel p-7">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">— Two failure modes</div>
+                <ul className="space-y-5 text-sm text-foreground/75">
+                  <li className="pb-5 border-b border-foreground/10">
+                    <span className="block text-foreground font-medium mb-1">"The AI missed it."</span>
+                    Vague. Undifferentiated. Indefensible.
+                  </li>
+                  <li>
+                    <span className="block text-foreground font-medium mb-1">
+                      "The note entered 13 minutes after the decision ran. No mechanism delayed
+                      the decision until the record was complete."
+                    </span>
+                    Different failure. Different liable party.
+                  </li>
+                </ul>
+              </aside>
+            </FadeIn>
+          </div>
         </div>
       </Section>
 
@@ -217,37 +221,39 @@ const CaseStudy = () => {
               <span className="text-primary-foreground font-medium">0.31</span>.
             </p>
           </div>
-          <FadeIn>
-            <aside className="lg:col-span-2 bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-6">— Influence weights</div>
-              <div className="space-y-5">
-                {[
-                  { label: "Guideline 2023 § coverage", w: 0.94, color: "bg-primary-glow" },
-                  { label: "Amendment 2024 § coverage", w: 0.31, color: "bg-primary-foreground/35" },
-                ].map((b) => (
-                  <div key={b.label}>
-                    <div className="flex justify-between text-xs font-mono text-primary-foreground/80 mb-2">
-                      <span>{b.label}</span>
-                      <span className="text-primary-foreground">{b.w.toFixed(2)}</span>
+          <div className="lg:col-span-2">
+            <FadeIn>
+              <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-6">— Influence weights</div>
+                <div className="space-y-5">
+                  {[
+                    { label: "Guideline 2023 § coverage", w: 0.94, color: "bg-primary-glow" },
+                    { label: "Amendment 2024 § coverage", w: 0.31, color: "bg-primary-foreground/35" },
+                  ].map((b) => (
+                    <div key={b.label}>
+                      <div className="flex justify-between text-xs font-mono text-primary-foreground/80 mb-2">
+                        <span>{b.label}</span>
+                        <span className="text-primary-foreground">{b.w.toFixed(2)}</span>
+                      </div>
+                      <div className="h-1.5 bg-primary-foreground/10 overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${b.w * 100}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.2, ease: "easeOut" }}
+                          className={`h-full ${b.color}`}
+                        />
+                      </div>
                     </div>
-                    <div className="h-1.5 bg-primary-foreground/10 overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${b.w * 100}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        className={`h-full ${b.color}`}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-7 pt-5 border-t border-primary-foreground/10 text-xs text-primary-foreground/60 leading-relaxed">
-                In litigation, 0.94 vs 0.31 is evidence. The influence graph is the
-                evidence.
-              </p>
-            </aside>
-          </FadeIn>
+                  ))}
+                </div>
+                <p className="mt-7 pt-5 border-t border-primary-foreground/10 text-xs text-primary-foreground/60 leading-relaxed">
+                  In litigation, 0.94 vs 0.31 is evidence. The influence graph is the
+                  evidence.
+                </p>
+              </aside>
+            </FadeIn>
+          </div>
         </div>
       </Section>
 
@@ -273,29 +279,31 @@ const CaseStudy = () => {
               The model did what it was configured to do. The configuration was wrong.
             </p>
           </div>
-          <FadeIn>
-            <aside className="lg:col-span-2 panel p-7">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— Policy gap, not model failure</div>
-              <ul className="space-y-3 font-mono text-xs text-foreground/75">
-                <li className="flex justify-between gap-3 border-b border-foreground/10 pb-3">
-                  <span>guideline_2023_§_coverage</span>
-                  <span className="text-primary">ACTIVE</span>
-                </li>
-                <li className="flex justify-between gap-3 border-b border-foreground/10 pb-3">
-                  <span>amendment_2024_§_coverage</span>
-                  <span className="text-destructive">NOT ENFORCED</span>
-                </li>
-                <li className="flex justify-between gap-3 border-b border-foreground/10 pb-3">
-                  <span>hipaa_minimum_necessary</span>
-                  <span className="text-primary">PASS</span>
-                </li>
-                <li className="flex justify-between gap-3">
-                  <span>completeness_check</span>
-                  <span className="text-destructive">SKIPPED</span>
-                </li>
-              </ul>
-            </aside>
-          </FadeIn>
+          <div className="lg:col-span-2">
+            <FadeIn>
+              <aside className="panel p-7">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— Policy gap, not model failure</div>
+                <ul className="space-y-3 font-mono text-xs text-foreground/75">
+                  <li className="flex justify-between gap-3 border-b border-foreground/10 pb-3">
+                    <span>guideline_2023_§_coverage</span>
+                    <span className="text-primary">ACTIVE</span>
+                  </li>
+                  <li className="flex justify-between gap-3 border-b border-foreground/10 pb-3">
+                    <span>amendment_2024_§_coverage</span>
+                    <span className="text-destructive">NOT ENFORCED</span>
+                  </li>
+                  <li className="flex justify-between gap-3 border-b border-foreground/10 pb-3">
+                    <span>hipaa_minimum_necessary</span>
+                    <span className="text-primary">PASS</span>
+                  </li>
+                  <li className="flex justify-between gap-3">
+                    <span>completeness_check</span>
+                    <span className="text-destructive">SKIPPED</span>
+                  </li>
+                </ul>
+              </aside>
+            </FadeIn>
+          </div>
         </div>
       </Section>
 
