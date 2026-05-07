@@ -33,7 +33,7 @@ const repos: { name: string; desc: string; lang: Lang }[] = [
   { name: "nexus-soul-google-tools", desc: "Google tools integration", lang: "Rust" },
   { name: "nexus-research-finetune-llms", desc: "DPO fine-tuning for narrow-specialist Llama persona agents — Design/Infra/Finance fleet with domain-focused training and intentional forgetting", lang: "Research" },
   { name: "nexus-research-hw", desc: "Hardware research", lang: "Research" },
-  { name: "nexus-research", desc: "Working papers on geometry of language, invariant topology in state space, adversarial robustness, agent identity theory, and temporal databases for agentic systems.", lang: "Research" },
+  { name: "nexus-research", desc: "Working papers on geometry of language, invariant topology in state space, adversarial robustness, agent identity theory, and a Datomic-inspired temporal database for agentic systems — MCP-only access, EAV(T) model, immutable append-only facts with time-travel queries.", lang: "Research" },
   { name: "nexus-reasoning-graph", desc: "Claude Code hooks → sliding-window embeddings → cosine-similarity influence graph → live D3 force visualization of reasoning provenance", lang: "TypeScript" },
 ];
 
