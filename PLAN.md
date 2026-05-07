@@ -1,27 +1,22 @@
-# PLAN — Surface Nexus Research Themes
+# PLAN — Research blocks link to specific source files
 
 ## Task Restatement
-Weave the nexus-research themes (geometry of language, agent identity, trust infrastructure, adversarial robustness, reasoning provenance) into the public-facing nexus-souls site. Keep the existing design intact. Link to github.com/Gonzih/nexus-research.
+Update Research.tsx so the 3 new cards (Geometry of Language, Adversarial Robustness, Reasoning Provenance) link to specific markdown files in nexus-research rather than the repo root.
 
-## Approaches Considered
+## File Inventory (nexus-research)
+Only one file has real content: `geometry/geometry-of-language.md`
+All others (`AI_PSYCHOSIS_RESEARCH.md`, `NEXUS.md`, `FRICTION_POINT_FRAMEWORK.md`, etc.) are placeholders pointing to private repo.
 
-**A. Add new Research.tsx cards only**
-Simple. No structural change. Adds depth to the existing Research section. Risk: section grows to 8 cards (5 existing + 3 new) — acceptable in a 3-col grid.
+## Mapping
+| Card | href |
+|------|------|
+| Geometry of Language | `geometry/geometry-of-language.md` — paper is titled "Invariant Topology in Language State Space: Adversarial Feedback as a Gradient of Boundary Integrity" |
+| Adversarial Robustness | `geometry/geometry-of-language.md` — "Max's framing" half of the unified thesis is exactly about adversarial feedback as gradient + boundary integrity |
+| Reasoning Provenance | repo root (no specific file exists) |
 
-**B. Rewrite/replace existing Research cards**
-Risky — loses existing copy that's been validated. Out of scope.
-
-**C. Add a separate "Foundations" section**
-More structural, but the task says don't overhaul the design. Over-engineering.
-
-## Chosen Approach: A (add cards + minor Hero tweak)
-
-**Files to touch:**
-- `src/components/nexus/Research.tsx` — add 3 new cards: Geometry of Language, Adversarial Robustness, Reasoning Provenance
-- `src/components/nexus/Hero.tsx` — one-line tweak to description to surface the research angle
-
-**Not touching:** Section.tsx, Repos.tsx, Architecture.tsx, Index.tsx, Problem.tsx
+## Files to touch
+- `src/components/nexus/Research.tsx` — 2 href updates (Geometry of Language + Adversarial Robustness)
 
 ## Risks
-- nexus-research repo is empty — all 3 new cards link to the repo root (https://github.com/Gonzih/nexus-research)
-- 8 cards in a 3-col grid: rows will be 3+3+2, which is fine
+- Pointing two cards to the same file — acceptable, the paper genuinely covers both topics
+- Reasoning Provenance stays at repo root — clearly documented as fallback

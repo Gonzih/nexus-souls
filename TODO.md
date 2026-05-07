@@ -1,10 +1,8 @@
-# TODO — Research Themes
+# TODO — Research block specific links
 
-- [ ] git checkout -b feat/research-themes
-- [ ] Edit Research.tsx: add 3 new cards (Geometry of Language, Adversarial Robustness, Reasoning Provenance)
-- [ ] Edit Hero.tsx: one-line desc tweak to surface research angle
-- [ ] npm install && npm run build — verify no errors
+- [ ] Create branch fix/research-block-specific-links
+- [ ] Update "Geometry of Language" href to geometry/geometry-of-language.md
+- [ ] Update "Adversarial Robustness" href to geometry/geometry-of-language.md
+- [ ] Verify "Reasoning Provenance" stays at repo root (no specific file)
 - [ ] git diff --staged review
-- [ ] git add -A && git commit
-- [ ] git push && gh pr create
-- [ ] gh pr merge --squash
+- [ ] Commit, push, PR, merge
