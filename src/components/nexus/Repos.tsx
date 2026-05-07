@@ -33,6 +33,7 @@ const repos: { name: string; desc: string; lang: Lang }[] = [
   { name: "nexus-soul-google-tools", desc: "Google tools integration", lang: "Rust" },
   { name: "nexus-research-finetune-llms", desc: "DPO fine-tuning for narrow-specialist Llama persona agents — Design/Infra/Finance fleet with domain-focused training and intentional forgetting", lang: "Research" },
   { name: "nexus-research-hw", desc: "Hardware research", lang: "Research" },
+  { name: "nexus-research", desc: "Working papers on geometry of language, invariant topology in state space, adversarial robustness, agent identity theory, and temporal databases for agentic systems.", lang: "Research" },
   { name: "nexus-reasoning-graph", desc: "Claude Code hooks → sliding-window embeddings → cosine-similarity influence graph → live D3 force visualization of reasoning provenance", lang: "TypeScript" },
 ];
 
@@ -44,7 +45,7 @@ const langStyle: Record<Lang, string> = {
 };
 
 export const Repos = () => (
-  <Section id="repos" eyebrow="The code" title={<>30 repositories. <span className="text-accent-blue italic">All public.</span></>}>
+  <Section id="repos" eyebrow="The code" title={<>31 repositories. <span className="text-accent-blue italic">All public.</span></>}>
     <p className="font-mono text-xs uppercase tracking-[0.22em] text-foreground/50 mb-10 -mt-6">github.com/Gonzih</p>
 
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/10 border border-foreground/10">
