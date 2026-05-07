@@ -10,6 +10,7 @@ const research = [
   { title: "Geometry of Language", tag: "Theoretical Foundations", body: "Language intelligence as topology. A model that understands preserves invariants in state space. Adversarial inputs are boundary violations — the structure breaks before the meaning does.", href: "https://github.com/Gonzih/nexus-research/blob/main/geometry/geometry-of-language.md" },
   { title: "Adversarial Robustness", tag: "Structural Integrity", body: "A cell maintains its identity under chemical attack by preserving its membrane. An agent should do the same. Robustness isn't hardening — it's structural coherence under hostile inputs.", href: "https://github.com/Gonzih/nexus-research" },
   { title: "Reasoning Provenance", tag: "Audit Infrastructure", body: "When an agent reaches a conclusion, every prior step is accountable. We track what influenced what — not just the output, but the reasoning chain that produced it.", href: "https://github.com/Gonzih/nexus-research" },
+  { title: "Temporal Database for Agentic Systems", tag: "Memory Infrastructure", body: "A Datomic-inspired design — immutable EAV(T) facts, time-travel queries, MCP-only access. Every agent write is a timestamped datom. Query what any agent knew at any point in time.", href: "https://github.com/Gonzih/nexus-research/blob/main/temporal-db/RESEARCH.md" },
 ];
 
 export const Research = () => (
