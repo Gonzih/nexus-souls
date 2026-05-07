@@ -1,8 +1,8 @@
-# TODO — Research block specific links
+# TODO
 
-- [ ] Create branch fix/research-block-specific-links
-- [ ] Update "Geometry of Language" href to geometry/geometry-of-language.md
-- [ ] Update "Adversarial Robustness" href to geometry/geometry-of-language.md
-- [ ] Verify "Reasoning Provenance" stays at repo root (no specific file)
+- [ ] Create branch feat/sharpen-repo-descriptions
+- [ ] Edit Repos.tsx — update 11 descriptions
+- [ ] npm install + build passes
 - [ ] git diff --staged review
-- [ ] Commit, push, PR, merge
+- [ ] Commit
+- [ ] Push + PR + merge
