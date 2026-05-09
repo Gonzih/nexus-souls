@@ -26,8 +26,6 @@ export const Problem = () => (
   <Section
     id="problem"
     eyebrow="The problem"
-    eyebrowClassName="text-[11px] font-semibold tracking-[0.18em] bg-foreground text-background px-4 py-2 inline-block mb-8"
-    className="bg-muted"
     title={<>No ID. No history. <span className="text-accent-blue italic">No enforcement.</span></>}
   >
     <div className="grid md:grid-cols-3 gap-px bg-foreground/10 border border-foreground/10 mb-16">
