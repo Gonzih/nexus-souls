@@ -4,13 +4,14 @@ import { ReactNode } from "react";
 interface SectionProps {
   id?: string;
   eyebrow?: string;
+  eyebrowClassName?: string;
   title: ReactNode;
   children: ReactNode;
   className?: string;
   variant?: "cream" | "ink";
 }
 
-export const Section = ({ id, eyebrow, title, children, className = "", variant = "cream" }: SectionProps) => {
+export const Section = ({ id, eyebrow, eyebrowClassName, title, children, className = "", variant = "cream" }: SectionProps) => {
   const isInk = variant === "ink";
   return (
     <section
@@ -27,7 +28,7 @@ export const Section = ({ id, eyebrow, title, children, className = "", variant 
           className="mb-14 max-w-3xl"
         >
           {eyebrow && (
-            <div className={`font-mono text-[10px] uppercase tracking-[0.24em] mb-5 ${isInk ? "text-primary-glow" : "text-primary"}`}>
+            <div className={`font-mono text-[10px] uppercase tracking-[0.24em] mb-5 ${isInk ? "text-primary-glow" : "text-primary"} ${eyebrowClassName || ""}`}>
               — {eyebrow}
             </div>
           )}
