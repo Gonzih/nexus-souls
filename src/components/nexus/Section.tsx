@@ -28,7 +28,7 @@ export const Section = ({ id, eyebrow, title, children, className = "", variant 
           className="mb-14 max-w-3xl"
         >
           {eyebrow && (
-            <div className={`font-mono text-[10px] uppercase tracking-[0.24em] mb-5 ${isInk ? "text-primary-glow" : "text-primary"}`}>
+            <div className={`font-mono text-[10px] uppercase tracking-[0.24em] mb-5 ${isInk ? "text-primary-glow" : "text-primary"} ${eyebrowClassName || ""}`}>
               — {eyebrow}
             </div>
           )}
