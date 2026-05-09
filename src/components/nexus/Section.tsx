@@ -11,7 +11,7 @@ interface SectionProps {
   variant?: "cream" | "ink";
 }
 
-export const Section = ({ id, eyebrow, title, children, className = "", variant = "cream" }: SectionProps) => {
+export const Section = ({ id, eyebrow, eyebrowClassName, title, children, className = "", variant = "cream" }: SectionProps) => {
   const isInk = variant === "ink";
   return (
     <section
