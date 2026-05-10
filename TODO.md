@@ -1,9 +1,9 @@
-# TODO — Temporal Storage Case Study
+# TODO — Fix GitHub Pages SPA Routing
 
 - [x] Write PLAN.md and TODO.md
-- [ ] Create src/pages/CaseStudyTemporalStorage.tsx
-- [ ] Update src/App.tsx with new route
-- [ ] Update src/components/nexus/CaseStudyTeaser.tsx with second card
+- [ ] Create branch fix/spa-routing
+- [x] Create public/404.html with redirect script
+- [x] Edit index.html to add path-restore script before <script type="module">
 - [ ] npm install + npm run build (must pass with zero errors)
 - [ ] git diff --staged review
 - [ ] Commit, push, PR, merge
