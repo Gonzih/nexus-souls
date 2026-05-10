@@ -1,38 +1,34 @@
-# PLAN: Temporal Storage Case Study
+# PLAN: Fix GitHub Pages SPA Routing (404 on direct URL)
 
 ## Task
-Add a second case study page at `/case-study/temporal-storage` focused exclusively on
-nexus-temporal-storage — for the ISOC Foundation Research Grant (May 22 deadline).
-Also update App.tsx with the new route and CaseStudyTeaser.tsx with a second teaser card.
+Direct navigation to any route other than `/` (e.g. `/case-study/temporal-storage`)
+returns a 404 from GitHub Pages because it serves static files only and has no
+server-side rewriting. React Router never gets control.
 
-## Approach chosen
-Mirror the existing `CaseStudy.tsx` structure exactly (same Section/FadeIn/Code patterns,
-same panel-ink/panel classes, same color hierarchy). Data-driven arrays for capabilities and
-research questions. No new dependencies.
+## Root cause
+GitHub Pages serves 404.html when a path has no matching file. We exploit this:
+404.html encodes the path into a query string and redirects to `/`. The app's
+`index.html` then decodes the query string and calls `history.replaceState` to
+restore the real path before React Router mounts.
+
+## Approach (standard GitHub Pages SPA pattern)
+1. **public/404.html** — redirect script: encodes `pathname` into `?/path` query,
+   calls `location.replace(...)` to `/`.
+2. **index.html** — restore script: if `location.search[1] === '/'`, decode and call
+   `history.replaceState` to restore the original path before Vite's module loads.
+3. **vite.config.ts** — already has no explicit `base`, defaults to `/`, which is
+   correct for the root-domain site `gonzih.github.io`. No change needed.
+
+## Alternatives considered
+- **HashRouter** (`#/path`): works but uglifies all URLs and breaks sharing.
+- **Server config / Nginx rewrite**: not available on GitHub Pages.
+- **netlify.toml / `_redirects`**: GitHub Pages doesn't support these.
 
 ## Files to touch
-1. `src/pages/CaseStudyTemporalStorage.tsx` — new page (create)
-2. `src/App.tsx` — add route
-3. `src/components/nexus/CaseStudyTeaser.tsx` — restructure to show both case studies
+1. `public/404.html` — create (new file)
+2. `index.html` — add restore script before the `<script type="module">` entry
 
-## Section structure
-- Top bar + Hero (cream, dot-bg)
-- §1 The problem (cream) — 3 paragraphs + panel-ink callout
-- §2 What a datom is (ink) — definition, 4-field table, example sequence code block
-- §3 Time-travel queries (cream) — as_of code block + two-statements panel
-- §4 Four capabilities (ink) — 2×2 grid
-- §5 Fraud scenario (cream) — narrative + as_of code block + two-outcome aside
-- §6 Research framing (ink) — 3 open questions + pull quote aside
-- §7 Technical spec (cream) — TypeScript interface code block + design properties
-- Closing CTA (ink)
-- Footer
-
-## CaseStudyTeaser restructure
-- Change eyebrow to "Case studies", title to cover both
-- Extract both studies into a `studies[]` array, render with `.map()`
-- First card: existing healthcare malpractice
-- Second card: temporal-storage / "Why AI systems forget."
-
-## Risks
-- CaseStudyTeaser title change is a visible UI change — keep close to original tone
-- Code blocks with multi-line strings must preserve exact indentation
+## Risks / unknowns
+- If `gonzih.github.io` ever moves to a sub-path base (e.g. `/nexus-souls/`),
+  the `slice(0, 1)` logic needs updating. Current root-domain deployment is fine.
+- The redirect script handles real query params via `~and~` encoding.
