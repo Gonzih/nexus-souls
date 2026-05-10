@@ -47,7 +47,7 @@ const researchQuestions = [
 ];
 
 const Code = ({ children }: { children: React.ReactNode }) => (
-  <pre className="font-mono text-xs md:text-sm bg-[hsl(var(--surface-ink))] text-primary-foreground p-5 overflow-x-auto border border-foreground/10 my-6">
+  <pre className="font-mono text-xs md:text-sm bg-[hsl(var(--surface-ink))] text-primary-foreground p-5 overflow-x-auto max-w-full border border-foreground/10 my-6">
     <code>{children}</code>
   </pre>
 );
@@ -76,7 +76,7 @@ const CaseStudyTemporalStorage = () => {
         <div className="relative max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-end">
           <div className="lg:col-span-8">
             <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">— Case Study · Infrastructure</div>
-            <h1 className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.02] mb-8">
+            <h1 className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.02] mb-8 break-words">
               Why AI systems <span className="text-accent-blue italic">forget</span> —<br />
               and how temporal storage fixes that.
             </h1>
