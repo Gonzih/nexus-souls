@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -52,8 +53,10 @@ const Code = ({ children }: { children: React.ReactNode }) => (
 );
 
 const CaseStudyTemporalStorage = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Top bar */}
       <div className="border-b border-foreground/10">
         <div className="max-w-6xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
