@@ -11,7 +11,7 @@ import { Footer } from "@/components/nexus/Footer";
 
 const Index = () => {
   return (
-    <main className="min-h-screen bg-background text-foreground relative">
+    <main className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
       <Hero />
       <Problem />
       <Architecture />
