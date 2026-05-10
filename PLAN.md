@@ -1,26 +1,38 @@
-# Plan: Sharpen Repo Descriptions
+# PLAN: Temporal Storage Case Study
 
 ## Task
-Update repo card descriptions in `src/components/nexus/Repos.tsx` so each is accurate to what the repo actually does — no fluff, concrete nouns, billboard-readable.
+Add a second case study page at `/case-study/temporal-storage` focused exclusively on
+nexus-temporal-storage — for the ISOC Foundation Research Grant (May 22 deadline).
+Also update App.tsx with the new route and CaseStudyTeaser.tsx with a second teaser card.
 
-## Approach
-Single-file edit to `Repos.tsx`. No count changes needed (still 30 repos).
+## Approach chosen
+Mirror the existing `CaseStudy.tsx` structure exactly (same Section/FadeIn/Code patterns,
+same panel-ink/panel classes, same color hierarchy). Data-driven arrays for capabilities and
+research questions. No new dependencies.
 
 ## Files to touch
-- `src/components/nexus/Repos.tsx` (descriptions only)
+1. `src/pages/CaseStudyTemporalStorage.tsx` — new page (create)
+2. `src/App.tsx` — add route
+3. `src/components/nexus/CaseStudyTeaser.tsx` — restructure to show both case studies
 
-## What changes and why
+## Section structure
+- Top bar + Hero (cream, dot-bg)
+- §1 The problem (cream) — 3 paragraphs + panel-ink callout
+- §2 What a datom is (ink) — definition, 4-field table, example sequence code block
+- §3 Time-travel queries (cream) — as_of code block + two-statements panel
+- §4 Four capabilities (ink) — 2×2 grid
+- §5 Fraud scenario (cream) — narrative + as_of code block + two-outcome aside
+- §6 Research framing (ink) — 3 open questions + pull quote aside
+- §7 Technical spec (cream) — TypeScript interface code block + design properties
+- Closing CTA (ink)
+- Footer
 
-| Repo | Old | New |
-|------|-----|-----|
-| cc-tg | "Telegram ↔ Claude Code bridge with Void Operator" | "Claude Code Telegram bot — text, voice, images, files, scheduled prompts, multi-token rotation" |
-| nexus-convergence-mcp | "MCP — converge_query, evidence ladder, compliance" | "MCP server wrapping the Convergence Pipeline — converge_query, get_evidence_ladder, check_compliance, list_model_disagreements" |
-| nexus-consensus-service | "Semantic similarity, inversion, truth stability" | "Consensus engine — semantic similarity scoring, inversion detection, truth stability classification, agreement scoring" |
-| nexus-evidence-service | "Hash-linked append-only audit trail" | "Immutable Evidence Ladder — append-only audit trail for convergence pipeline stages (QUERY→DECOMPOSE→EXECUTE→CONSENSUS→VERIFY→CONCLUDE)" |
-| nexus-soul-core | "Agent loop, provider routing, tool registry" | "Async agentic runtime for Rust — steerable agent loops, multi-provider LLM abstraction, semantic context management, WASM-ready" |
-| nexus-soul-coder | "Coding tools for autonomous agents" | "soul-core tool plugin — read, write, edit, bash, grep, find, ls; WASM-first via VirtualFs/VirtualExecutor abstraction" |
-| nexus-protocols | "Intelligence frameworks + operating protocols" | "LLM operating protocols — VOID_OPERATOR, FREEDOM, GRIT, Conflict of Thought; Cognitive Mathematics Framework and substrate reasoning recipes" |
-| nexus-research-agent-jailing | "Agent sandboxing + security research" | "Transparent-proxy behavioral capture of AI agents — full request/response logging; system prompt extraction, token counts, network audit" |
-| nexus-soul-terminal | "Open source terminal interface" | "GPU-accelerated terminal widget surface — WebGL2/WebGPU in browser, Vulkan/Metal/DX12 native; text grids, inline images, interactive widgets" |
-| nexus-research-finetune-llms | "LLM fine-tuning research" | "DPO fine-tuning for narrow-specialist Llama persona agents — Design/Infra/Finance fleet with domain-focused training and intentional forgetting" |
-| nexus-reasoning-graph | (very long multi-sentence) | "Claude Code hooks → sliding-window embeddings → cosine-similarity influence graph → live D3 force visualization of reasoning provenance" |
+## CaseStudyTeaser restructure
+- Change eyebrow to "Case studies", title to cover both
+- Extract both studies into a `studies[]` array, render with `.map()`
+- First card: existing healthcare malpractice
+- Second card: temporal-storage / "Why AI systems forget."
+
+## Risks
+- CaseStudyTeaser title change is a visible UI change — keep close to original tone
+- Code blocks with multi-line strings must preserve exact indentation
