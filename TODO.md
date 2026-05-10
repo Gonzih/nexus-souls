@@ -1,8 +1,9 @@
-# TODO
+# TODO — Temporal Storage Case Study
 
-- [ ] Create branch feat/sharpen-repo-descriptions
-- [ ] Edit Repos.tsx — update 11 descriptions
-- [ ] npm install + build passes
+- [x] Write PLAN.md and TODO.md
+- [ ] Create src/pages/CaseStudyTemporalStorage.tsx
+- [ ] Update src/App.tsx with new route
+- [ ] Update src/components/nexus/CaseStudyTeaser.tsx with second card
+- [ ] npm install + npm run build (must pass with zero errors)
 - [ ] git diff --staged review
-- [ ] Commit
-- [ ] Push + PR + merge
+- [ ] Commit, push, PR, merge
