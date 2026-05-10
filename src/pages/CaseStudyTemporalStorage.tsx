@@ -449,7 +449,7 @@ function delta(
           <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-foreground text-foreground font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary-glow hover:text-primary-foreground transition-colors"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-foreground text-primary font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary-glow hover:text-primary-foreground transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Explore the architecture
             </Link>
