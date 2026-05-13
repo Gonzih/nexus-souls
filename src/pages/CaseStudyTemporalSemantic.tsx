@@ -33,7 +33,7 @@ const durationPrinciples = [
   {
     label: "Start date",
     value: "When the fact was asserted (transaction time)",
-    note: "Already captured by the datom model",
+    note: "Already captured by the Gravitas model",
   },
   {
     label: "Effective end",
@@ -92,7 +92,7 @@ const CaseStudyTemporalSemantic = () => {
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Builds on</dt>
-                <dd className="text-foreground">nexus-temporal-storage</dd>
+                <dd className="text-foreground">Gravitas</dd>
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Read time</dt>
@@ -112,7 +112,7 @@ const CaseStudyTemporalSemantic = () => {
           <div className="lg:col-span-7 space-y-6 text-foreground/75 leading-relaxed text-base md:text-lg">
             <p>
               Every AI accountability framework asks: what did the system know when it made the decision?
-              The temporal datom model answers this precisely — here are the facts that existed at
+              The Gravitas model answers this precisely — here are the facts that existed at
               transaction time T.
             </p>
             <p>
@@ -151,7 +151,7 @@ const CaseStudyTemporalSemantic = () => {
           <div className="grid lg:grid-cols-12 gap-10">
             <div className="lg:col-span-7 space-y-6 text-primary-foreground/80 leading-relaxed">
               <p>
-                Temporal semantic analysis extends the datom model with a weight dimension. Weight is not
+                Temporal semantic analysis extends the Gravitas model with a weight dimension. Weight is not
                 static — it is recomputed continuously as the reasoning graph evolves. A fact that
                 becomes heavily cited rises in weight. A fact that is contradicted, superseded, or simply
                 stops being referenced decays.
@@ -161,8 +161,8 @@ const CaseStudyTemporalSemantic = () => {
                 log. For any fact, you can ask: what was its weight at time T? Was it rising or falling?
                 Had it already decayed before the decision ran?
               </p>
-              <Code>{`// Weighted datom — the extended model
-interface WeightedDatom {
+              <Code>{`// Weighted gravit — the extended model
+interface WeightedGravit {
   entity:    string;
   attribute: string;
   value:     unknown;
@@ -191,8 +191,8 @@ function dominanceCurve(
                   <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-5">— Dominance vs. existence</div>
                   <ul className="space-y-4 text-sm text-primary-foreground/75">
                     {[
-                      "Existence: the datom is present in the store at time T",
-                      "Dominance: the datom's weight exceeds a semantic threshold at time T",
+                      "Existence: the gravit is present in the store at time T",
+                      "Dominance: the gravit's weight exceeds a semantic threshold at time T",
                       "Decay: weight falling below threshold while fact still exists",
                       "Supersession: a successor fact rises to dominance in the same semantic slot",
                     ].map((item) => (
