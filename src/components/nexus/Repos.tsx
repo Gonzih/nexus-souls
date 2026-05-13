@@ -12,6 +12,7 @@ const repos: { name: string; desc: string; lang: Lang }[] = [
   { name: "nexus-compliance-service", desc: "Runtime policy enforcement — HIPAA, EU AI Act, NIST", lang: "TypeScript" },
   { name: "nexus-consensus-service", desc: "Consensus engine — semantic similarity scoring, inversion detection, truth stability classification, agreement scoring across model responses", lang: "TypeScript" },
   { name: "nexus-evidence-service", desc: "Immutable Evidence Ladder — append-only audit trail for convergence pipeline stages (QUERY→DECOMPOSE→EXECUTE→CONSENSUS→VERIFY→CONCLUDE)", lang: "TypeScript" },
+  { name: "nexus-gravitas", desc: "Gravitas — temporal semantic memory for agentic systems. The atomic unit is a gravit: a weighted, time-bound fact [entity, attribute, value, tx, weight]. Facts decay. Models don't know it.", lang: "TypeScript" },
   { name: "nexus-soul-core", desc: "Async agentic runtime for Rust — steerable agent loops, multi-provider LLM abstraction, semantic context management, WASM-ready", lang: "Rust" },
   { name: "nexus-soul-coder", desc: "soul-core tool plugin — read, write, edit, bash, grep, find, ls; WASM-first via VirtualFs/VirtualExecutor abstraction", lang: "Rust" },
   { name: "nexus-id-service", desc: "Cryptographic identity + soulchain ledger", lang: "Rust" },
@@ -45,7 +46,7 @@ const langStyle: Record<Lang, string> = {
 };
 
 export const Repos = () => (
-  <Section id="repos" eyebrow="The code" title={<>31 repositories. <span className="text-accent-blue italic">All public.</span></>}>
+  <Section id="repos" eyebrow="The code" title={<>32 repositories. <span className="text-accent-blue italic">All public.</span></>}>
     <p className="font-mono text-xs uppercase tracking-[0.22em] text-foreground/50 mb-10 -mt-6">github.com/Gonzih</p>
 
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-foreground/10 border border-foreground/10">
