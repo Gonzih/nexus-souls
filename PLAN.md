@@ -1,34 +1,31 @@
-# PLAN: Fix GitHub Pages SPA Routing (404 on direct URL)
+# PLAN: Extend Gravitas Case Study with Bitemporal Model
 
 ## Task
-Direct navigation to any route other than `/` (e.g. `/case-study/temporal-storage`)
-returns a 404 from GitHub Pages because it serves static files only and has no
-server-side rewriting. React Router never gets control.
+Add a new §9 section to `src/pages/CaseStudyTemporalStorage.tsx` explaining
+the three independent time axes in Gravitas: valid_from/valid_until (world time),
+authored_at (source time), and tx (system time). Introduce three decay curves,
+the effective weight formula, Allen's Interval Algebra overview, and the Charles I
+example. Do NOT remove or modify existing sections.
 
-## Root cause
-GitHub Pages serves 404.html when a path has no matching file. We exploit this:
-404.html encodes the path into a query string and redirects to `/`. The app's
-`index.html` then decodes the query string and calls `history.replaceState` to
-restore the real path before React Router mounts.
-
-## Approach (standard GitHub Pages SPA pattern)
-1. **public/404.html** — redirect script: encodes `pathname` into `?/path` query,
-   calls `location.replace(...)` to `/`.
-2. **index.html** — restore script: if `location.search[1] === '/'`, decode and call
-   `history.replaceState` to restore the original path before Vite's module loads.
-3. **vite.config.ts** — already has no explicit `base`, defaults to `/`, which is
-   correct for the root-domain site `gonzih.github.io`. No change needed.
-
-## Alternatives considered
-- **HashRouter** (`#/path`): works but uglifies all URLs and breaks sharing.
-- **Server config / Nginx rewrite**: not available on GitHub Pages.
-- **netlify.toml / `_redirects`**: GitHub Pages doesn't support these.
+## Approach
+Single approach: insert a new `<Section>` block between the existing §8 and the
+closing CTA. Follow the existing patterns exactly (Section + FadeIn, glass/panel-ink
+cards, font-mono code, §N eyebrow numbering, Code inline component).
 
 ## Files to touch
-1. `public/404.html` — create (new file)
-2. `index.html` — add restore script before the `<script type="module">` entry
+1. `src/pages/CaseStudyTemporalStorage.tsx` — add new section data + JSX block
 
-## Risks / unknowns
-- If `gonzih.github.io` ever moves to a sub-path base (e.g. `/nexus-souls/`),
-  the `slice(0, 1)` logic needs updating. Current root-domain deployment is fine.
-- The redirect script handles real query params via `~and~` encoding.
+## Content plan for §9
+Sub-sections:
+- Three time axes table (glass card)
+- The epistemic gaps (authored_at - valid_until, tx - authored_at)
+- Charles I code example
+- Three decay curves (validity / source / corroboration) — 3-column grid
+- Effective weight formula code block
+- Allen's Interval Algebra — brief card listing 13 relations + why it matters
+- Closing callout quote
+
+## Risks
+- Section numbering: §9 fits, nothing after §8 before CTA
+- No extra dependencies needed (framer-motion, lucide-react already imported)
+- Variant alternates: §8 is `variant="ink"`, so §9 should be default (light bg)

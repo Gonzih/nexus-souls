@@ -28,6 +28,55 @@ const capabilities = [
   },
 ];
 
+const timeAxes = [
+  {
+    axis: "World time",
+    fields: "valid_from / valid_until",
+    example: "Charles I was King of Spain 1519–1556",
+    signal: "Is this fact still in its valid window?",
+  },
+  {
+    axis: "Source time",
+    fields: "authored_at",
+    example: "A historian recorded this in 1600",
+    signal: "How much lag exists between event and recording?",
+  },
+  {
+    axis: "System time",
+    fields: "tx",
+    example: "Ingested into Gravitas today",
+    signal: "How stale is the source we are reading from?",
+  },
+];
+
+const decayCurves = [
+  {
+    n: "01",
+    title: "Validity decay",
+    body: "Is the fact still within its valid_from / valid_until window? A fact with valid_until in the past carries validity_factor = 0 — historically settled. An open-ended fact (valid_until = null) is still true as of authorship and decays only by source trust.",
+  },
+  {
+    n: "02",
+    title: "Source decay",
+    body: "How much do we trust the author? source.trust_weight captures this. A primary source written at the time of the event (reconstruction lag ≈ 0) carries full weight. A secondary account written 400 years later starts discounted.",
+  },
+  {
+    n: "03",
+    title: "Corroboration decay",
+    body: "Are agents still confirming this fact? The existing gravit weight mechanism tracks this. A fact that was once dominant but has received no corroboration in years has decayed semantically even if it remains present in the store.",
+  },
+];
+
+const allenRelations = [
+  { rel: "before", desc: "X ends before Y starts. No overlap." },
+  { rel: "meets", desc: "X ends exactly when Y starts. Adjacent." },
+  { rel: "overlaps", desc: "X starts before Y but they share time." },
+  { rel: "starts", desc: "X and Y start together; X ends first." },
+  { rel: "during", desc: "X is fully contained within Y." },
+  { rel: "finishes", desc: "X and Y end together; Y starts first." },
+  { rel: "equals", desc: "X and Y are identical intervals." },
+];
+
 const researchQuestions = [
   {
     n: "01",
@@ -578,6 +627,232 @@ function delta(
               <p className="font-serif-display text-2xl md:text-3xl text-primary-foreground leading-snug italic">
                 "Not: did this fact exist when the decision ran? But: was this fact still dominant when the
                 decision ran? Those are different questions with different answers."
+              </p>
+            </aside>
+          </FadeIn>
+        </div>
+      </Section>
+
+      {/* §9 — Bitemporal model */}
+      <Section
+        eyebrow="The bitemporal model"
+        title={<>Three independent <span className="italic text-accent-blue">time axes.</span></>}
+      >
+        <div className="space-y-14">
+
+          {/* Intro */}
+          <div className="grid lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-7 space-y-6 text-foreground/75 leading-relaxed text-base md:text-lg">
+              <p>
+                The gravit's <code className="font-mono text-sm">tx</code> field records when a fact entered
+                the system. That is one timestamp. But facts exist in the world before they are observed,
+                and they are recorded before they are ingested. A single transaction timestamp collapses
+                three genuinely different things into one.
+              </p>
+              <p>
+                The bitemporal extension pulls them apart. Each gravit now carries three independent time
+                axes. The gaps between them are not noise — they are epistemic signal.
+              </p>
+            </div>
+            <div className="lg:col-span-5">
+              <FadeIn>
+                <aside className="panel p-7">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— Why the gaps matter</div>
+                  <ul className="space-y-4 text-sm text-foreground/75">
+                    {[
+                      "authored_at − valid_until → reconstruction lag (400 years = far less trust than 0 years)",
+                      "tx − authored_at → ingestion lag (stale source = depressed trust)",
+                      "valid_until = null → open-ended fact, still true as of authorship",
+                    ].map((item) => (
+                      <li key={item} className="flex gap-3 items-start pb-4 border-b border-foreground/10 last:border-0 last:pb-0">
+                        <span className="font-mono text-primary shrink-0">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
+              </FadeIn>
+            </div>
+          </div>
+
+          {/* Three axes table */}
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50 mb-6">— The three axes</div>
+            <div className="border border-foreground/10 divide-y divide-foreground/10">
+              <div className="grid grid-cols-4 gap-4 px-6 py-3 bg-foreground/5 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50">
+                <span>Axis</span>
+                <span>Fields</span>
+                <span>Example</span>
+                <span>Epistemic signal</span>
+              </div>
+              {timeAxes.map((row) => (
+                <motion.div
+                  key={row.axis}
+                  initial={{ opacity: 0, x: -8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.4 }}
+                  className="grid grid-cols-4 gap-4 px-6 py-5 items-start text-sm"
+                >
+                  <span className="font-mono text-primary font-medium">{row.axis}</span>
+                  <span className="font-mono text-foreground/80 text-xs">{row.fields}</span>
+                  <span className="text-foreground/65 text-xs leading-relaxed">{row.example}</span>
+                  <span className="text-foreground/60 text-xs leading-relaxed">{row.signal}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Charles I example */}
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50 mb-4">— Example: the Charles I gravit</div>
+            <Code>{`// Bitemporal gravit
+{
+  entity:         "charles-i-habsburg",
+  attribute:      "role",
+  value:          "King of Spain",
+  valid_from:     "1519-01-23",   // ← when fact held in the world
+  valid_until:    "1556-01-16",   // ← historically closed; validity_factor = 0
+  authored_at:    "1600-00-00",   // ← a historian wrote this 44 years after valid_until
+  tx:             "2026-05-13",   // ← ingested today
+  influence_weight:   0.8,
+  source_trust_weight: 0.8,       // ← partial — secondary, 44-year reconstruction lag
+}
+
+// Effective weight at query time
+effective_weight = influence_weight × source_trust_weight × validity_factor
+                 = 0.8 × 0.8 × 0.0   // valid_until is 466 years in the past
+                 = 0.0                // historically settled — not decaying, just closed`}</Code>
+            <p className="text-sm text-foreground/60 leading-relaxed mt-4">
+              The system knows this fact is historically settled, not uncertain. The zero validity_factor
+              does not mean the fact is wrong — it means the valid window has closed. The reconstruction
+              lag (authored_at − valid_until ≈ 44 years) informs source_trust_weight independently.
+            </p>
+          </div>
+
+          {/* Three decay curves */}
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50 mb-6">— Three distinct decay curves</div>
+            <div className="grid sm:grid-cols-3 gap-px bg-foreground/10 border border-foreground/10">
+              {decayCurves.map((c) => (
+                <FadeIn key={c.n}>
+                  <div className="bg-background p-8 h-full glass">
+                    <div className="font-mono text-xs text-primary mb-4">{c.n}</div>
+                    <h3 className="font-serif-display text-xl text-foreground leading-tight mb-3">{c.title}</h3>
+                    <p className="text-sm text-foreground/65 leading-relaxed">{c.body}</p>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+
+          {/* Effective weight formula */}
+          <div className="grid lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-7 space-y-6 text-foreground/75 leading-relaxed">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50 mb-4">— Effective weight formula</div>
+              <Code>{`// The three decay curves compose multiplicatively
+effective_weight =
+  influence_weight      // corroboration: are agents still citing this?
+  × source_trust_weight // source decay: how trusted is the author?
+  × validity_factor     // validity decay: is the fact in its valid window?
+
+// validity_factor examples:
+//   valid window still open  → 1.0
+//   valid_until = null       → 1.0  (open-ended; still true as of authorship)
+//   valid window just closed → gradual decay curve (configurable)
+//   valid_until 466 yrs ago  → 0.0  (historically settled)`}</Code>
+              <p>
+                All three curves are independent. A fact can have high source trust but zero validity
+                (historically settled), high validity but low corroboration (fresh but unconfirmed), or
+                any combination. The product gives the operational influence.
+              </p>
+            </div>
+            <div className="lg:col-span-5">
+              <FadeIn>
+                <aside className="panel p-7">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— Extended gravit interface</div>
+                  <Code>{`interface BitemporalGravit {
+  entity:    string;
+  attribute: string;
+  value:     unknown;
+  // World time
+  valid_from:  Date;
+  valid_until: Date | null;
+  // Source time
+  authored_at: Date;
+  // System time
+  tx:          Date;
+  txId:        number;
+  // Weight components
+  influence_weight:    number; // 0–1
+  source_trust_weight: number; // 0–1
+}`}</Code>
+                </aside>
+              </FadeIn>
+            </div>
+          </div>
+
+          {/* Allen's Interval Algebra */}
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50 mb-6">— Allen's Interval Algebra</div>
+            <div className="grid lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-5 space-y-5 text-foreground/75 leading-relaxed text-sm">
+                <p>
+                  Querying "what was true during period X" is not a simple point lookup. Two time intervals
+                  can relate in 13 distinct ways. Allen's Interval Algebra names all of them.
+                </p>
+                <p>
+                  A correct bitemporal query must handle all overlap cases: a fact whose valid window
+                  starts before the query period, ends inside it, spans it entirely, or is fully contained
+                  within it. Ignoring any relation produces silent gaps or false inclusions.
+                </p>
+                <Code>{`// Allen overlap: fact valid window intersects query period
+function withinPeriod(
+  fact: BitemporalGravit,
+  periodStart: Date,
+  periodEnd: Date
+): boolean {
+  const end = fact.valid_until ?? periodEnd;
+  return fact.valid_from < periodEnd && end > periodStart;
+  // covers: overlaps, during, starts, finishes, equals
+}`}</Code>
+              </div>
+              <div className="lg:col-span-7">
+                <FadeIn>
+                  <div className="border border-foreground/10">
+                    <div className="grid grid-cols-2 gap-px bg-foreground/10 border-b border-foreground/10">
+                      <div className="bg-foreground/5 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50">Relation</div>
+                      <div className="bg-foreground/5 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50">Meaning</div>
+                    </div>
+                    {allenRelations.map((r) => (
+                      <motion.div
+                        key={r.rel}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-30px" }}
+                        transition={{ duration: 0.3 }}
+                        className="grid grid-cols-2 gap-px bg-foreground/5 border-b border-foreground/8 last:border-0"
+                      >
+                        <div className="bg-background px-4 py-3 font-mono text-xs text-primary">{r.rel}</div>
+                        <div className="bg-background px-4 py-3 text-xs text-foreground/65">{r.desc}</div>
+                      </motion.div>
+                    ))}
+                    <div className="px-4 py-3 bg-foreground/3 font-mono text-[10px] text-foreground/40 border-t border-foreground/10">
+                      + 6 inverse relations (after, met-by, overlapped-by, started-by, contains, finished-by) = 13 total
+                    </div>
+                  </div>
+                </FadeIn>
+              </div>
+            </div>
+          </div>
+
+          {/* Closing callout */}
+          <FadeIn>
+            <aside className="panel p-8">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">— The upgrade</div>
+              <p className="font-serif-display text-2xl md:text-3xl text-foreground leading-snug italic">
+                "One timestamp tells you when the system learned something. Three timestamps tell you
+                whether to trust it."
               </p>
             </aside>
           </FadeIn>
