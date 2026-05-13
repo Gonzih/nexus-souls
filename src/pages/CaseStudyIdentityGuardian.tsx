@@ -20,7 +20,7 @@ const attackVectors = [
   {
     n: "02",
     title: "Source isolation",
-    body: "A high-weight fact with no corroborating datoms from independent sources. In a healthy information environment, dominant facts accumulate citations. An injected fact arrives fully-formed and alone.",
+    body: "A high-weight fact with no corroborating gravita from independent sources. In a healthy information environment, dominant facts accumulate citations. An injected fact arrives fully-formed and alone.",
   },
   {
     n: "03",
@@ -201,12 +201,12 @@ const CaseStudyIdentityGuardian = () => {
             <p>
               This is not a privacy argument in the traditional sense — it is an infrastructure
               argument. Just as you need a bank statement to audit your financial transactions, you
-              need a temporal datom log to audit your information transactions. Currently, that log
+              need a Gravitas log to audit your information transactions. Currently, that log
               does not exist for most users, in any form, under their control.
             </p>
             <p>
-              The identity guardian pattern requires three components under user control: a temporal
-              datom store for their information space, a weight computation layer that tracks dominance
+              The identity guardian pattern requires three components under user control: a Gravitas
+              store for their information space, a weight computation layer that tracks dominance
               curves, and a monitoring agent with read access to both.
             </p>
           </div>
@@ -249,7 +249,7 @@ const CaseStudyIdentityGuardian = () => {
                 known manipulation patterns.
               </p>
               <p>
-                The guardian agent has read access to the user's temporal datom store and weight
+                The guardian agent has read access to the user's Gravitas store and weight
                 computation layer. It runs continuously, monitoring dominance curves for anomalies and
                 surfacing alerts when specific patterns are detected.
               </p>
@@ -330,7 +330,7 @@ function monitor(
                 maintains collectively because it is too important to be owned by any single actor.
               </p>
               <p>
-                The temporal datom store, the weight computation layer, and the guardian monitoring
+                Gravitas, the weight computation layer, and the guardian monitoring
                 agent should all be open specifications with multiple independent implementations.
                 Users should be able to run their own guardian instances against their own data stores.
               </p>

@@ -19,12 +19,12 @@ const capabilities = [
   {
     n: "03",
     title: "Causality isolation",
-    body: "Combine with nexus-reasoning-graph: which specific datoms had the highest influence on the synthesis? The temporal layer says \"these facts existed.\" The graph layer says \"these facts drove the output.\"",
+    body: "Combine with nexus-reasoning-graph: which specific gravita had the highest influence on the synthesis? The temporal layer says \"these facts existed.\" The graph layer says \"these facts drove the output.\"",
   },
   {
     n: "04",
     title: "Regulatory auditability",
-    body: "EU AI Act Article 12 requires logging for high-risk AI. HIPAA requires protection of patient data integrity. A temporal datom store satisfies both — immutable, timestamped, queryable — by its structure, not by bolt-on logging.",
+    body: "EU AI Act Article 12 requires logging for high-risk AI. HIPAA requires protection of patient data integrity. Gravitas satisfies both — immutable, timestamped, queryable — by its structure, not by bolt-on logging.",
   },
 ];
 
@@ -32,7 +32,7 @@ const researchQuestions = [
   {
     n: "01",
     q: "The temporal grounding problem",
-    a: "What does it mean for an AI system to \"know\" something? Current systems conflate \"in the training data\" with \"known.\" nexus-temporal-storage introduces precise operational semantics: a system knows fact F at time T if and only if datom [e, a, v, tx] exists where tx ≤ T.",
+    a: "What does it mean for an AI system to \"know\" something? Current systems conflate \"in the training data\" with \"known.\" Gravitas introduces precise operational semantics: a system knows fact F at time T if and only if gravit [e, a, v, tx, weight] exists where tx ≤ T.",
   },
   {
     n: "02",
@@ -98,7 +98,7 @@ const CaseStudyTemporalStorage = () => {
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Focus</dt>
-                <dd className="text-foreground">nexus-temporal-storage</dd>
+                <dd className="text-foreground">Gravitas</dd>
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Read time</dt>
@@ -150,25 +150,26 @@ const CaseStudyTemporalStorage = () => {
         </div>
       </Section>
 
-      {/* §2 — The datom model */}
+      {/* §2 — The gravit model */}
       <Section
         eyebrow="The data model"
-        title={<>What a <span className="italic text-accent-blue">datom</span> is.</>}
+        title={<>What a <span className="italic text-accent-blue">gravit</span> is.</>}
         variant="ink"
       >
         <div className="space-y-10">
           <div className="grid lg:grid-cols-12 gap-10">
             <div className="lg:col-span-7 space-y-6 text-primary-foreground/80 leading-relaxed">
               <p>
-                nexus-temporal-storage represents every fact as a datom — four values:
+                Gravitas represents every fact as a gravit — five values:
               </p>
-              <Code>{`[entity, attribute, value, transaction_time]`}</Code>
+              <Code>{`[entity, attribute, value, tx, weight]  // a gravit`}</Code>
               <ul className="space-y-5 text-sm text-primary-foreground/75">
                 {[
                   ["entity", "What thing this fact is about. A patient, a transaction, a document."],
                   ["attribute", "What property. diagnosis_code, account_balance, guideline_version."],
                   ["value", "The value at this moment."],
-                  ["transaction_time", "When this fact was asserted into the system."],
+                  ["tx", "When this fact was asserted into the system."],
+                  ["weight", "Current influence of this gravit on the reasoning graph. 0.0–1.0, recomputed as context evolves."],
                 ].map(([field, desc]) => (
                   <li key={field} className="flex gap-4 pb-5 border-b border-primary-foreground/10 last:border-0 last:pb-0">
                     <span className="font-mono text-primary-glow w-40 shrink-0">{field}</span>
@@ -177,7 +178,7 @@ const CaseStudyTemporalStorage = () => {
                 ))}
               </ul>
               <p>
-                Nothing is ever deleted or overwritten. When a fact changes, a new datom is asserted.
+                Nothing is ever deleted or overwritten. When a fact changes, a new gravit is asserted.
                 The old one remains. The full history accumulates.
               </p>
             </div>
@@ -204,7 +205,7 @@ const CaseStudyTemporalStorage = () => {
           </div>
 
           <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">— Example datom sequence</div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">— Example gravita sequence</div>
             <Code>{`[patient:MRN-447821, diagnosis_code,  "C34.12",    2026-03-01T09:14:00Z]  ← initial diagnosis
 [patient:MRN-447821, lab_result,      "normal",    2026-03-01T09:20:00Z]
 [patient:MRN-447821, oncology_note,   "see notes", 2026-03-03T14:45:00Z]  ← added AFTER decision
@@ -299,7 +300,7 @@ as_of("patient:MRN-447821", "2026-03-03T14:32:00Z")
               the model received is not recoverable. The compliance team is working from current data,
               not decision-time data.
             </p>
-            <p>With nexus-temporal-storage:</p>
+            <p>With Gravitas:</p>
             <Code>{`as_of("account:ACC-8821934", "2026-04-15T11:23:00Z") // exact flag timestamp
 
 // Returns exactly:
@@ -331,7 +332,7 @@ as_of("patient:MRN-447821", "2026-03-03T14:32:00Z")
                     </p>
                   </div>
                   <div className="border-t border-foreground/10 pt-6">
-                    <div className="font-mono text-xs text-primary mb-2 uppercase tracking-[0.15em]">With nexus-temporal-storage</div>
+                    <div className="font-mono text-xs text-primary mb-2 uppercase tracking-[0.15em]">With Gravitas</div>
                     <p className="text-sm text-foreground/70 leading-relaxed">
                       Decision-time state reconstructed exactly. Root cause isolated to an 8-minute
                       window. Remediation is specific and testable.
@@ -393,27 +394,28 @@ as_of("patient:MRN-447821", "2026-03-03T14:32:00Z")
       >
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8">
-            <Code>{`// Core datom interface
-interface Datom {
+            <Code>{`// Core gravit interface
+interface Gravit {
   entity:    string;   // "patient:MRN-447821"
   attribute: string;   // "diagnosis_code"
   value:     unknown;  // "C34.12"
   txTime:    Date;     // 2026-03-01T09:14:00Z — when asserted
   txId:      number;   // monotonic transaction ID
+  weight:    number;   // 0.0 – 1.0, current influence on reasoning graph
 }
 
 // Time-travel query
-function asOf(entity: string, timestamp: Date): Datom[]
+function asOf(entity: string, timestamp: Date): Gravit[]
 
 // History of a specific attribute
-function history(entity: string, attribute: string): Datom[]
+function history(entity: string, attribute: string): Gravit[]
 
 // What changed between two timestamps?
 function delta(
   entity: string,
   t1: Date,
   t2: Date
-): { added: Datom[], retracted: Datom[] }`}</Code>
+): { added: Gravit[], retracted: Gravit[] }`}</Code>
           </div>
           <div className="lg:col-span-4">
             <FadeIn>
@@ -424,7 +426,7 @@ function delta(
                     "Append-only storage — no UPDATE or DELETE operations",
                     "Monotonic transaction IDs preserve total ordering",
                     "asOf complexity: O(log n) with a transaction-time index",
-                    "Datomic-inspired bitemporal model — entity/attribute/value/time",
+                    "Datomic-inspired bitemporal model — entity/attribute/value/time/weight",
                   ].map((item) => (
                     <li key={item} className="flex gap-3 items-start pb-4 border-b border-foreground/10 last:border-0 last:pb-0">
                       <span className="font-mono text-primary shrink-0">→</span>
@@ -448,13 +450,13 @@ function delta(
           <div className="grid lg:grid-cols-12 gap-10">
             <div className="lg:col-span-7 space-y-6 text-primary-foreground/80 leading-relaxed">
               <p>
-                A datom records when a fact was asserted. But that is not the same as how long the fact
+                A gravit records when a fact was asserted. But that is not the same as how long the fact
                 <em> mattered</em>. Facts have a lifecycle — they enter the system, rise to influence,
                 plateau, and eventually decay. The temporal store captures the entry timestamp. Temporal
                 semantic analysis captures the rest of the arc.
               </p>
               <p>
-                The extended datom is <code className="font-mono text-primary-glow text-sm">[entity, attribute, value, tx, weight]</code> where
+                The extended gravit is <code className="font-mono text-primary-glow text-sm">[entity, attribute, value, tx, weight]</code> where
                 weight is not static. It changes over time as the fact's influence on the reasoning graph
                 rises and falls. A fact can technically still exist in the store while carrying near-zero
                 weight — it has decayed semantically even if it was never retracted.
@@ -467,8 +469,8 @@ function delta(
             <div className="lg:col-span-5">
               <FadeIn>
                 <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-5">— Extended datom</div>
-                  <Code>{`interface WeightedDatom {
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-5">— Extended gravit</div>
+                  <Code>{`interface WeightedGravit {
   entity:    string;
   attribute: string;
   value:     unknown;
@@ -478,6 +480,11 @@ function delta(
                   <p className="text-sm text-primary-foreground/60 leading-relaxed mt-4">
                     Weight is recomputed as the reasoning graph evolves. A fact asserted in 2020 may carry
                     weight 0.9 in 2021 and weight 0.04 in 2026 — still present, no longer dominant.
+                  </p>
+                  <p className="text-xs text-primary-foreground/40 leading-relaxed mt-4 font-mono italic border-t border-primary-foreground/10 pt-4">
+                    * Gravitas takes its name from the GSV <em>Gravitas</em> in Iain M. Banks'
+                    <em> Excession</em> — a Culture Mind carrying the accumulated weight of knowledge
+                    it can barely contain.
                   </p>
                 </aside>
               </FadeIn>

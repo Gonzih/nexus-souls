@@ -18,14 +18,14 @@ const studies = [
   },
   {
     num: "02",
-    tag: "Infrastructure · nexus-temporal-storage",
+    tag: "Infrastructure · Gravitas",
     href: "/case-study/temporal-storage",
     title: "Why AI systems forget — and how temporal storage fixes that.",
-    subtitle: "Datom model. Time-travel queries. Decision reconstruction for fintech fraud and clinical prior auth. Temporal immutability as AI accountability infrastructure.",
+    subtitle: "Gravit model. Time-travel queries. Decision reconstruction for fintech fraud and clinical prior auth. Temporal immutability as AI accountability infrastructure.",
     meta: [
       ["Domain", "AI Infrastructure"],
       ["Use case", "Temporal Accountability"],
-      ["Focus", "nexus-temporal-storage"],
+      ["Focus", "Gravitas"],
       ["Read time", "8 min"],
     ],
   },
