@@ -438,6 +438,145 @@ function delta(
         </div>
       </Section>
 
+      {/* §8 — Temporal Semantic Analysis */}
+      <Section
+        eyebrow="Temporal semantic analysis"
+        title={<>What is the <span className="italic text-accent-blue">duration</span> of a fact?</>}
+        variant="ink"
+      >
+        <div className="space-y-14">
+          <div className="grid lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-7 space-y-6 text-primary-foreground/80 leading-relaxed">
+              <p>
+                A datom records when a fact was asserted. But that is not the same as how long the fact
+                <em> mattered</em>. Facts have a lifecycle — they enter the system, rise to influence,
+                plateau, and eventually decay. The temporal store captures the entry timestamp. Temporal
+                semantic analysis captures the rest of the arc.
+              </p>
+              <p>
+                The extended datom is <code className="font-mono text-primary-glow text-sm">[entity, attribute, value, tx, weight]</code> where
+                weight is not static. It changes over time as the fact's influence on the reasoning graph
+                rises and falls. A fact can technically still exist in the store while carrying near-zero
+                weight — it has decayed semantically even if it was never retracted.
+              </p>
+              <p>
+                This is the distinction between <em>existence</em> and <em>dominance</em>. Existing
+                systems track existence. Temporal semantic analysis tracks dominance.
+              </p>
+            </div>
+            <div className="lg:col-span-5">
+              <FadeIn>
+                <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-5">— Extended datom</div>
+                  <Code>{`interface WeightedDatom {
+  entity:    string;
+  attribute: string;
+  value:     unknown;
+  txTime:    Date;
+  weight:    number; // 0.0 – 1.0, mutable
+}`}</Code>
+                  <p className="text-sm text-primary-foreground/60 leading-relaxed mt-4">
+                    Weight is recomputed as the reasoning graph evolves. A fact asserted in 2020 may carry
+                    weight 0.9 in 2021 and weight 0.04 in 2026 — still present, no longer dominant.
+                  </p>
+                </aside>
+              </FadeIn>
+            </div>
+          </div>
+
+          {/* Fact lifecycle timeline */}
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-8">— The fact lifecycle</div>
+            <div className="relative">
+              {/* Animated horizontal line */}
+              <motion.div
+                className="absolute top-5 left-0 h-px bg-primary-glow/40"
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+              <div className="grid grid-cols-5 gap-2 relative">
+                {[
+                  { phase: "Entry", label: "01", desc: "Fact asserted. Weight initialises near zero — the system has not yet integrated it into the reasoning graph.", color: "text-primary-foreground/50" },
+                  { phase: "Climb", label: "02", desc: "Fact is cited frequently. Influence weight rises as subsequent facts reference or build on it.", color: "text-primary-glow" },
+                  { phase: "Dominance", label: "03", desc: "Peak influence. The fact reshapes how all new facts in its semantic neighbourhood are interpreted.", color: "text-primary-glow" },
+                  { phase: "Decay", label: "04", desc: "Newer facts contradict, supersede, or crowd it out. Weight falls — not deleted, just diminished.", color: "text-primary-foreground/60" },
+                  { phase: "Supersession", label: "05", desc: "Weight approaches zero. A successor fact is dominant. The original is auditable but no longer active.", color: "text-primary-foreground/35" },
+                ].map((s, i) => (
+                  <motion.div
+                    key={s.label}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="pt-12 text-center"
+                  >
+                    <div className="absolute top-3.5 left-0 right-0 flex justify-around pointer-events-none" style={{ zIndex: 1 }}>
+                    </div>
+                    <div className={`font-mono text-[10px] uppercase tracking-[0.2em] mb-2 ${s.color}`}>{s.phase}</div>
+                    <div className="font-mono text-xs text-primary-glow mb-3">{s.label}</div>
+                    <p className="text-[11px] text-primary-foreground/55 leading-relaxed">{s.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+              {/* Dots on the timeline */}
+              <div className="absolute top-[14px] left-0 w-full flex justify-around pointer-events-none">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.8 + i * 0.08 }}
+                    className="w-3 h-3 rounded-full border-2 border-primary-glow bg-[hsl(var(--surface-ink))]"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Three sub-concepts */}
+          <div className="grid sm:grid-cols-3 gap-px bg-primary-foreground/10 border border-primary-foreground/10">
+            {[
+              {
+                n: "01",
+                title: "Dominance curves",
+                body: "The influence a fact has on model outputs over time is not binary. It follows a curve: rise, peak, decay. Model thinking is shaped by what is currently dominant, not just what exists in the store.",
+              },
+              {
+                n: "02",
+                title: "Temporal semantic drift",
+                body: "The same concept changes meaning as surrounding facts shift context. \"Trustworthy\" meant something different to a network in 2010 vs 2026. Track drift — not just timestamps.",
+              },
+              {
+                n: "03",
+                title: "Belief decay",
+                body: "When does a previously dominant fact stop influencing outputs even though it still exists? Decay is semantic, not just temporal. A fact can be present and irrelevant simultaneously.",
+              },
+            ].map((c) => (
+              <FadeIn key={c.n}>
+                <div className="bg-[hsl(var(--surface-ink))] p-8 h-full">
+                  <div className="font-mono text-xs text-primary-glow mb-4">{c.n}</div>
+                  <h3 className="font-serif-display text-xl text-primary-foreground leading-tight mb-3">{c.title}</h3>
+                  <p className="text-sm text-primary-foreground/65 leading-relaxed">{c.body}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn>
+            <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-8">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">— The operational question</div>
+              <p className="font-serif-display text-2xl md:text-3xl text-primary-foreground leading-snug italic">
+                "Not: did this fact exist when the decision ran? But: was this fact still dominant when the
+                decision ran? Those are different questions with different answers."
+              </p>
+            </aside>
+          </FadeIn>
+        </div>
+      </Section>
+
       {/* Closing CTA */}
       <section className="px-6 md:px-10 py-24 md:py-32 border-t border-foreground/10 panel-ink relative overflow-hidden">
         <div className="absolute inset-0 dot-bg-ink opacity-20 pointer-events-none" />

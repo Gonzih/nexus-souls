@@ -29,6 +29,32 @@ const studies = [
       ["Read time", "8 min"],
     ],
   },
+  {
+    num: "03",
+    tag: "Semantics · Fact Lifecycle Analysis",
+    href: "/case-study/temporal-semantic",
+    title: "Facts decay. Models don't know it.",
+    subtitle: "The gap between 'this fact exists' and 'this fact still matters.' Dominance curves, temporal semantic drift, belief decay, and fact lifecycle as AI accountability infrastructure.",
+    meta: [
+      ["Domain", "AI Semantics"],
+      ["Use case", "Fact Lifecycle"],
+      ["Builds on", "Temporal Storage"],
+      ["Read time", "7 min"],
+    ],
+  },
+  {
+    num: "04",
+    tag: "Identity · Defense · Meta-agent",
+    href: "/case-study/identity-guardian",
+    title: "The identity guardian pattern.",
+    subtitle: "A meta-agent that monitors your information space for temporal semantic anomalies. AI scams work through velocity and source concentration — the defense is detecting the trajectory, not the content.",
+    meta: [
+      ["Domain", "Identity Defense"],
+      ["Pattern", "Meta-agent"],
+      ["Builds on", "Temporal Semantics"],
+      ["Read time", "8 min"],
+    ],
+  },
 ];
 
 export const CaseStudyTeaser = () => (
