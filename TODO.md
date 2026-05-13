@@ -1,9 +1,8 @@
-# TODO — Fix GitHub Pages SPA Routing
+# TODO: Bitemporal case study section
 
-- [x] Write PLAN.md and TODO.md
-- [ ] Create branch fix/spa-routing
-- [x] Create public/404.html with redirect script
-- [x] Edit index.html to add path-restore script before <script type="module">
-- [ ] npm install + npm run build (must pass with zero errors)
+- [ ] git checkout -b feat/bitemporal-case-study
+- [ ] Add §9 bitemporal section to CaseStudyTemporalStorage.tsx
+- [ ] npm install && npm run build (smoke check)
 - [ ] git diff --staged review
-- [ ] Commit, push, PR, merge
+- [ ] git commit
+- [ ] gh pr create + gh pr merge --squash
