@@ -1,528 +1,679 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Mail } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TOTAL_SLIDES = 15;
+interface Slide {
+  id: number;
+  label: string;
+  variant: "ink" | "light";
+  content: React.ReactNode;
+}
 
-const SlideWrapper = ({ children, index, active }: { children: React.ReactNode; index: number; active: number }) => {
-  const visible = index === active;
-  return (
-    <AnimatePresence mode="wait">
-      {visible && (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -30 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
-
-const SlideBase = ({ children, dark = true }: { children: React.ReactNode; dark?: boolean }) => (
-  <div className={`w-full h-full flex flex-col justify-center px-12 md:px-20 py-12 relative overflow-hidden ${dark ? "panel-ink" : "bg-background"}`}>
-    {dark && <div className="absolute inset-0 dot-bg-ink opacity-20 pointer-events-none" />}
-    {!dark && <div className="absolute inset-0 dot-bg opacity-25 pointer-events-none" />}
-    <div className="relative z-10 max-w-4xl mx-auto w-full">
-      {children}
-    </div>
-  </div>
+const Code = ({ children }: { children: string }) => (
+  <pre className="font-mono text-sm md:text-base bg-black/30 border border-primary-foreground/20 p-5 md:p-6 overflow-x-auto max-w-full rounded-sm leading-relaxed text-left">
+    <code className="text-primary-foreground">{children}</code>
+  </pre>
 );
 
-const Eyebrow = ({ children, dark = true }: { children: React.ReactNode; dark?: boolean }) => (
-  <div className={`font-mono text-[11px] uppercase tracking-[0.26em] mb-6 ${dark ? "text-primary-glow" : "text-primary"}`}>
-    — {children}
-  </div>
-);
-
-const SlideTitle = ({ children, dark = true }: { children: React.ReactNode; dark?: boolean }) => (
-  <h2 className={`font-serif-display text-3xl md:text-5xl font-light leading-[1.05] mb-8 ${dark ? "text-primary-foreground" : "text-foreground"}`}>
-    {children}
-  </h2>
-);
-
-const SlideBody = ({ children, dark = true }: { children: React.ReactNode; dark?: boolean }) => (
-  <div className={`text-base md:text-lg leading-relaxed font-light ${dark ? "text-primary-foreground/75" : "text-foreground/75"}`}>
-    {children}
-  </div>
-);
-
-const SlidePre = ({ children }: { children: React.ReactNode }) => (
-  <pre className="font-mono text-xs md:text-sm bg-[hsl(var(--surface-ink))] text-primary-foreground p-5 overflow-x-auto max-w-full border border-primary-foreground/15 my-4">
+const LightCode = ({ children }: { children: string }) => (
+  <pre className="font-mono text-sm md:text-base bg-[hsl(var(--surface-ink))] text-primary-foreground border border-foreground/10 p-5 md:p-6 overflow-x-auto max-w-full rounded-sm leading-relaxed text-left">
     <code>{children}</code>
   </pre>
 );
 
-const slides = [
-  // 1 — Title
-  <SlideBase key={1}>
-    <div className="text-center">
-      <div className="flex items-center justify-center gap-2.5 mb-12">
-        <div className="w-9 h-9 border border-primary-foreground/30 flex items-center justify-center">
-          <div className="w-3.5 h-3.5 bg-primary rotate-45" />
+const slides: Slide[] = [
+  {
+    id: 1,
+    label: "Title",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-8">
+          — SF AI Meetup · 2026
         </div>
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary-foreground/70">Nexus</span>
-      </div>
-      <h1 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.02] text-primary-foreground mb-6">
-        Meta-Harness Engineering
-      </h1>
-      <p className="font-serif-display text-xl md:text-2xl italic text-primary-glow mb-14">
-        Building Autonomous Infrastructure with Claude Code
-      </p>
-      <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-primary-foreground/50 space-y-2">
-        <div>Maksim Soltan</div>
-        <div>SF AI Meetup · 2026</div>
-        <div>gonzih@gmail.com</div>
-      </div>
-    </div>
-  </SlideBase>,
-
-  // 2 — The Gap
-  <SlideBase key={2}>
-    <Eyebrow>The Gap</Eyebrow>
-    <SlideTitle>Most people use LLMs as fancy autocomplete.</SlideTitle>
-    <SlideBody>
-      <div className="grid md:grid-cols-2 gap-8 mt-4">
-        <div className="border border-primary-foreground/10 p-6">
-          <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/40 mb-4">What most people do</div>
-          <ul className="space-y-2 text-sm text-primary-foreground/60">
-            <li>· Chat with an assistant</li>
-            <li>· Copy-paste code suggestions</li>
-            <li>· Ask questions, get answers</li>
-            <li>· Human does every action</li>
-          </ul>
-        </div>
-        <div className="border border-primary-glow/40 p-6">
-          <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary-glow mb-4">What's possible</div>
-          <ul className="space-y-2 text-sm text-primary-foreground/80">
-            <li>· Agents implement features autonomously</li>
-            <li>· PRs opened, merged, deployed</li>
-            <li>· Infrastructure runs without you</li>
-            <li>· One message → full stack</li>
-          </ul>
+        <h1 className="font-serif-display text-5xl md:text-7xl lg:text-8xl font-light leading-[1.0] text-primary-foreground mb-8">
+          Meta-Harness<br />
+          <span className="text-primary italic">Engineering</span>
+        </h1>
+        <p className="text-xl md:text-2xl text-primary-foreground/70 font-light max-w-xl leading-relaxed">
+          Building autonomous infrastructure with Claude Code.
+        </p>
+        <div className="mt-12 font-mono text-xs text-primary-foreground/40 uppercase tracking-[0.22em]">
+          Maks Soltan · gonzih@gmail.com
         </div>
       </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 3 — Three levels
-  <SlideBase key={3} dark={false}>
-    <Eyebrow dark={false}>Three Levels</Eyebrow>
-    <SlideTitle dark={false}>Prompt → Context → <span className="italic text-accent-blue">Harness</span></SlideTitle>
-    <SlideBody dark={false}>
-      <div className="grid md:grid-cols-3 gap-6 mt-4">
-        {[
-          { level: "Level 1", name: "Prompt Engineering", desc: "Craft better inputs. Get better single outputs. Still manual, still reactive.", active: false },
-          { level: "Level 2", name: "Context Engineering", desc: "Shape the session. Memory, tools, RAG. Better sustained outputs. Still you driving.", active: false },
-          { level: "Level 3", name: "Harness Engineering", desc: "Design the loop. Environment + constraints + instructions = agents that run without you.", active: true },
-        ].map((l) => (
-          <div key={l.level} className={`p-6 border ${l.active ? "border-primary bg-primary/5" : "border-foreground/10"}`}>
-            <div className={`font-mono text-[10px] uppercase tracking-[0.2em] mb-3 ${l.active ? "text-primary" : "text-foreground/40"}`}>{l.level}</div>
-            <div className={`font-serif-display text-xl mb-3 ${l.active ? "text-foreground" : "text-foreground/70"}`}>{l.name}</div>
-            <p className="text-sm text-foreground/60 leading-relaxed">{l.desc}</p>
-          </div>
-        ))}
+    ),
+  },
+  {
+    id: 2,
+    label: "The Problem",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Problem
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.05] mb-10">
+          Orchestration hell.
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              title: "YAML pipelines",
+              body: "Every workflow is hand-coded. Failures need human diagnosis. Changing requirements = rewriting pipelines.",
+            },
+            {
+              title: "Credential sprawl",
+              body: "API keys in environment variables, secrets in CI config, tokens in build artifacts.",
+            },
+            {
+              title: "Human in the loop",
+              body: "Every deployment needs someone to watch it. Every PR needs a reviewer. Scale breaks human bandwidth.",
+            },
+          ].map(({ title, body }) => (
+            <div key={title} className="border-l-2 border-primary/30 pl-5">
+              <div className="font-mono text-sm text-primary font-semibold mb-2">{title}</div>
+              <p className="text-sm text-foreground/65 leading-relaxed">{body}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 4 — Architecture diagram
-  <SlideBase key={4}>
-    <Eyebrow>Architecture</Eyebrow>
-    <SlideTitle>What is a meta-harness?</SlideTitle>
-    <SlideBody>
-      <SlidePre>{`launchd (KeepAlive: true)
+    ),
+  },
+  {
+    id: 3,
+    label: "The Insight",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-8">
+          — The Insight
+        </div>
+        <p className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] text-primary-foreground mb-8">
+          Claude Code is not just a coding assistant.
+        </p>
+        <p className="text-xl md:text-2xl text-primary-foreground/65 font-light max-w-2xl leading-relaxed">
+          It is a general-purpose intelligence substrate that can be wrapped, orchestrated,
+          and composed into autonomous infrastructure.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 4,
+    label: "3-Tier Architecture",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Architecture · 3 Tiers
+        </div>
+        <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-10">
+          Three tiers. Each with a distinct role.
+        </h2>
+        <LightCode>{`launchd (KeepAlive: true)
   └── cc-tg  ← coordinator / Telegram bridge
         └── Claude Code (--continue, project context)
               └── cc-agent MCP  ← worker spawner
                     └── claude subprocess  ← ephemeral task agent
-                          └── more subagents...`}</SlidePre>
-      <p className="text-sm text-primary-foreground/60 mt-2">
-        Three tiers. Each with a distinct responsibility. Persistent at the top, ephemeral at the bottom.
-      </p>
-    </SlideBody>
-  </SlideBase>,
-
-  // 5 — Tier 1
-  <SlideBase key={5}>
-    <Eyebrow>Tier 1</Eyebrow>
-    <SlideTitle>The Coordinator <span className="italic text-primary-glow">(cc-tg)</span></SlideTitle>
-    <SlideBody>
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="space-y-4 text-sm text-primary-foreground/75">
-          <p>Node.js process managed by launchd with <span className="font-mono text-primary-foreground">KeepAlive: true</span>.</p>
-          <p>Bridges Telegram → persistent Claude Code session → Redis.</p>
-          <p>Holds project context. Runs <span className="font-mono text-primary-foreground">--continue</span> in target project dir.</p>
-          <p className="font-serif-display text-lg italic text-primary-foreground/90 leading-snug pt-2">
-            The context is stateful. It carries the conversation across days.
-          </p>
-        </div>
-        <div className="border border-primary-foreground/10 p-5">
-          <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary-glow mb-4">Restart rule</div>
-          <div className="font-mono text-sm text-primary-foreground/80 space-y-2">
-            <div className="text-destructive line-through opacity-60">launchctl unload</div>
-            <div className="text-primary-glow">pkill -f cc-tg</div>
-          </div>
-          <p className="text-xs text-primary-foreground/50 mt-4">launchd respawns with --prefer-online, pulling latest package automatically.</p>
-        </div>
+                          └── more subagents...`}</LightCode>
       </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 6 — Tier 2
-  <SlideBase key={6} dark={false}>
-    <Eyebrow dark={false}>Tier 2</Eyebrow>
-    <SlideTitle dark={false}>The Worker Spawner <span className="italic text-accent-blue">(cc-agent)</span></SlideTitle>
-    <SlideBody dark={false}>
-      <div className="grid md:grid-cols-2 gap-8">
-        <div>
-          <p className="text-sm text-foreground/70 mb-4">MCP server exposing 13 tools to the coordinator's Claude session.</p>
-          <div className="font-mono text-xs bg-[hsl(var(--surface-ink))] text-primary-foreground p-4 border border-foreground/10 space-y-1">
-            <div>spawn_agent(repo, task, branch) → job_id</div>
-            <div>list_jobs() → status[]</div>
-            <div>get_job_output(job_id) → logs</div>
-            <div>cancel_job(job_id) → bool</div>
-          </div>
+    ),
+  },
+  {
+    id: 5,
+    label: "Tier 1: Coordinator",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Tier 1 · cc-tg
         </div>
-        <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary mb-4">Branch rule</div>
-          <p className="text-sm text-foreground/70 leading-relaxed mb-4">Every agent task runs on a branch. Never main.</p>
-          <div className="space-y-1 font-mono text-sm">
-            {["feat/", "fix/", "chore/", "mvp/"].map((b) => (
-              <div key={b} className="text-primary">{b}<span className="text-foreground/40">your-task</span></div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
+          The Coordinator
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-4 text-primary-foreground/75 leading-relaxed">
+            <p>
+              A Node.js process managed by launchd with{" "}
+              <code className="font-mono text-primary">KeepAlive: true</code>.
+            </p>
+            <p>
+              Bridges Telegram messages to a persistent{" "}
+              <code className="font-mono text-primary">claude --continue</code> session in the target
+              project directory.
+            </p>
+            <p>Holds all project context statefully across days and restarts.</p>
+          </div>
+          <div className="space-y-3">
+            {[
+              { label: "Persistence", value: "launchd KeepAlive: true" },
+              { label: "Context", value: "claude --continue" },
+              { label: "Restart rule", value: "pkill, never launchctl unload" },
+              { label: "Input", value: "Telegram messages" },
+              { label: "Output", value: "Redis pub/sub + Telegram" },
+            ].map(({ label, value }) => (
+              <div key={label} className="flex justify-between font-mono text-xs border-b border-primary-foreground/10 pb-2">
+                <span className="text-primary-foreground/50 uppercase tracking-[0.15em]">{label}</span>
+                <span className="text-primary">{value}</span>
+              </div>
             ))}
           </div>
         </div>
       </div>
-    </SlideBody>
-  </SlideBase>,
+    ),
+  },
+  {
+    id: 6,
+    label: "Tier 2: Worker Spawner",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Tier 2 · cc-agent MCP
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8">
+          The Worker Spawner
+        </h2>
+        <div className="grid md:grid-cols-2 gap-10">
+          <div>
+            <p className="text-foreground/70 leading-relaxed mb-6">
+              An MCP server that exposes tool calls to the coordinator's Claude session.
+            </p>
+            <LightCode>{`spawn_agent(repo_url, task, branch)
+  → job_id
 
-  // 7 — Tier 3
-  <SlideBase key={7}>
-    <Eyebrow>Tier 3</Eyebrow>
-    <SlideTitle>Task Agents — <span className="italic text-primary-glow">ephemeral</span> by design</SlideTitle>
-    <SlideBody>
-      <div className="space-y-4">
-        <p className="text-sm text-primary-foreground/70">Isolated Claude Code sessions. Clone, branch, implement, test, commit, PR, publish, exit.</p>
-        <SlidePre>{`gh pr create --title "<title>" --body "<what and why>" --base main
+list_jobs()
+  → [{job_id, status, repo}]
+
+get_job_output(job_id)
+  → stdout/stderr log
+
+cancel_job(job_id) → bool`}</LightCode>
+          </div>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50 mb-4">
+              Job lifecycle
+            </p>
+            <div className="space-y-2 font-mono text-sm">
+              {["PENDING", "RUNNING", "COMPLETED", "FAILED", "INTERRUPTED"].map((s, i) => (
+                <div
+                  key={s}
+                  className={`px-4 py-2 border-l-2 ${
+                    s === "COMPLETED"
+                      ? "border-primary text-primary"
+                      : s === "FAILED" || s === "INTERRUPTED"
+                      ? "border-destructive text-destructive"
+                      : "border-foreground/20 text-foreground/60"
+                  }`}
+                >
+                  {i > 0 && <span className="text-foreground/30 mr-2">↘</span>}{s}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 7,
+    label: "Tier 3: Task Agents",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Tier 3 · Ephemeral Agents
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
+          Task Agents
+        </h2>
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          <div className="space-y-4 text-primary-foreground/75 leading-relaxed">
+            <p>
+              Isolated Claude Code sessions spawned into a fresh worktree of the target repo.
+              Ephemeral by design — they run, ship, and exit.
+            </p>
+            <p>Every agent prompt ends with terminal steps. Agents that don't ship are not done.</p>
+          </div>
+          <Code>{`gh pr create \\
+  --title "<verb>: <what>" \\
+  --body "<why>" \\
+  --base main
+
 gh pr merge --squash --auto
-npm version patch && npm publish --access public`}</SlidePre>
-        <div className="grid grid-cols-3 gap-4 text-center">
+
+npm version patch && \\
+npm publish --access public`}</Code>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 8,
+    label: "The Prompt Trick",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Prompt Trick
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-4">
+          Zero credentials in code. Ever.
+        </h2>
+        <p className="text-foreground/65 leading-relaxed mb-6 max-w-xl">
+          Spawn a Claude subprocess with <code className="font-mono text-primary">cwd</code> set to
+          the project that has the MCP configured. Claude inherits the credential chain.
+        </p>
+        <LightCode>{`spawnSync('claude', [
+  '--print',
+  '--dangerously-skip-permissions',
+  '-p', prompt
+], {
+  cwd: '/Users/feral/money-brain',  // inherits gmail-personal MCP
+  env: { ...process.env, CLAUDE_CODE_OAUTH_TOKEN: token },
+  timeout: 60_000,
+})`}</LightCode>
+        <p className="mt-6 text-sm text-foreground/55 font-light">
+          No SMTP passwords. No API keys baked into artifacts. The Claude OAuth token is the only
+          secret — it lives in the environment.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 9,
+    label: "Redis Nervous System",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Communication
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10">
+          Redis as the nervous system.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-10">
+          <div className="space-y-3">
+            {[
+              { key: "cca:notify:<project>", purpose: "Agent completion → Telegram" },
+              { key: "cca:chat:log:<project>", purpose: "Full conversation log" },
+              { key: "whiteh:auto_send_queue", purpose: "Email disclosure queue" },
+              { key: "whiteh:disclosures", purpose: "Vuln discovery log" },
+            ].map(({ key, purpose }) => (
+              <div key={key} className="border-b border-primary-foreground/10 pb-3">
+                <code className="font-mono text-xs text-primary block mb-1 break-all">{key}</code>
+                <p className="text-xs text-primary-foreground/55">{purpose}</p>
+              </div>
+            ))}
+          </div>
+          <Code>{`agent task completes
+  → cc-agent publishes to
+    cca:notify:money-brain
+  → cc-tg subscribes
+  → flushes to Telegram
+  → appends to chat log
+
+# No polling. Push only.`}</Code>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 10,
+    label: "Design Principles",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Design Philosophy
+        </div>
+        <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-8">
+          Six principles. No exceptions.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-4">
           {[
-            { label: "Agents that don't ship", verdict: "Not done", ok: false },
-            { label: "Agents that PR + merge", verdict: "Done", ok: true },
-            { label: "Agents that publish", verdict: "Done + deployed", ok: true },
-          ].map((c) => (
-            <div key={c.label} className={`p-4 border ${c.ok ? "border-primary-glow/40" : "border-destructive/40"}`}>
-              <div className={`font-mono text-xs mb-2 ${c.ok ? "text-primary-glow" : "text-destructive"}`}>{c.verdict}</div>
-              <div className="text-xs text-primary-foreground/60">{c.label}</div>
+            { n: "1", title: "Intelligence over orchestration", body: "Natural language, not YAML" },
+            { n: "2", title: "Self-healing by default", body: "KeepAlive: true, always on" },
+            { n: "3", title: "Zero credentials in code", body: "Prompt trick, always" },
+            { n: "4", title: "Ship as definition of done", body: "PR merged + published" },
+            { n: "5", title: "Composability through MCP", body: "New capability = new MCP" },
+            { n: "6", title: "Ephemerality with persistence", body: "Agents die, coordinator lives" },
+          ].map(({ n, title, body }) => (
+            <div key={n} className="flex gap-4 items-start py-3 border-b border-foreground/8">
+              <span className="font-mono text-xs text-primary shrink-0 w-5">{n}</span>
+              <div>
+                <div className="font-mono text-sm text-foreground font-medium mb-0.5">{title}</div>
+                <div className="text-xs text-foreground/55">{body}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 8 — Prompt Trick
-  <SlideBase key={8} dark={false}>
-    <Eyebrow dark={false}>The Prompt Trick</Eyebrow>
-    <SlideTitle dark={false}>Zero credentials <span className="italic text-accent-blue">in code.</span></SlideTitle>
-    <SlideBody dark={false}>
-      <div className="grid md:grid-cols-2 gap-8">
-        <div>
-          <p className="text-sm text-foreground/70 mb-4">Spawn a Claude subprocess with the right <span className="font-mono text-foreground">cwd</span>. It inherits project-scoped MCPs.</p>
-          <div className="font-mono text-xs bg-[hsl(var(--surface-ink))] text-primary-foreground p-4 border border-foreground/10">
-            {`spawnSync('claude', [\n  '--print',\n  '--dangerously-skip-permissions',\n  '-p', prompt\n], {\n  cwd: '/your/project',\n  env: { CLAUDE_CODE_OAUTH_TOKEN: token },\n})`}
+    ),
+  },
+  {
+    id: 11,
+    label: "The Full Cycle",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Full Cycle
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
+          One message. Full stack.
+        </h2>
+        <Code>{`Telegram message
+  → cc-tg coordinator (persistent Claude session)
+  → spawn_agent via cc-agent MCP
+  → task agent: clone → branch → implement → test
+  → PR opened, merged
+  → npm publish, service restart
+  → launchd respawns with latest package
+  → Redis notification
+  → Telegram reply`}</Code>
+        <p className="mt-6 text-primary-foreground/55 text-sm font-light">
+          No human in the loop. One message. Complete stack.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 12,
+    label: "Live Demo",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Live Demo
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light mb-8">
+          Watching it run.
+        </h2>
+        <div className="space-y-6">
+          <p className="text-foreground/70 leading-relaxed text-lg">
+            Sending a Telegram message: <em>"Add a /status endpoint to the API. Tests, PR, merge, publish."</em>
+          </p>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { step: "T+0s", event: "Message received by cc-tg" },
+              { step: "T+5s", event: "spawn_agent called, job PENDING → RUNNING" },
+              { step: "T+90s", event: "Agent: endpoint implemented, tests passing" },
+              { step: "T+120s", event: "PR opened, auto-merged by gh" },
+              { step: "T+140s", event: "npm publish v1.0.3 complete" },
+              { step: "T+145s", event: "Telegram: 'Done. PR #38 merged.'" },
+            ].map(({ step, event }) => (
+              <div key={step} className="border border-foreground/10 px-4 py-3">
+                <div className="font-mono text-xs text-primary mb-1">{step}</div>
+                <div className="text-xs text-foreground/70 leading-snug">{event}</div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="space-y-3">
-          <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary mb-3">What stays out of code</div>
-          {["SMTP passwords", "Slack bot tokens", "Database credentials", "API keys", "OAuth secrets"].map((item) => (
-            <div key={item} className="flex items-center gap-3 text-sm text-foreground/70">
-              <span className="text-destructive font-mono text-xs">✗</span>
-              <span>{item}</span>
-            </div>
-          ))}
-          <div className="pt-4 border-t border-foreground/10">
-            <div className="flex items-center gap-3 text-sm text-foreground">
-              <span className="text-primary font-mono text-xs">✓</span>
-              <span>CLAUDE_CODE_OAUTH_TOKEN — in env, not in code</span>
-            </div>
-          </div>
+      </div>
+    ),
+  },
+  {
+    id: 13,
+    label: "What it replaces",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — What it replaces
         </div>
-      </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 9 — Redis
-  <SlideBase key={9}>
-    <Eyebrow>Communication</Eyebrow>
-    <SlideTitle>Redis as the nervous system.</SlideTitle>
-    <SlideBody>
-      <SlidePre>{`agent task completes
-  → cc-agent publishes to cca:notify:money-brain
-  → cc-tg receives notification
-  → flushes to Telegram + appends to Redis log`}</SlidePre>
-      <div className="grid md:grid-cols-2 gap-4 mt-4 text-xs font-mono">
-        {[
-          { key: "cca:notify:<project>", desc: "agent completion → Telegram" },
-          { key: "cca:chat:log:<project>", desc: "append-only exchange log" },
-          { key: "whiteh:auto_send_queue", desc: "disclosure email queue" },
-          { key: "whiteh:disclosures", desc: "discovered vulnerabilities" },
-        ].map((r) => (
-          <div key={r.key} className="border border-primary-foreground/10 p-3">
-            <div className="text-primary-glow mb-1 break-all">{r.key}</div>
-            <div className="text-primary-foreground/50">{r.desc}</div>
-          </div>
-        ))}
-      </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 10 — Philosophy
-  <SlideBase key={10} dark={false}>
-    <Eyebrow dark={false}>Design Philosophy</Eyebrow>
-    <SlideTitle dark={false}>Six principles.</SlideTitle>
-    <SlideBody dark={false}>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
-        {[
-          { n: "01", title: "Intelligence over orchestration" },
-          { n: "02", title: "Self-healing by default" },
-          { n: "03", title: "Zero credentials in code" },
-          { n: "04", title: "Ship as the definition of done" },
-          { n: "05", title: "Composability through MCP" },
-          { n: "06", title: "Ephemerality with persistence" },
-        ].map((p) => (
-          <div key={p.n} className="border border-foreground/10 p-4">
-            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary mb-2">{p.n}</div>
-            <div className="text-sm text-foreground/80 leading-snug">{p.title}</div>
-          </div>
-        ))}
-      </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 11 — Ship as done
-  <SlideBase key={11}>
-    <Eyebrow>The Definition of Done</Eyebrow>
-    <SlideTitle><span className="italic text-primary-glow">Ship</span> as the definition of done.</SlideTitle>
-    <SlideBody>
-      <div className="space-y-6">
-        <div className="grid grid-cols-4 gap-3 text-center text-xs font-mono">
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10">
+          What you no longer need.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-x-16 gap-y-6">
           {[
-            { step: "Implement", ok: true },
-            { step: "PR", ok: true },
-            { step: "Merge", ok: true },
-            { step: "Publish", ok: true },
-          ].map((s) => (
-            <div key={s.step} className="border border-primary-glow/40 p-3 text-primary-glow">{s.step}</div>
-          ))}
-        </div>
-        <p className="font-serif-display text-2xl md:text-3xl italic text-primary-foreground/90 leading-snug pt-4">
-          "Agents that don't ship are not done. Terminal steps are part of every task definition."
-        </p>
-        <div className="font-mono text-xs text-primary-foreground/40 uppercase tracking-[0.22em]">— The branch rule</div>
-      </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 12 — Live demo
-  <SlideBase key={12} dark={false}>
-    <Eyebrow dark={false}>Live Demo</Eyebrow>
-    <SlideTitle dark={false}>One message → full stack.</SlideTitle>
-    <SlideBody dark={false}>
-      <div className="space-y-6">
-        <p className="text-foreground/70">Paste this into Claude Code (or send via Telegram):</p>
-        <div className="font-mono text-xs bg-[hsl(var(--surface-ink))] text-primary-foreground p-6 border border-foreground/10 text-base leading-relaxed">
-          Spawn an agent to add a GitHub Actions CI workflow to my-first-agent-task repo. Branch, implement, PR, merge.
-        </div>
-        <div className="grid grid-cols-5 gap-2 text-center text-xs font-mono text-foreground/60">
-          {["Telegram msg", "Coordinator", "spawn_agent", "PR + merge", "Reply"].map((s, i) => (
-            <div key={s} className="flex items-center gap-2">
-              <div className="border border-foreground/15 p-2 flex-1">{s}</div>
-              {i < 4 && <span className="text-primary/50 shrink-0">→</span>}
+            "Custom GitHub Actions workflows",
+            "CI/CD orchestration layers",
+            "Credential management services",
+            "Deployment approval workflows",
+            "Status polling scripts",
+            "On-call humans for routine deploys",
+          ].map((item) => (
+            <div key={item} className="flex gap-3 items-center border-b border-primary-foreground/10 pb-4">
+              <span className="text-primary text-lg">—</span>
+              <span className="text-primary-foreground/75 text-sm">{item}</span>
             </div>
           ))}
         </div>
       </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 13 — What this unlocks
-  <SlideBase key={13}>
-    <Eyebrow>What This Unlocks</Eyebrow>
-    <SlideTitle>Agentic businesses. <span className="italic text-primary-glow">Always-on workforce.</span></SlideTitle>
-    <SlideBody>
-      <div className="grid md:grid-cols-2 gap-6 mt-4">
-        {[
-          { title: "Autonomous dev cycles", body: "PRs ship while you sleep. No standup for routine work." },
-          { title: "Composable MCPs", body: "New capability = new MCP server. The harness grows without rewrites." },
-          { title: "Always-on infrastructure", body: "Crashes are events, not incidents. launchd restores the system." },
-          { title: "Zero-credential publishing", body: "The full stack is publishable by default. No secrets in code." },
-        ].map((item) => (
-          <div key={item.title} className="border-l-2 border-primary-glow pl-5">
-            <div className="font-serif-display text-xl text-primary-foreground mb-2">{item.title}</div>
-            <p className="text-sm text-primary-foreground/65 leading-relaxed">{item.body}</p>
+    ),
+  },
+  {
+    id: 14,
+    label: "Getting Started",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Getting Started
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8">
+          Start with the reference. Build with the course.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="border border-foreground/10 p-6">
+            <div className="font-mono text-xs text-primary mb-3">Technical Reference</div>
+            <p className="text-foreground/65 text-sm leading-relaxed mb-4">
+              Full architecture docs, code samples, and design principles.
+            </p>
+            <p className="font-mono text-sm text-foreground">gonzih.github.io/meta-harness</p>
           </div>
-        ))}
-      </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 14 — Distill and delegate
-  <SlideBase key={14}>
-    <Eyebrow>The Philosophy</Eyebrow>
-    <SlideTitle>Distill and delegate.</SlideTitle>
-    <SlideBody>
-      <div className="max-w-2xl space-y-8">
-        <p className="text-lg text-primary-foreground/80 leading-relaxed">
-          Harness Engineering is not about prompts. It's about building the loop that makes
-          prompts unnecessary.
-        </p>
-        <blockquote className="font-serif-display text-2xl md:text-3xl italic text-primary-foreground leading-snug border-l-2 border-primary-glow pl-8">
-          "This is the infrastructure pattern, not the product. The product is whatever the agents build."
-        </blockquote>
-        <p className="font-mono text-sm text-primary-foreground/50">
-          Your job shifts: from writing code to designing the instruction layer that writes the code.
-        </p>
-      </div>
-    </SlideBody>
-  </SlideBase>,
-
-  // 15 — Q&A
-  <SlideBase key={15}>
-    <div className="text-center space-y-8">
-      <div className="flex items-center justify-center gap-2.5 mb-8">
-        <div className="w-9 h-9 border border-primary-foreground/30 flex items-center justify-center">
-          <div className="w-3.5 h-3.5 bg-primary rotate-45" />
+          <div className="border border-primary/30 p-6 bg-primary/5">
+            <div className="font-mono text-xs text-primary mb-3">Interactive Course</div>
+            <p className="text-foreground/65 text-sm leading-relaxed mb-4">
+              7 steps, hands-on. From prerequisites to end-to-end autonomous deploy.
+            </p>
+            <p className="font-mono text-sm text-foreground">gonzih.github.io/meta-harness-course</p>
+          </div>
         </div>
       </div>
-      <div className="font-serif-display text-5xl md:text-7xl font-light text-primary-foreground">Q&A</div>
-      <p className="font-serif-display text-xl italic text-primary-foreground/70">What questions do you have?</p>
-      <div className="pt-6 border-t border-primary-foreground/15 space-y-3">
-        <div className="font-mono text-sm text-primary-glow">gonzih@gmail.com</div>
-        <div className="flex flex-wrap items-center justify-center gap-6 font-mono text-[11px] uppercase tracking-[0.18em] text-primary-foreground/50">
-          <a href="https://github.com/Gonzih/cc-agent" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">cc-agent</a>
-          <span className="text-primary-foreground/20">·</span>
-          <a href="https://github.com/Gonzih/cc-tg" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">cc-tg</a>
-          <span className="text-primary-foreground/20">·</span>
-          <a href="https://gonzih.github.io" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">nexus-souls</a>
+    ),
+  },
+  {
+    id: 15,
+    label: "Q&A",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto text-center">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-8">
+          — Q&A
+        </div>
+        <h2 className="font-serif-display text-6xl md:text-8xl font-light text-primary-foreground mb-6">
+          Questions?
+        </h2>
+        <p className="text-xl text-primary-foreground/55 font-light mb-12">
+          The infrastructure pattern, not the product. <br />The product is whatever the agents build.
+        </p>
+        <div className="space-y-2 font-mono text-sm text-primary-foreground/60">
+          <p>Maks Soltan</p>
+          <a href="mailto:gonzih@gmail.com" className="text-primary hover:text-primary-glow transition-colors">
+            gonzih@gmail.com
+          </a>
+          <p className="text-primary-foreground/40 text-xs mt-4">gonzih.github.io</p>
         </div>
       </div>
-    </div>
-  </SlideBase>,
+    ),
+  },
 ];
+
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+};
 
 const MetaHarnessTalk = () => {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
 
-  const prev = () => setCurrent((c) => Math.max(0, c - 1));
-  const next = () => setCurrent((c) => Math.min(TOTAL_SLIDES - 1, c + 1));
+  const goNext = useCallback(() => {
+    if (current < slides.length - 1) {
+      setDirection(1);
+      setCurrent((c) => c + 1);
+    }
+  }, [current]);
 
-  const handleKey = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") next();
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
+  const goPrev = useCallback(() => {
+    if (current > 0) {
+      setDirection(-1);
+      setCurrent((c) => c - 1);
+    }
+  }, [current]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+        e.preventDefault();
+        goNext();
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        goPrev();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [goNext, goPrev]);
+
+  const slide = slides[current];
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const x = e.clientX;
+    const w = window.innerWidth;
+    if (x > w / 2) {
+      goNext();
+    } else {
+      goPrev();
+    }
   };
 
   return (
-    <div
-      className="flex flex-col min-h-screen bg-[hsl(var(--surface-ink))] text-foreground"
-      onKeyDown={handleKey}
-      tabIndex={0}
-      style={{ outline: "none" }}
-    >
-      {/* Top bar */}
-      <div className="shrink-0 border-b border-primary-foreground/10 bg-[hsl(var(--surface-ink))]">
-        <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
-          <Link to="/meta-harness" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-primary-foreground/50 hover:text-primary-glow transition-colors">
-            <ArrowLeft className="w-3.5 h-3.5" /> Meta-Harness
-          </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-foreground/30">
-            {String(current + 1).padStart(2, "0")} / {String(TOTAL_SLIDES).padStart(2, "0")}
-          </span>
-          <a
-            href="mailto:gonzih@gmail.com"
-            className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-primary-foreground/50 hover:text-primary-glow transition-colors"
+    <div className="fixed inset-0 flex flex-col overflow-hidden select-none">
+      {/* Slide area */}
+      <div
+        className={`relative flex-1 overflow-hidden cursor-pointer ${
+          slide.variant === "ink" ? "panel-ink" : "bg-background"
+        }`}
+        onClick={handleClick}
+      >
+        {slide.variant === "ink" && (
+          <div className="absolute inset-0 dot-bg-ink opacity-20 pointer-events-none" />
+        )}
+        {slide.variant === "light" && (
+          <div className="absolute inset-0 dot-bg opacity-20 pointer-events-none" />
+        )}
+
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={current}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            className="absolute inset-0 flex flex-col"
           >
-            <Mail className="w-3 h-3" /> gonzih@gmail.com
-          </a>
-        </div>
+            {slide.content}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Click hint arrows */}
+        {current > 0 && (
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none">
+            <ArrowLeft
+              className={`w-6 h-6 ${slide.variant === "ink" ? "text-primary-foreground" : "text-foreground"}`}
+            />
+          </div>
+        )}
+        {current < slides.length - 1 && (
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none">
+            <ArrowRight
+              className={`w-6 h-6 ${slide.variant === "ink" ? "text-primary-foreground" : "text-foreground"}`}
+            />
+          </div>
+        )}
       </div>
 
-      {/* Slide area */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Slide thumbnails sidebar */}
-        <div className="hidden lg:flex flex-col w-20 shrink-0 border-r border-primary-foreground/10 bg-[hsl(var(--surface-ink))] py-4 gap-1.5 overflow-y-auto">
+      {/* Controls bar */}
+      <div
+        className={`flex items-center justify-between px-6 py-3 border-t text-xs font-mono z-10 ${
+          slide.variant === "ink"
+            ? "bg-[hsl(var(--surface-ink))] border-primary-foreground/15 text-primary-foreground/50"
+            : "bg-background border-foreground/10 text-foreground/40"
+        }`}
+      >
+        <Link
+          to="/meta-harness"
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center gap-1.5 hover:text-primary transition-colors uppercase tracking-[0.18em]"
+        >
+          <ArrowLeft className="w-3 h-3" /> Reference
+        </Link>
+
+        {/* Progress dots */}
+        <div className="flex items-center gap-1.5">
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrent(i)}
-              className={`mx-auto w-12 h-7 text-[9px] font-mono transition-colors border ${
+              onClick={(e) => {
+                e.stopPropagation();
+                setDirection(i > current ? 1 : -1);
+                setCurrent(i);
+              }}
+              className={`w-1.5 h-1.5 rounded-full transition-all ${
                 i === current
-                  ? "border-primary-glow text-primary-glow bg-primary-glow/10"
-                  : "border-primary-foreground/10 text-primary-foreground/30 hover:border-primary-foreground/30 hover:text-primary-foreground/60"
+                  ? slide.variant === "ink"
+                    ? "bg-primary w-4"
+                    : "bg-primary w-4"
+                  : slide.variant === "ink"
+                  ? "bg-primary-foreground/20"
+                  : "bg-foreground/20"
               }`}
-            >
-              {String(i + 1).padStart(2, "0")}
-            </button>
+              aria-label={`Go to slide ${i + 1}`}
+            />
           ))}
         </div>
 
-        {/* Main slide */}
-        <div className="flex-1 flex flex-col">
-          {/* Slide canvas — 16:9 aspect in a container */}
-          <div className="flex-1 flex items-center justify-center p-4 md:p-8">
-            <div className="w-full max-w-5xl" style={{ aspectRatio: "16/9", position: "relative" }}>
-              <div className="absolute inset-0 border border-primary-foreground/10">
-                <div className="relative w-full h-full overflow-hidden">
-                  {slides.map((slide, i) => (
-                    <SlideWrapper key={i} index={i} active={current}>
-                      {slide}
-                    </SlideWrapper>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Controls */}
-          <div className="shrink-0 border-t border-primary-foreground/10 px-6 py-4 flex items-center justify-between bg-[hsl(var(--surface-ink))]">
-            <button
-              onClick={prev}
-              disabled={current === 0}
-              className="inline-flex items-center gap-2 px-4 py-2 border border-primary-foreground/20 font-mono text-[10px] uppercase tracking-[0.18em] text-primary-foreground/60 hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-            >
-              <ArrowLeft className="w-3 h-3" /> Prev
-            </button>
-
-            {/* Progress dots */}
-            <div className="hidden md:flex items-center gap-1.5">
-              {slides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`rounded-full transition-all ${
-                    i === current ? "w-5 h-1.5 bg-primary-glow" : "w-1.5 h-1.5 bg-primary-foreground/20 hover:bg-primary-foreground/40"
-                  }`}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={next}
-              disabled={current === TOTAL_SLIDES - 1}
-              className="inline-flex items-center gap-2 px-4 py-2 border border-primary-foreground/20 font-mono text-[10px] uppercase tracking-[0.18em] text-primary-foreground/60 hover:border-primary-foreground/40 hover:text-primary-foreground/90 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-            >
-              Next <ArrowRight className="w-3 h-3" />
-            </button>
-          </div>
+        <div className="flex items-center gap-4 uppercase tracking-[0.18em]">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
+            disabled={current === 0}
+            className="disabled:opacity-30 hover:text-primary transition-colors"
+          >
+            ←
+          </button>
+          <span>
+            {current + 1} / {slides.length}
+          </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
+            disabled={current === slides.length - 1}
+            className="disabled:opacity-30 hover:text-primary transition-colors"
+          >
+            →
+          </button>
         </div>
       </div>
     </div>

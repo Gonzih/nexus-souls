@@ -1,280 +1,201 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, Check, Copy, Mail } from "lucide-react";
+import { ArrowLeft, Lock, Mail } from "lucide-react";
 import { motion } from "framer-motion";
-import { Section, FadeIn } from "@/components/nexus/Section";
 import { Footer } from "@/components/nexus/Footer";
 
-interface CopyBlockProps {
-  code: string;
-  label?: string;
+const UNLOCK_KEY = "metaharness_unlocked";
+const ACCESS_CODE = "HARNESS2026";
+const GUMROAD_URL = "https://gonzih.gumroad.com/l/meta-harness";
+
+interface Step {
+  n: number;
+  title: string;
+  teaser: string;
+  free: boolean;
+  content: React.ReactNode;
 }
 
-const CopyBlock = ({ code, label }: CopyBlockProps) => {
-  const [copied, setCopied] = useState(false);
+const CodeBlock = ({ children }: { children: string }) => (
+  <div className="relative group my-4">
+    <pre className="font-mono text-xs md:text-sm bg-[hsl(var(--surface-ink))] text-primary-foreground p-5 overflow-x-auto max-w-full border border-primary-foreground/15 leading-relaxed rounded-sm">
+      <code>{children}</code>
+    </pre>
+    <button
+      onClick={() => navigator.clipboard.writeText(children)}
+      className="absolute top-3 right-3 font-mono text-[10px] uppercase tracking-[0.18em] text-primary-foreground/40 hover:text-primary transition-colors opacity-0 group-hover:opacity-100"
+    >
+      copy
+    </button>
+  </div>
+);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
-  return (
-    <div className="relative group my-6">
-      {label && (
-        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-2">
-          — {label}
+const steps: Step[] = [
+  {
+    n: 0,
+    title: "Prerequisites",
+    teaser: "What you need before you start.",
+    free: true,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          Before you build your own meta-harness, confirm you have these in place. The course assumes
+          you can run Claude Code interactively and have basic Node.js experience.
+        </p>
+        <ul className="space-y-4">
+          {[
+            {
+              item: "Claude Code CLI",
+              detail: 'Install: npm install -g @anthropic-ai/claude-code. Run claude --version to confirm.',
+            },
+            {
+              item: "GitHub account + gh CLI",
+              detail: "Install gh from cli.github.com. Run gh auth login. PRs and merges go through gh.",
+            },
+            {
+              item: "Node.js 22+",
+              detail: "Check: node --version. The harness uses top-level await and modern fetch.",
+            },
+            {
+              item: "Redis (local or cloud)",
+              detail: "brew install redis && redis-server, or use Redis Cloud free tier.",
+            },
+            {
+              item: "Basic understanding of Claude",
+              detail: "You should know what a system prompt is and have used Claude Code at least once.",
+            },
+          ].map(({ item, detail }) => (
+            <li key={item} className="border-l-2 border-primary/40 pl-5">
+              <div className="font-mono text-sm text-primary font-semibold mb-1">{item}</div>
+              <p className="text-sm text-foreground/65 leading-relaxed">{detail}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 p-6 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-3">
+            — Quick smoke test
+          </div>
+          <CodeBlock>{`# Confirm everything is wired up
+claude --version      # should print a version
+gh auth status        # should show authenticated
+node --version        # should show v22+
+redis-cli ping        # should print PONG`}</CodeBlock>
+          <p className="text-xs text-foreground/55 leading-relaxed mt-3">
+            If all four commands succeed, you are ready for Step 1.
+          </p>
         </div>
-      )}
-      <div className="relative bg-[hsl(var(--surface-ink))] border border-foreground/10">
-        <pre className="font-mono text-xs md:text-sm text-primary-foreground p-5 overflow-x-auto max-w-full pr-16">
-          <code>{code}</code>
-        </pre>
-        <button
-          onClick={handleCopy}
-          aria-label="Copy to clipboard"
-          className="absolute top-3 right-3 p-2 border border-primary-foreground/20 text-primary-foreground/50 hover:text-primary-foreground hover:border-primary-foreground/50 transition-colors bg-[hsl(var(--surface-ink))]"
-        >
-          {copied ? <Check className="w-3.5 h-3.5 text-primary-glow" /> : <Copy className="w-3.5 h-3.5" />}
-        </button>
       </div>
-    </div>
-  );
-};
+    ),
+  },
+  {
+    n: 1,
+    title: "Bootstrap cc-agent",
+    teaser: "Install and configure the MCP worker spawner.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          cc-agent is an MCP server that exposes <code className="font-mono text-primary">spawn_agent</code>,{" "}
+          <code className="font-mono text-primary">list_jobs</code>,{" "}
+          <code className="font-mono text-primary">get_job_output</code>, and{" "}
+          <code className="font-mono text-primary">cancel_job</code> as tool calls. It runs as a
+          subprocess of your coordinator Claude session.
+        </p>
+        <CodeBlock>{`# Install cc-agent globally
+npm install -g @gonzih/cc-agent
 
-const steps = [
-  { n: "00", label: "Prerequisites" },
-  { n: "01", label: "Bootstrap cc-agent" },
-  { n: "02", label: "Spawn your first agent" },
-  { n: "03", label: "Set up cc-tg" },
-  { n: "04", label: "The prompt trick" },
-  { n: "05", label: "Design your CLAUDE.md" },
-  { n: "06", label: "Ship something" },
-];
+# Verify it starts
+cc-agent --version`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          Next, register cc-agent as an MCP server in your project's Claude config. Edit{" "}
+          <code className="font-mono text-primary">~/.claude.json</code>:
+        </p>
+        <CodeBlock>{`{
+  "projects": {
+    "/path/to/your/project": {
+      "mcpServers": {
+        "cc-agent": {
+          "command": "npx",
+          "args": ["-y", "--prefer-online", "@gonzih/cc-agent"]
+        }
+      }
+    }
+  }
+}`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          Start a Claude session in your project directory. If cc-agent is wired correctly, Claude
+          will have <code className="font-mono text-primary">spawn_agent</code> in its tool list. Ask
+          it: <em>"What tools do you have available?"</em> — you should see the cc-agent tools.
+        </p>
+      </div>
+    ),
+  },
+  {
+    n: 2,
+    title: "Your first spawn",
+    teaser: "Spawn an ephemeral task agent against a real repo.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          With cc-agent registered, you can spawn your first task agent. Ask Claude (in your project
+          session) to run a trivial task on a test repo.
+        </p>
+        <CodeBlock>{`# In your Claude Code session, say:
+"Use spawn_agent to clone https://github.com/you/test-repo,
+create a branch feat/hello-world, add a README.md with the text
+'Hello from meta-harness', commit, push, open a PR, and merge it."`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          The coordinator will call <code className="font-mono text-primary">spawn_agent</code> with
+          the repo URL and task. cc-agent starts a Claude subprocess in a fresh worktree. You can
+          track it:
+        </p>
+        <CodeBlock>{`# Ask Claude: list current jobs
+"What's the status of all running jobs?"
 
-const MetaHarnessCourse = () => {
-  const [activeStep, setActiveStep] = useState(0);
-
-  return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Top bar */}
-      <div className="border-b border-foreground/10">
-        <div className="max-w-6xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
-          <Link to="/meta-harness" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-foreground/70 hover:text-primary transition-colors">
-            <ArrowLeft className="w-3.5 h-3.5" /> Meta-Harness
-          </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50">Course · 7 Steps</span>
+# Or directly:
+cc-agent list-jobs`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          When the job completes, Claude will receive the output and confirm the PR was merged. Check
+          GitHub — you should see the PR, merged, with a squash commit.
+        </p>
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — What just happened
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            A Claude session (coordinator) used a tool call to spawn another Claude session (agent).
+            The agent implemented a task end-to-end. You wrote zero deployment code.
+          </p>
         </div>
       </div>
+    ),
+  },
+  {
+    n: 3,
+    title: "cc-tg coordinator",
+    teaser: "Set up the persistent Telegram bridge and coordinator session.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          The coordinator is a Node.js process that bridges Telegram messages to a persistent{" "}
+          <code className="font-mono text-primary">claude --continue</code> session. It runs forever
+          under launchd.
+        </p>
+        <CodeBlock>{`# Install cc-tg
+npm install -g @gonzih/cc-tg
 
-      {/* Hero */}
-      <section className="relative px-6 md:px-10 py-24 md:py-32 border-b border-foreground/10 overflow-hidden panel-ink">
-        <div className="absolute inset-0 dot-bg-ink opacity-25 pointer-events-none" />
-        <div className="relative max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">— Harness Engineering Course</div>
-            <h1 className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.02] text-primary-foreground mb-8 break-words">
-              Build your own <span className="italic text-primary-glow">meta-harness.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/70 leading-relaxed max-w-2xl font-light">
-              This is not a tutorial about AI assistants. This is a course about building
-              autonomous infrastructure. Harness Engineering means designing the environment,
-              constraints, and instruction layer that lets agents run useful loops without you.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-12 flex flex-wrap gap-2"
-          >
-            {steps.map((s, i) => (
-              <button
-                key={s.n}
-                onClick={() => setActiveStep(i)}
-                className={`font-mono text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 border transition-colors ${
-                  activeStep === i
-                    ? "border-primary-glow text-primary-glow bg-primary-glow/10"
-                    : "border-primary-foreground/20 text-primary-foreground/50 hover:border-primary-foreground/40 hover:text-primary-foreground/70"
-                }`}
-              >
-                {s.n} · {s.label}
-              </button>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Step 0 */}
-      <Section
-        id="step-0"
-        eyebrow="Step 00"
-        title={<>Prerequisites</>}
-      >
-        <div className="grid lg:grid-cols-5 gap-10">
-          <div className="lg:col-span-3 space-y-6 text-foreground/75 leading-relaxed">
-            <p>
-              Before you start, make sure you have these in place. The course assumes a macOS or Linux
-              environment. Windows WSL2 works, but launchd (Step 03) is macOS-only.
-            </p>
-            <div className="border border-foreground/10">
-              {[
-                { item: "Claude Code CLI", cmd: "npm install -g @anthropic-ai/claude-code", note: "or brew install claude" },
-                { item: "GitHub account + gh CLI", cmd: "gh auth login", note: "authenticated and ready to push" },
-                { item: "Node.js 22+", cmd: "node --version", note: "v22 or higher" },
-                { item: "Redis running locally", cmd: "redis-cli ping", note: "should return PONG" },
-                { item: "Telegram bot token", cmd: "@BotFather on Telegram", note: "create a bot, save the token" },
-              ].map((req, i) => (
-                <div key={req.item} className={`px-5 py-4 grid md:grid-cols-3 gap-3 items-start text-sm ${i % 2 === 0 ? "bg-secondary/30" : ""}`}>
-                  <span className="text-foreground font-medium">{req.item}</span>
-                  <span className="font-mono text-xs text-primary">{req.cmd}</span>
-                  <span className="text-foreground/50 text-xs">{req.note}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="lg:col-span-2">
-            <FadeIn>
-              <aside className="panel p-7">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— What you'll build</div>
-                <p className="text-sm text-foreground/75 leading-relaxed mb-4">
-                  By the end of this course you will have:
-                </p>
-                <ul className="space-y-3 text-sm text-foreground/75">
-                  {[
-                    "cc-agent MCP installed and active in your Claude session",
-                    "Your first autonomous agent task completed",
-                    "cc-tg coordinator running via launchd",
-                    "A starter CLAUDE.md that defines agent behavior",
-                    "One full cycle: message → agent → PR → merge",
-                  ].map((item, i) => (
-                    <li key={i} className="flex gap-2.5 items-start">
-                      <span className="text-primary mt-0.5 shrink-0">·</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </aside>
-            </FadeIn>
-          </div>
-        </div>
-      </Section>
-
-      {/* Step 1 */}
-      <Section
-        id="step-1"
-        eyebrow="Step 01"
-        title={<>Bootstrap <span className="italic text-accent-blue">cc-agent</span></>}
-        variant="ink"
-      >
-        <div className="max-w-3xl space-y-8">
-          <p className="text-lg text-primary-foreground/80 leading-relaxed font-light">
-            cc-agent is an MCP server that gives your Claude session the ability to spawn and manage
-            autonomous task agents. Install it with one command, then restart Claude Code.
-          </p>
-          <CopyBlock
-            label="Paste into your terminal"
-            code="claude mcp add cc-agent -- npx @gonzih/cc-agent"
-          />
-          <p className="text-primary-foreground/70 leading-relaxed">
-            Restart Claude Code after running this. When it comes back up, you'll have{" "}
-            <span className="font-mono text-primary-foreground text-sm">13 new MCP tools</span> in
-            your session. Your Claude instance can now spawn and monitor autonomous agents.
-          </p>
-          <FadeIn>
-            <div className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-5">— The 13 tools you get</div>
-              <div className="grid sm:grid-cols-2 gap-2 font-mono text-xs text-primary-foreground/70">
-                {[
-                  "spawn_agent", "list_jobs", "get_job_output",
-                  "cancel_job", "get_job_status", "wait_for_job",
-                  "list_repos", "create_repo", "delete_repo",
-                  "list_branches", "create_branch", "get_job_logs",
-                  "get_agent_config",
-                ].map((tool) => (
-                  <div key={tool} className="flex items-center gap-2">
-                    <span className="text-primary-glow">·</span>
-                    <span>{tool}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </Section>
-
-      {/* Step 2 */}
-      <Section
-        id="step-2"
-        eyebrow="Step 02"
-        title={<>Spawn your <span className="italic text-accent-blue">first agent</span></>}
-      >
-        <div className="grid lg:grid-cols-5 gap-10">
-          <div className="lg:col-span-3 space-y-6 text-foreground/75 leading-relaxed">
-            <p>
-              Open Claude Code. Paste the following prompt. This will create a GitHub repo and
-              spawn an agent to write its README.
-            </p>
-            <CopyBlock
-              label="Paste into Claude Code"
-              code={`Create a new public GitHub repo called "my-first-agent-task",\nseed it with an empty main branch, then spawn a cc-agent to\nwrite a README.md explaining what this repo is for.`}
-            />
-            <p>
-              Watch the job lifecycle in real time. The coordinator will show you status updates as
-              the agent clones, writes, commits, and opens a PR.
-            </p>
-          </div>
-          <div className="lg:col-span-2">
-            <FadeIn>
-              <aside className="panel p-7">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— Job lifecycle</div>
-                <div className="space-y-4">
-                  {[
-                    { state: "PENDING", desc: "Job queued, repo cloned", color: "text-foreground/50" },
-                    { state: "RUNNING", desc: "Agent implementing task", color: "text-primary" },
-                    { state: "COMPLETED", desc: "PR merged, work shipped", color: "text-foreground" },
-                  ].map((s) => (
-                    <div key={s.state} className="flex gap-3 items-start pb-4 border-b border-foreground/8 last:border-0 last:pb-0">
-                      <span className={`font-mono text-xs shrink-0 ${s.color}`}>{s.state}</span>
-                      <span className="text-sm text-foreground/60">{s.desc}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-5 pt-4 border-t border-foreground/10 text-xs text-foreground/50 leading-relaxed">
-                  Use <span className="font-mono">get_job_output(job_id)</span> to stream logs while the agent runs.
-                </p>
-              </aside>
-            </FadeIn>
-          </div>
-        </div>
-      </Section>
-
-      {/* Step 3 */}
-      <Section
-        id="step-3"
-        eyebrow="Step 03"
-        title={<>Set up <span className="italic text-accent-blue">cc-tg</span> (the coordinator)</>}
-        variant="ink"
-      >
-        <div className="max-w-3xl space-y-8">
-          <p className="text-lg text-primary-foreground/80 leading-relaxed font-light">
-            cc-tg turns a Telegram bot into a persistent Claude session that survives reboots.
-            launchd watches the process — if it crashes, it comes back automatically.
-          </p>
-          <p className="text-primary-foreground/70 leading-relaxed">
-            Save the following plist to{" "}
-            <span className="font-mono text-primary-foreground text-sm">~/Library/LaunchAgents/cc-tg.plist</span>,
-            replacing <span className="font-mono text-primary-glow text-sm">YOUR_TOKEN</span> and the project path.
-            Then load it with <span className="font-mono text-primary-foreground text-sm">launchctl load ~/Library/LaunchAgents/cc-tg.plist</span>.
-          </p>
-          <CopyBlock
-            label="~/Library/LaunchAgents/cc-tg.plist"
-            code={`<?xml version="1.0" encoding="UTF-8"?>
+# Create your .env
+TELEGRAM_BOT_TOKEN=<your-bot-token>
+CLAUDE_CODE_OAUTH_TOKEN=<your-claude-token>
+REDIS_URL=redis://localhost:6379
+PROJECT_DIR=/path/to/your/project`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          Create a launchd plist at{" "}
+          <code className="font-mono text-primary">~/Library/LaunchAgents/cc-tg.plist</code>:
+        </p>
+        <CodeBlock>{`<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
   "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -288,227 +209,460 @@ const MetaHarnessCourse = () => {
     <string>-y</string>
     <string>@gonzih/cc-tg</string>
   </array>
-  <key>EnvironmentVariables</key>
-  <dict>
-    <key>TELEGRAM_BOT_TOKEN</key>
-    <string>YOUR_TOKEN</string>
-    <key>PROJECT_DIR</key>
-    <string>/Users/you/your-project</string>
-  </dict>
   <key>KeepAlive</key>
   <true/>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>StandardOutPath</key>
-  <string>/tmp/cc-tg.log</string>
-  <key>StandardErrorPath</key>
-  <string>/tmp/cc-tg.err</string>
+  <key>WorkingDirectory</key>
+  <string>/path/to/your/project</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>CLAUDE_CODE_OAUTH_TOKEN</key>
+    <string>your-token-here</string>
+  </dict>
 </dict>
-</plist>`}
-          />
-          <p className="text-primary-foreground/70 leading-relaxed">
-            Once loaded, send a message to your Telegram bot. The coordinator will respond
-            from the project context. Kill it with <span className="font-mono text-primary-foreground text-sm">pkill -f cc-tg</span> —
-            launchd will respawn within seconds.
-          </p>
-        </div>
-      </Section>
+</plist>`}</CodeBlock>
+        <CodeBlock>{`# Load the service
+launchctl load ~/Library/LaunchAgents/cc-tg.plist
 
-      {/* Step 4 */}
-      <Section
-        id="step-4"
-        eyebrow="Step 04"
-        title={<>The <span className="italic text-accent-blue">Prompt Trick</span></>}
-      >
-        <div className="grid lg:grid-cols-5 gap-10">
-          <div className="lg:col-span-3 space-y-6 text-foreground/75 leading-relaxed">
-            <p>
-              Your agents can send emails, post to Slack, hit APIs — without storing any credentials
-              in code. The trick: spawn a Claude subprocess with the right <span className="font-mono text-primary text-sm">cwd</span>.
-              It inherits the project-scoped MCP session.
-            </p>
-            <CopyBlock
-              label="Zero-credential tool access"
-              code={`import { spawnSync } from "child_process";
-
-const result = spawnSync(
-  "claude",
-  ["--print", "--dangerously-skip-permissions", "-p", prompt],
+# Restart after changes: kill, launchd respawns
+pkill -f cc-tg`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          Send a message to your Telegram bot. The coordinator receives it, routes it to Claude, and
+          flushes the response back. The conversation persists across restarts via{" "}
+          <code className="font-mono text-primary">--continue</code>.
+        </p>
+      </div>
+    ),
+  },
   {
-    cwd: "/Users/you/your-project",  // ← inherits MCPs
-    env: {
-      ...process.env,
-      CLAUDE_CODE_OAUTH_TOKEN: process.env.CLAUDE_TOKEN,
-    },
-    timeout: 60_000,
-  }
-);`}
-            />
-            <p>
-              Configure MCPs in <span className="font-mono text-sm text-foreground">~/.claude.json</span> under your project path.
-              The credential never enters your service code.
-            </p>
-          </div>
-          <div className="lg:col-span-2">
-            <FadeIn>
-              <aside className="panel p-7">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— What this unlocks</div>
-                <ul className="space-y-3 text-sm text-foreground/75">
-                  {[
-                    "Send emails via Gmail MCP — no SMTP config",
-                    "Post to Slack — no bot token in code",
-                    "Query databases — no connection string in env",
-                    "Hit internal APIs — credentials stay in ~/.claude.json",
-                    "npm publish stays safe — no secrets in the package",
-                  ].map((item, i) => (
-                    <li key={i} className="flex gap-2.5 items-start pb-3 border-b border-foreground/8 last:border-0 last:pb-0">
-                      <span className="text-primary mt-0.5 shrink-0">·</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </aside>
-            </FadeIn>
-          </div>
-        </div>
-      </Section>
+    n: 4,
+    title: "The Prompt Trick",
+    teaser: "Call MCPs without credentials in code using cwd inheritance.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          The prompt trick is the architecture's most important insight: you can call any MCP tool
+          (send email, post to Slack, hit an API) without putting credentials in your service code.
+          The credential chain lives in <code className="font-mono text-primary">~/.claude.json</code>.
+        </p>
+        <CodeBlock>{`import { spawnSync } from "node:child_process";
 
-      {/* Step 5 */}
-      <Section
-        id="step-5"
-        eyebrow="Step 05"
-        title={<>Design your <span className="italic text-accent-blue">CLAUDE.md</span></>}
-        variant="ink"
+function callToolViaPrompt(prompt: string, projectDir: string) {
+  return spawnSync(
+    "claude",
+    ["--print", "--dangerously-skip-permissions", "-p", prompt],
+    {
+      cwd: projectDir,           // inherits all project MCPs
+      env: {
+        ...process.env,
+        CLAUDE_CODE_OAUTH_TOKEN: process.env.CLAUDE_CODE_OAUTH_TOKEN!,
+      },
+      timeout: 60_000,
+      encoding: "utf-8",
+    }
+  );
+}`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          To send an email without storing SMTP credentials:
+        </p>
+        <CodeBlock>{`const result = callToolViaPrompt(
+  "Use the gmail-personal MCP to send an email to " +
+  "user@example.com with subject 'Task complete' and " +
+  "body 'The deployment finished successfully.'",
+  "/path/to/your/project"  // this dir has gmail-personal in ~/.claude.json
+);`}</CodeBlock>
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — The rule
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            If you find yourself storing a credential in a service's environment, ask: could Claude
+            call this tool directly from the right cwd? If yes, use the prompt trick instead.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    n: 5,
+    title: "CLAUDE.md design",
+    teaser: "Writing the instruction layer for autonomous loops.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          <code className="font-mono text-primary">CLAUDE.md</code> is the instruction layer. Every
+          agent inherits it. It defines what "done" means, how to handle errors, and what the PR
+          contract looks like. Writing it well is the difference between agents that ship and agents
+          that stall.
+        </p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+          Structure your CLAUDE.md:
+        </p>
+        <CodeBlock>{`# Project: <name>
+
+## What "done" means
+Every task ends with:
+- Tests passing
+- A merged PR
+- npm published (if applicable)
+- A Redis notification sent
+
+## Branch naming
+feat/, fix/, mvp/ — never push to main directly.
+
+## PR contract
+gh pr create --title "<verb>: <what>" --body "<why>"
+gh pr merge --squash --auto
+
+## Error handling
+If a test fails, fix it. Do not open a PR with red CI.
+If gh pr create fails, check remote tracking and retry.
+
+## Tools available
+- cc-agent: spawn_agent, list_jobs, get_job_output
+- redis: publish to cca:notify:<project> on task completion`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          Keep CLAUDE.md project-scoped: one per repo. The coordinator's CLAUDE.md governs routing and
+          delegation. Each repo's CLAUDE.md governs implementation.
+        </p>
+      </div>
+    ),
+  },
+  {
+    n: 6,
+    title: "Ship something real",
+    teaser: "End-to-end: Telegram message → PR merged → npm published.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          The final step is a full end-to-end run. Send a real task to your Telegram bot. Watch it
+          flow through the entire stack without you touching a keyboard.
+        </p>
+        <div className="p-5 border border-primary/20 bg-primary/5 mb-4">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — Your test task
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Send to your bot:{" "}
+            <em>
+              "Add a /health endpoint to the express server in repo https://github.com/you/myapi
+              that returns JSON status: ok. Tests, PR, merge, publish."
+            </em>
+          </p>
+        </div>
+        <p className="text-primary font-mono text-[11px] uppercase tracking-[0.18em]">
+          What should happen:
+        </p>
+        <ol className="space-y-3">
+          {[
+            "cc-tg receives the Telegram message",
+            "Routes it to the persistent Claude session",
+            "Claude calls spawn_agent with the repo and task",
+            "cc-agent starts an ephemeral Claude subprocess in a worktree",
+            "Agent implements /health, writes tests, commits",
+            "Agent opens a PR and merges it",
+            "Agent runs npm version patch && npm publish",
+            "cc-agent publishes to Redis: cca:notify:<project>",
+            "cc-tg receives notification, sends Telegram reply",
+            "You receive: 'Done. PR #42 merged. v1.0.3 published.'",
+          ].map((step, i) => (
+            <li key={i} className="flex gap-4 items-start text-sm text-foreground/70">
+              <span className="font-mono text-primary shrink-0 w-6">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-8 p-6 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-3">
+            — You are done when
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            A Telegram message triggers a complete implementation cycle — code, tests, PR, merge,
+            publish, notification — with no human intervention beyond the initial message. That is
+            the meta-harness.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+];
+
+interface LockedStepProps {
+  step: Step;
+  onUnlockClick: () => void;
+}
+
+const LockedStep = ({ step, onUnlockClick }: LockedStepProps) => (
+  <div className="relative border border-foreground/10 overflow-hidden">
+    {/* Visible header */}
+    <div className="px-8 py-6 border-b border-foreground/10">
+      <div className="flex items-center gap-3 mb-2">
+        <span className="font-mono text-xs text-foreground/40">Step {step.n}</span>
+        <Lock className="w-3.5 h-3.5 text-foreground/30" />
+      </div>
+      <h3 className="font-serif-display text-2xl text-foreground mb-2">{step.title}</h3>
+      <p className="text-sm text-foreground/55">{step.teaser}</p>
+    </div>
+
+    {/* Blurred body */}
+    <div className="relative px-8 py-6 select-none" aria-hidden="true">
+      <div className="blur-sm opacity-40 pointer-events-none space-y-3">
+        <div className="h-4 bg-foreground/10 rounded w-3/4" />
+        <div className="h-4 bg-foreground/10 rounded w-full" />
+        <div className="h-4 bg-foreground/10 rounded w-2/3" />
+        <div className="h-24 bg-foreground/5 rounded border border-foreground/10 mt-4" />
+        <div className="h-4 bg-foreground/10 rounded w-4/5" />
+        <div className="h-4 bg-foreground/10 rounded w-1/2" />
+      </div>
+    </div>
+
+    {/* Unlock overlay */}
+    <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-[2px]">
+      <button
+        onClick={onUnlockClick}
+        className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary/90 transition-colors"
       >
-        <div className="max-w-3xl space-y-8">
-          <p className="text-lg text-primary-foreground/80 leading-relaxed font-light">
-            The instruction file is a discipline. CLAUDE.md is read by every agent spawned in
-            your project. It defines the operational mythology — how agents behave, what they
-            can and cannot do, and when to stop and ask.
-          </p>
-          <CopyBlock
-            label="Starter CLAUDE.md template — copy and adapt"
-            code={`# Project: [Your Project Name]
+        <Lock className="w-3.5 h-3.5" /> Unlock Full Course
+      </button>
+    </div>
+  </div>
+);
 
-## Agent Behavior
-- Always work on a branch — never main
-- Branch naming: feat/, fix/, chore/
-- Nothing is done until: implement → test → commit → PR → merge → deploy
+interface UnlockModalProps {
+  onClose: () => void;
+  onUnlock: () => void;
+}
 
-## Autonomy Rules
-- You may: create files, modify code, run tests, create PRs, merge PRs
-- You may: publish packages, restart services via launchd
-- Ask before: deleting data, changing infrastructure, external payments
+const UnlockModal = ({ onClose, onUnlock }: UnlockModalProps) => {
+  const [code, setCode] = useState("");
+  const [error, setError] = useState(false);
 
-## Delegation Patterns
-- For tasks >2h estimated: break into sub-tasks, spawn sub-agents
-- For blocked tasks: report status to Redis, do not spin
-- For ambiguous tasks: state your assumption, proceed, report
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (code.trim().toUpperCase() === ACCESS_CODE) {
+      onUnlock();
+    } else {
+      setError(true);
+    }
+  };
 
-## Quality Gates
-- Tests must pass before PR
-- npm audit before publish (no high/critical)
-- git diff --staged review before commit
-
-## Memory
-- Use /memory to persist cross-session context
-- Key decisions go in DECISIONS.md at repo root
-- Never store credentials — use the prompt trick`}
-          />
-          <p className="text-primary-foreground/70 leading-relaxed">
-            Iterate on this file as you learn what your agents do well and where they need guardrails.
-            The CLAUDE.md is the primary lever for agent behavior — not prompts, not code.
-          </p>
-        </div>
-      </Section>
-
-      {/* Step 6 */}
-      <Section
-        id="step-6"
-        eyebrow="Step 06"
-        title={<>Ship <span className="italic text-accent-blue">something.</span></>}
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 16 }}
+        transition={{ duration: 0.2 }}
+        className="bg-background border border-foreground/15 max-w-md w-full p-8"
       >
-        <div className="grid lg:grid-cols-5 gap-10">
-          <div className="lg:col-span-3 space-y-6 text-foreground/75 leading-relaxed">
-            <p>
-              The final step. Run the full cycle — one message, full stack, no human in the loop.
-              Paste this into your Claude Code (or send it via Telegram if cc-tg is running):
-            </p>
-            <CopyBlock
-              label="Paste into Claude Code"
-              code={`Spawn an agent to add a GitHub Actions CI workflow to\nmy-first-agent-task repo. Branch, implement, PR, merge.`}
-            />
-            <p>
-              Watch the coordinator spawn the agent, open the PR, and merge it.
-              When it's done — that's the full cycle. One message. Full stack. No human in the loop.
-            </p>
-            <p className="font-serif-display text-2xl text-foreground italic leading-snug">
-              Harness Engineering is not about prompts. It's about building the loop that makes the prompts unnecessary.
-            </p>
-          </div>
-          <div className="lg:col-span-2">
-            <FadeIn>
-              <aside className="panel p-7">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-5">— The full cycle</div>
-                <ol className="space-y-3">
-                  {[
-                    "Telegram message (or Claude session)",
-                    "cc-tg routes to coordinator",
-                    "spawn_agent via cc-agent MCP",
-                    "Agent clones repo, creates branch",
-                    "Implements, tests, commits",
-                    "PR opened and merged",
-                    "Deploy / publish runs",
-                    "Redis notification → Telegram reply",
-                  ].map((step, i) => (
-                    <li key={i} className="flex gap-3 items-start pb-3 border-b border-foreground/8 last:border-0 last:pb-0 text-sm">
-                      <span className="font-mono text-xs text-primary shrink-0 mt-0.5">{String(i + 1).padStart(2, "0")}</span>
-                      <span className="text-foreground/75">{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </aside>
-            </FadeIn>
-          </div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">
+          — Unlock access
         </div>
-      </Section>
+        <h2 className="font-serif-display text-3xl mb-2">Unlock Full Course</h2>
+        <p className="text-sm text-foreground/60 mb-6 leading-relaxed">
+          Enter your access code below, or purchase access on Gumroad.
+        </p>
 
-      {/* CTA */}
-      <section className="px-6 md:px-10 py-24 md:py-32 border-t border-foreground/10 panel-ink relative overflow-hidden">
-        <div className="absolute inset-0 dot-bg-ink opacity-20 pointer-events-none" />
-        <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.05] text-primary-foreground mb-6">
-            Want to go deeper?
-          </h2>
-          <p className="text-lg text-primary-foreground/70 font-light mb-12 max-w-xl mx-auto">
-            I run workshops on Meta-Harness design. Bring your team — we'll stand up production
-            agentic infrastructure together.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
-            <a
-              href="mailto:gonzih@gmail.com"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-foreground text-primary font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary-glow hover:text-primary-foreground transition-colors"
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value);
+                setError(false);
+              }}
+              placeholder="Access code"
+              className="w-full font-mono text-sm bg-secondary border border-foreground/15 px-4 py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors uppercase tracking-[0.1em]"
+              autoFocus
+            />
+            {error && (
+              <p className="font-mono text-xs text-destructive mt-2">
+                Invalid code. Check your purchase email or try Gumroad.
+              </p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full px-5 py-3 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary/90 transition-colors"
+          >
+            Unlock
+          </button>
+        </form>
+
+        <div className="mt-6 pt-6 border-t border-foreground/10 flex flex-col gap-3">
+          <a
+            href={GUMROAD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full text-center px-5 py-3 border border-foreground/20 text-foreground font-mono text-xs uppercase tracking-[0.18em] hover:border-primary hover:text-primary transition-colors"
+          >
+            Purchase on Gumroad →
+          </a>
+          <button
+            onClick={onClose}
+            className="w-full text-center font-mono text-xs text-foreground/40 hover:text-foreground/70 transition-colors py-1"
+          >
+            Cancel
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const MetaHarnessCourse = () => {
+  const [unlocked, setUnlocked] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    setUnlocked(localStorage.getItem(UNLOCK_KEY) === "true");
+  }, []);
+
+  const handleUnlock = () => {
+    localStorage.setItem(UNLOCK_KEY, "true");
+    setUnlocked(true);
+    setShowModal(false);
+  };
+
+  return (
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Top bar */}
+      <div className="border-b border-foreground/10">
+        <div className="max-w-4xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
+          <Link
+            to="/meta-harness"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-foreground/70 hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Meta-Harness Reference
+          </Link>
+          {!unlocked && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-primary hover:text-primary/80 transition-colors"
             >
-              <Mail className="w-3.5 h-3.5" /> gonzih@gmail.com
-            </a>
+              <Lock className="w-3 h-3" /> Unlock Course
+            </button>
+          )}
+          {unlocked && (
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary">
+              ✓ Full access
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Hero */}
+      <section className="relative px-6 md:px-10 py-20 md:py-28 border-b border-foreground/10 overflow-hidden">
+        <div className="absolute inset-0 dot-bg opacity-30 pointer-events-none" />
+        <div className="relative max-w-4xl mx-auto">
+          <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+            — Interactive Course · 7 Steps
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-6 font-mono text-[11px] uppercase tracking-[0.18em] text-primary-foreground/50">
-            <a href="https://github.com/Gonzih/cc-agent" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors inline-flex items-center gap-1.5">
-              cc-agent <ArrowUpRight className="w-3 h-3" />
-            </a>
-            <span className="text-primary-foreground/20">·</span>
-            <a href="https://github.com/Gonzih/cc-tg" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors inline-flex items-center gap-1.5">
-              cc-tg <ArrowUpRight className="w-3 h-3" />
-            </a>
-            <span className="text-primary-foreground/20">·</span>
-            <Link to="/" className="hover:text-primary-glow transition-colors inline-flex items-center gap-1.5">
-              nexus-souls <ArrowUpRight className="w-3 h-3" />
-            </Link>
+          <h1 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.02] mb-8 break-words">
+            Build Your Own{" "}
+            <span className="text-accent-blue italic">Meta-Harness.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-foreground/70 leading-relaxed max-w-2xl font-light">
+            A step-by-step course for building autonomous Claude Code infrastructure from scratch.
+            From prerequisites to end-to-end: Telegram message → PR merged → npm published.
+          </p>
+          {!unlocked && (
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a
+                href={GUMROAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary/90 transition-colors"
+              >
+                Unlock Full Course →
+              </a>
+              <button
+                onClick={() => setShowModal(true)}
+                className="inline-flex items-center gap-2 px-7 py-3.5 border border-foreground/20 text-foreground font-mono text-xs uppercase tracking-[0.18em] hover:border-primary hover:text-primary transition-colors"
+              >
+                <Lock className="w-3.5 h-3.5" /> Enter access code
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Course steps */}
+      <section className="px-6 md:px-10 py-16 max-w-4xl mx-auto space-y-8">
+        {steps.map((step, i) => {
+          const isLocked = !step.free && !unlocked;
+
+          if (isLocked) {
+            return (
+              <motion.div
+                key={step.n}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+              >
+                <LockedStep step={step} onUnlockClick={() => setShowModal(true)} />
+              </motion.div>
+            );
+          }
+
+          return (
+            <motion.div
+              key={step.n}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="border border-foreground/10"
+            >
+              {/* Step header */}
+              <div className="px-8 py-6 border-b border-foreground/10">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="font-mono text-xs text-primary">Step {step.n}</span>
+                  {step.free && (
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary/60 border border-primary/30 px-2 py-0.5">
+                      Free
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-serif-display text-2xl text-foreground">{step.title}</h3>
+              </div>
+
+              {/* Step content */}
+              <div className="px-8 py-8">{step.content}</div>
+            </motion.div>
+          );
+        })}
+      </section>
+
+      {/* Bottom CTA — always visible */}
+      <section className="px-6 md:px-10 py-20 border-t border-foreground/10 panel-ink relative overflow-hidden">
+        <div className="absolute inset-0 dot-bg-ink opacity-20 pointer-events-none" />
+        <div className="relative max-w-4xl mx-auto">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">
+            — Questions?
           </div>
+          <p className="font-serif-display text-3xl text-primary-foreground mb-6 font-light">
+            Stuck on a step? Want to talk architecture?
+          </p>
+          <a
+            href="mailto:gonzih@gmail.com"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary-glow transition-colors"
+          >
+            <Mail className="w-3.5 h-3.5" /> gonzih@gmail.com
+          </a>
         </div>
       </section>
 
       <Footer />
+
+      {/* Unlock modal */}
+      {showModal && (
+        <UnlockModal onClose={() => setShowModal(false)} onUnlock={handleUnlock} />
+      )}
     </main>
   );
 };
