@@ -1,8 +1,12 @@
-# TODO: Bitemporal case study section
+# TODO: Meta-Harness Pages
 
-- [ ] git checkout -b feat/bitemporal-case-study
-- [ ] Add §9 bitemporal section to CaseStudyTemporalStorage.tsx
-- [ ] npm install && npm run build (smoke check)
+- [x] Write PLAN.md and TODO.md
+- [ ] npm install
+- [ ] Create src/pages/MetaHarness.tsx
+- [ ] Create src/pages/MetaHarnessCourse.tsx
+- [ ] Create src/pages/MetaHarnessTalk.tsx
+- [ ] Wire routes + footer links in App.tsx and Footer.tsx
+- [ ] npm run build (smoke check)
 - [ ] git diff --staged review
-- [ ] git commit
+- [ ] git commit + push
 - [ ] gh pr create + gh pr merge --squash

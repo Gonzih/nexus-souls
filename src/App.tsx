@@ -8,6 +8,9 @@ import CaseStudy from "./pages/CaseStudy.tsx";
 import CaseStudyTemporalStorage from "./pages/CaseStudyTemporalStorage.tsx";
 import CaseStudyTemporalSemantic from "./pages/CaseStudyTemporalSemantic.tsx";
 import CaseStudyIdentityGuardian from "./pages/CaseStudyIdentityGuardian.tsx";
+import MetaHarness from "./pages/MetaHarness.tsx";
+import MetaHarnessCourse from "./pages/MetaHarnessCourse.tsx";
+import MetaHarnessTalk from "./pages/MetaHarnessTalk.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +27,9 @@ const App = () => (
           <Route path="/case-study/temporal-storage" element={<CaseStudyTemporalStorage />} />
           <Route path="/case-study/temporal-semantic" element={<CaseStudyTemporalSemantic />} />
           <Route path="/case-study/identity-guardian" element={<CaseStudyIdentityGuardian />} />
+          <Route path="/meta-harness" element={<MetaHarness />} />
+          <Route path="/meta-harness-course" element={<MetaHarnessCourse />} />
+          <Route path="/meta-harness-talk" element={<MetaHarnessTalk />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
