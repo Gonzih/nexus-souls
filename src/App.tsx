@@ -12,9 +12,6 @@ import MetaHarness from "./pages/MetaHarness.tsx";
 import MetaHarnessCourse from "./pages/MetaHarnessCourse.tsx";
 import MetaHarnessTalk from "./pages/MetaHarnessTalk.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import MetaHarness from "./pages/MetaHarness.tsx";
-import MetaHarnessCourse from "./pages/MetaHarnessCourse.tsx";
-import MetaHarnessTalk from "./pages/MetaHarnessTalk.tsx";
 
 const queryClient = new QueryClient();
 
