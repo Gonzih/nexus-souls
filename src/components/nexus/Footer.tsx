@@ -1,4 +1,5 @@
 import { Github, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => (
   <footer className="panel-ink py-8 px-8 md:px-10">
@@ -10,10 +11,13 @@ export const Footer = () => (
         <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-foreground/80">Nexus</span>
       </div>
 
-      <nav className="flex gap-6 font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/60">
+      <nav className="flex flex-wrap gap-6 font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/60">
         <a href="https://github.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">GitHub</a>
         <a href="https://github.com/Gonzih/nexus-protocols" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">Protocols</a>
         <a href="https://github.com/Gonzih?tab=repositories&q=research" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">Research</a>
+        <Link to="/meta-harness" className="hover:text-primary-glow transition-colors">Meta-Harness</Link>
+        <Link to="/meta-harness-course" className="hover:text-primary-glow transition-colors">Course</Link>
+        <Link to="/meta-harness-talk" className="hover:text-primary-glow transition-colors">Talk</Link>
       </nav>
 
       <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/60">

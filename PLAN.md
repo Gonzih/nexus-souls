@@ -1,30 +1,32 @@
-# PLAN: Custom 404 Page
+# PLAN: Meta-Harness Pages + SF Talk Slide Deck
 
 ## Task
-Replace the generic `src/pages/NotFound.tsx` with a visually designed 404 page
-that feels native to the nexus-souls design system.
+Add three new pages to nexus-souls (gonzih.github.io):
+1. `/meta-harness` — Technical reference page explaining the cc-tg/cc-agent architecture
+2. `/meta-harness-course` — Interactive copy-paste course for bootstrapping a meta-harness
+3. `/meta-harness-talk` — HTML slide deck for SF meetup talk (~15 slides, Reveal.js-style)
 
-## Routing
-The catch-all `Route path="*"` in `App.tsx` already renders `<NotFound />`.
-The `public/404.html` is a GitHub Pages SPA redirect shim — it must NOT be
-replaced; it encodes the path to `/?/path` so `index.html` can decode it.
-No routing changes needed.
+Wire all three into App.tsx routes and add nav links in Footer.
 
 ## Approach
-Single approach: rewrite `src/pages/NotFound.tsx` following the established
-component patterns (Framer Motion animations, navy panel background with
-dot-bg-ink texture, font-serif-display large numerals, font-mono eyebrow,
-corner-marks decoration, primary blue accent). No new dependencies.
-
-## Design
-- Full-height navy `panel-ink` background with `dot-bg-ink` texture
-- Logo mark (box + rotated diamond) top-left, matching Hero
-- Center: `— Error 404` mono eyebrow → large `404` serif display → `Page not found.` → subtext → "Go home →" button
-- Corner crosshairs animated with Framer Motion (matching Hero pattern)
-- Staggered fade-in entrance animations
+Single approach: new page components following the established nexus-souls patterns.
+- Section + FadeIn from ./Section
+- panel-ink / dot-bg-ink for dark sections, bg-background for light
+- font-serif-display headings, font-mono eyebrows/labels/code
+- Framer Motion scroll-triggered animations
+- Code blocks: `<pre>` with surface-ink bg, monospace text, copy button (useState + navigator.clipboard)
+- Slide deck: styled divs with scroll-snap, no external deps
 
 ## Files to touch
-1. `src/pages/NotFound.tsx` — full rewrite
+1. `PLAN.md` — this file
+2. `TODO.md` — task tracking
+3. `src/pages/MetaHarness.tsx` — new
+4. `src/pages/MetaHarnessCourse.tsx` — new
+5. `src/pages/MetaHarnessTalk.tsx` — new
+6. `src/App.tsx` — add 3 routes
+7. `src/components/nexus/Footer.tsx` — add nav links
 
 ## Risks
-- None significant; self-contained single file
+- Copy button needs `navigator.clipboard` (HTTPS only on prod — fine for GitHub Pages)
+- Slide deck: use CSS scroll-snap on a container div, not reveal.js (no new deps)
+- Build must pass before PR
