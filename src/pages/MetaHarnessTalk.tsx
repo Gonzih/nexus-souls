@@ -412,6 +412,51 @@ projects ↓  │  ●  ●  ·  ·  ·
     ),
   },
 
+  // ── Slide 8: Cron — The Second Entry Point ──────────────────────────────────
+  {
+    id: 8,
+    label: "Cron: Second Entry Point",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Cron · The Second Entry Point
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-4 leading-[1.1]">
+          Cron: The Second Entry Point.
+        </h2>
+        <p className="text-foreground/55 font-light mb-6 text-base max-w-xl leading-relaxed">
+          Two entry points. Telegram is human-triggered. Cron is time-triggered.
+          The coordinator doesn't know the difference — same pipeline, same intelligence.
+        </p>
+        <LightCode>{`cc-agent cron create "every 30s" "check inbox and respond"`}</LightCode>
+        <div className="mt-6 space-y-3 max-w-2xl">
+          {[
+            { schedule: "Every 30s", task: "Poll fan inbox → read 4 files → respond → append to brain.md" },
+            { schedule: "Every Monday 9am", task: "Competitor group sweep → multi-model pipeline → Slack brief" },
+            { schedule: "Every day 9/12/6", task: "Clip today's video → schedule to 4 platforms" },
+            { schedule: "Every 30min", task: "Check email for important messages → notify if found" },
+          ].map(({ schedule, task }) => (
+            <div
+              key={schedule}
+              className="grid grid-cols-[160px_1fr] gap-4 border-b border-foreground/8 pb-3"
+            >
+              <span className="font-mono text-xs text-primary">{schedule}</span>
+              <span className="text-sm text-foreground/70">{task}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 border-l-4 border-primary pl-6 max-w-xl">
+          <p className="text-foreground/80 text-sm leading-relaxed">
+            Cron + Telegram ={" "}
+            <span className="text-foreground font-medium">fully autonomous operation</span>
+            {" "}with optional human override.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+
   // ── Slide 9: Constraints as Architecture ────────────────────────────────────
   {
     id: 9,
