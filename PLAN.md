@@ -1,24 +1,42 @@
-# Plan: Workflow #004 — AI Creator Persona System
+# Plan: Enrich AI Creator Persona Workflow Page
 
 ## Task
-Add workflow #004 to the /workflows library:
-- Index card in Workflows.tsx
-- New detail page at /workflows/ai-creator-persona
-- Route in App.tsx
+Add full technical details, financials, and "wedge not the product" insight to
+the existing /workflows/ai-creator-persona page (WorkflowAiCreatorPersona.tsx).
+Add to it — do NOT rewrite.
 
-## Approach
-Follow exact same pattern as WorkflowPhotoToListing.tsx:
-- Top bar (Workflow #004) + dot-bg hero with metrics panel
-- Section + FadeIn components throughout
-- panel-ink for navy cards, panel for cream cards
-- Code component for pipeline diagrams
-- Step-by-step table, meta-harness layer table, tags footer
+## Sections to add
+
+1. **Full persona.md spec** — born: 2004-03-08 Tampa FL, mother (real estate, alcoholic), 
+   step-dad (hates him), fake brother Tyler, dropped UCF psych junior year, lives alone 
+   two cats, forbidden topics, voice rules (lowercase, no periods, max 3 emojis, "fr" 3x/day, 
+   "lmaooo" not "lol", comma splice for questions)
+2. **Full flux.md spec** — 6-8 locked descriptors, 47 variations, LoRA ~$80 A100, 
+   three seed ranges (bedroom 800-900, bathroom 1200-1300, kitchen 2400-2500)
+3. **Full voice.md spec** — 90s audio from Fiverr ~$40, ElevenLabs Instant Voice, 
+   audio rules (voice notes after 11pm, breathes before long sentences, 30% yawn endings, giggles on tips)
+4. **The orchestrator** — system prompt code block + 30s cron polling detail
+5. **The financials** — $43k → $32,710 net breakdown
+6. **The wedge** — OnlyFans is the wedge, not the product; 4 other platforms/personas
+7. **Technology window** — Aitana 18mo, Emily 6mo, Maya 4wk, next: weekend
+
+## Placement in the file
+
+After "The 4-week build" section → insert:
+- Full spec sections (persona, flux, voice, orchestrator) as new Sections
+
+After meta-harness layer → insert:
+- Financials
+- The wedge
+- Technology window
+
+Before Tags and Footer.
 
 ## Files to touch
-1. src/pages/Workflows.tsx — append to workflows array
-2. src/pages/WorkflowAiCreatorPersona.tsx — new detail page
-3. src/App.tsx — add route before catch-all
+- src/pages/WorkflowAiCreatorPersona.tsx — only file
 
 ## Risks
-- Route must be declared before catch-all "*"
+- Keep all existing sections intact — add only, don't rewrite
 - panel-ink overrides text-foreground to cream — use text-primary inside
+- Code component needs max-w-full overflow-x-auto (already there)
+- Match existing design patterns exactly (Section, FadeIn, panel-ink, panel)
