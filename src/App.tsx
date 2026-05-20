@@ -14,6 +14,7 @@ import MetaHarnessTalk from "./pages/MetaHarnessTalk.tsx";
 import Workflows from "./pages/Workflows.tsx";
 import WorkflowCompetitorIntelligence from "./pages/WorkflowCompetitorIntelligence.tsx";
 import WorkflowPhotoToListing from "./pages/WorkflowPhotoToListing.tsx";
+import WorkflowAiCreatorPersona from "./pages/WorkflowAiCreatorPersona.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/workflows" element={<Workflows />} />
           <Route path="/workflows/competitor-intelligence" element={<WorkflowCompetitorIntelligence />} />
           <Route path="/workflows/photo-to-listing" element={<WorkflowPhotoToListing />} />
+          <Route path="/workflows/ai-creator-persona" element={<WorkflowAiCreatorPersona />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

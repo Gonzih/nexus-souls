@@ -1,27 +1,24 @@
-# Plan: /workflows Library
+# Plan: Workflow #004 — AI Creator Persona System
 
 ## Task
-Add two new pages to nexus-souls:
-1. `/workflows` — index page listing documented Claude Code workflow patterns
-2. `/workflows/competitor-intelligence` — detail page for the Competitor Intelligence Pipeline
+Add workflow #004 to the /workflows library:
+- Index card in Workflows.tsx
+- New detail page at /workflows/ai-creator-persona
+- Route in App.tsx
 
 ## Approach
-Static pages following the existing MetaHarness.tsx pattern — no dynamic data loading, no new abstractions. Two page components, two routes, one footer link update.
+Follow exact same pattern as WorkflowPhotoToListing.tsx:
+- Top bar (Workflow #004) + dot-bg hero with metrics panel
+- Section + FadeIn components throughout
+- panel-ink for navy cards, panel for cream cards
+- Code component for pipeline diagrams
+- Step-by-step table, meta-harness layer table, tags footer
 
 ## Files to touch
-1. src/pages/Workflows.tsx — new index page
-2. src/pages/WorkflowCompetitorIntelligence.tsx — new detail page
-3. src/App.tsx — add two routes
-4. src/components/nexus/Footer.tsx — add "Workflows" nav link
-
-## Component conventions
-- Top bar: left link + right label (border-b border-foreground/10)
-- Hero: dot-bg overlay, font-serif-display heading, metrics grid
-- Section + FadeIn from @/components/nexus/Section
-- panel for cream cards, panel-ink for navy cards
-- Code component: pre + font-mono text-xs on dark surface-ink bg
-- glass class doesn't exist — use panel instead
+1. src/pages/Workflows.tsx — append to workflows array
+2. src/pages/WorkflowAiCreatorPersona.tsx — new detail page
+3. src/App.tsx — add route before catch-all
 
 ## Risks
-- Route /workflows/competitor-intelligence must be declared before catch-all *
-- No nav bar component in this site — footer is the nav; add Workflows link there
+- Route must be declared before catch-all "*"
+- panel-ink overrides text-foreground to cream — use text-primary inside
