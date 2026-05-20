@@ -923,6 +923,76 @@ pkill node   → launchd respawns immediately
     ),
   },
 
+  // ── Slide: Open Source Stack ────────────────────────────────────────────────
+  {
+    id: 24,
+    label: "Open Source Stack",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Stack
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-2 leading-[1.1]">
+          The Stack — All Open Source.
+        </h2>
+        <p className="text-foreground/45 font-light mb-8 text-sm">
+          MIT · Published on npm · One command deploy
+        </p>
+        <div className="max-w-3xl w-full">
+          <div className="grid grid-cols-3 bg-foreground/5 border-b border-foreground/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/40">
+            <span>Repo</span>
+            <span>npm</span>
+            <span>What it does</span>
+          </div>
+          {[
+            {
+              repo: "gonzih/cc-agent",
+              npm: "@gonzih/cc-agent",
+              desc: "Worker spawner — MCP server: spawn_agent, job lifecycle, notifications",
+              url: "https://github.com/gonzih/cc-agent",
+            },
+            {
+              repo: "gonzih/cc-tg",
+              npm: "@gonzih/cc-tg",
+              desc: "Telegram coordinator bridge — persistent Claude session, routes messages, flushes to Redis",
+              url: "https://github.com/gonzih/cc-tg",
+            },
+            {
+              repo: "gonzih/cc-agent-ui",
+              npm: "@gonzih/cc-agent-ui",
+              desc: "Web UI — monitor active jobs, view output, score results",
+              url: "https://github.com/gonzih/cc-agent-ui",
+            },
+          ].map(({ repo, npm, desc, url }, i, arr) => (
+            <div
+              key={repo}
+              className={`grid grid-cols-3 gap-4 px-4 py-4 border-b border-foreground/8 ${
+                i === arr.length - 1 ? "border-0" : ""
+              }`}
+            >
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="font-mono text-xs text-primary hover:text-primary-glow transition-colors"
+              >
+                {repo}
+              </a>
+              <span className="font-mono text-xs text-foreground/60">{npm}</span>
+              <span className="text-xs text-foreground/55 leading-snug">{desc}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8">
+          <LightCode>{`npx --prefer-online @gonzih/cc-tg    # coordinator
+npx --prefer-online @gonzih/cc-agent # spawner`}</LightCode>
+        </div>
+      </div>
+    ),
+  },
+
   // ── Slide 18: Q&A ───────────────────────────────────────────────────────────
   {
     id: 18,
