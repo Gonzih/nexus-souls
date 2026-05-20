@@ -48,6 +48,135 @@ const slides: Slide[] = [
     ),
   },
 
+  // ── Slide: 2018 — Ensemble ──────────────────────────────────────────────────
+  {
+    id: 19,
+    label: "2018 — Ensemble",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Journey · 2018
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8 leading-[1.05]">
+          Ensemble Models.
+        </h2>
+        <p className="text-primary-foreground/65 leading-relaxed mb-8 max-w-2xl text-lg font-light">
+          Building ML ensemble systems: multiple specialized models combined for better predictions
+          than any single model. Run N in parallel, aggregate outputs, weight by domain confidence.
+        </p>
+        <div className="mb-8">
+          <Code>{`model_A (specialized) ─┐
+model_B (specialized) ─┤→ aggregator → output
+model_C (specialized) ─┘`}</Code>
+        </div>
+        <div className="border-l-4 border-primary pl-6 max-w-xl">
+          <p className="text-primary italic font-serif-display text-xl">
+            No one model is best at everything.
+          </p>
+          <p className="text-primary-foreground/55 text-sm mt-1">
+            Combination beats individual. The architecture matters more than any single model.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+
+  // ── Slide: 2021 → Agentic ────────────────────────────────────────────────────
+  {
+    id: 20,
+    label: "2021 → Agentic",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Journey · 2021
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8 leading-[1.1]">
+          The models can act.<br />
+          <span className="text-foreground/35">The human is still the ops layer.</span>
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8 max-w-3xl">
+          <div>
+            <div className="font-mono text-xs text-foreground/40 uppercase tracking-[0.18em] mb-4">
+              2021 — Agentic
+            </div>
+            <div className="space-y-2 text-sm text-foreground/60">
+              {[
+                "Chains of actions, tool use, early agents",
+                "Models write code, call APIs, browse",
+                "Orchestration still manual",
+                "Human remains the coordination layer",
+              ].map((item) => (
+                <div key={item} className="border-l-2 border-foreground/15 pl-3">{item}</div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="font-mono text-xs text-primary uppercase tracking-[0.18em] mb-4">
+              2024–2025 — Oracle + Team
+            </div>
+            <div className="space-y-2 text-sm">
+              {[
+                { text: "Apply the ensemble insight to agents", highlight: false },
+                { text: "One oracle with full context at the center", highlight: false },
+                { text: "Each agent: one role, one task, one scope", highlight: false },
+                { text: "Star topology — zero cross-agent coordination overhead", highlight: true },
+              ].map(({ text, highlight }) => (
+                <div
+                  key={text}
+                  className={`border-l-2 pl-3 ${highlight ? "border-primary text-foreground" : "border-primary/30 text-foreground/70"}`}
+                >
+                  {text}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  // ── Slide: Now — Meta-Harness culmination ────────────────────────────────────
+  {
+    id: 21,
+    label: "Now — Meta-Harness",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Journey · Now
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10 leading-[1.05]">
+          The pinnacle<br />
+          <span className="text-primary italic">of the progression.</span>
+        </h2>
+        <div className="grid md:grid-cols-3 gap-5 max-w-3xl mb-8">
+          {[
+            { year: "2018", label: "Ensemble", desc: "N specialized models → aggregator → output" },
+            { year: "2021–25", label: "Agentic + Oracle", desc: "Ensemble insight applied to agents" },
+            { year: "Now", label: "Meta-Harness", desc: "Infrastructure-layer coordination" },
+          ].map(({ year, label, desc }) => (
+            <div key={year} className="border-t-2 border-primary/40 pt-4">
+              <div className="font-mono text-xs text-primary mb-1">{year}</div>
+              <div className="font-mono text-sm text-primary-foreground font-medium mb-1">{label}</div>
+              <p className="text-xs text-primary-foreground/50 leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className="border-l-4 border-primary pl-6 max-w-xl">
+          <p className="font-mono text-sm text-primary-foreground/75 leading-relaxed">
+            Ensemble insight + agentic execution + oracle coordination{" "}
+            <span className="text-primary">= meta-harness</span>
+          </p>
+          <p className="text-xs text-primary-foreground/40 mt-2 leading-relaxed">
+            Persistent oracle (cc-tg + Claude --continue) · ephemeral task agents · self-healing infrastructure
+          </p>
+        </div>
+      </div>
+    ),
+  },
+
   // ── Slide 2: The Human Problem ───────────────────────────────────────────────
   {
     id: 2,
@@ -358,6 +487,99 @@ projects ↓  │  ●  ●  ·  ·  ·
           The intelligence operates freely inside a shaped space. The walls aren't words —
           they're the environment.
         </p>
+      </div>
+    ),
+  },
+
+  // ── Slide: Plan as Team Structure ───────────────────────────────────────────
+  {
+    id: 22,
+    label: "Plan as Team",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Plan as Team Structure
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-3 leading-[1.1]">
+          Why no "teams" feature?
+        </h2>
+        <p className="font-serif-display text-2xl text-foreground/40 italic mb-8">
+          The plan IS the team structure.
+        </p>
+        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mb-6">
+          <div>
+            <div className="font-mono text-xs text-foreground/40 uppercase tracking-[0.18em] mb-4">
+              Traditional frameworks
+            </div>
+            <div className="space-y-2 text-sm text-foreground/55">
+              {[
+                "Explicit persistent roles",
+                "Cross-agent communication channels",
+                "Coordination overhead at runtime",
+                "Emergent chaos from agent negotiation",
+              ].map((item) => (
+                <div key={item} className="flex gap-2">
+                  <span>×</span> <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="font-mono text-xs text-primary uppercase tracking-[0.18em] mb-4">
+              Meta-harness plan
+            </div>
+            <div className="space-y-2 text-sm text-foreground/70">
+              {[
+                "Oracle decomposes → plan defines task graph",
+                "Each subagent gets exactly one node",
+                "Runs independently to completion",
+                "Oracle integrates results",
+              ].map((item) => (
+                <div key={item} className="flex gap-2">
+                  <span className="text-primary shrink-0">→</span> <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <p className="text-sm text-foreground/50 max-w-xl leading-relaxed">
+          No cross-agent communication needed. Coordination happened in the planning phase —
+          not in real-time inter-agent chat.
+        </p>
+      </div>
+    ),
+  },
+
+  // ── Slide: The Oracle Decomposes ─────────────────────────────────────────────
+  {
+    id: 23,
+    label: "The Oracle Decomposes",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Oracle Decomposes
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light text-primary-foreground mb-8 leading-[1.05]">
+          The plan is also<br />
+          <span className="text-primary italic">an infrastructure constraint.</span>
+        </h2>
+        <Code>{`oracle creates plan
+  → task_1: { agent, cwd, context, scope }   ← role defined
+  → task_2: { agent, cwd, context, scope }   ← role defined
+  → task_3: { agent, cwd, context, scope }   ← role defined
+
+agent_1 ···  agent_2 ···  agent_3   ← no lateral communication
+              ↓
+          oracle integrates results`}</Code>
+        <div className="mt-8 border-l-4 border-primary pl-6 max-w-xl">
+          <p className="text-primary-foreground/70 text-sm leading-relaxed">
+            Subagents can't go off-script because their task{" "}
+            <span className="text-primary italic">is</span> their script.
+            The oracle's plan is not a suggestion — it is the shape of the space.
+          </p>
+        </div>
       </div>
     ),
   },

@@ -42,6 +42,18 @@ const steps: Step[] = [
           Before you build your own meta-harness, confirm you have these in place. The course assumes
           you can run Claude Code interactively and have basic Node.js experience.
         </p>
+        <p className="text-foreground/70 leading-relaxed border-l-2 border-primary/30 pl-5 py-1">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary block mb-2">
+            — Why this architecture
+          </span>
+          The meta-harness has a specific intellectual lineage. In 2018, ensemble ML systems showed
+          that combining multiple specialized models outperforms any single model — the coordinator
+          sees the whole board, each specialist handles its domain. By 2021, models could act rather
+          than just predict, but orchestration was still a human job. The oracle+team pattern applied
+          the ensemble insight to agents: one oracle with full context at the center, each agent gets
+          a role and a scope, and coordination happens in the plan — not in real-time inter-agent
+          messaging. The meta-harness is the infrastructure realization of this pattern.
+        </p>
         <ul className="space-y-4">
           {[
             {
@@ -407,6 +419,19 @@ Settings → Branches → Branch protection rules
             Telegram → coordinator → spawner → task agent. Notifications flow back up. No
             cross-tier lateral communication is possible — not because agents are instructed to
             avoid it, but because the pipes don't exist.
+          </p>
+        </div>
+
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — Plan as team structure
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            When you want multi-agent coordination, write a plan — not a team prompt. The oracle
+            decomposes the task: what each subagent does (roles), how tasks depend on each other
+            (sequencing), what information flows where (interfaces). Subagents don't communicate.
+            Each gets exactly the context and task it needs. The coordination happened in the
+            planning phase, not in real-time inter-agent chat.
           </p>
         </div>
       </div>
