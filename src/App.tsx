@@ -11,6 +11,8 @@ import CaseStudyIdentityGuardian from "./pages/CaseStudyIdentityGuardian.tsx";
 import MetaHarness from "./pages/MetaHarness.tsx";
 import MetaHarnessCourse from "./pages/MetaHarnessCourse.tsx";
 import MetaHarnessTalk from "./pages/MetaHarnessTalk.tsx";
+import Workflows from "./pages/Workflows.tsx";
+import WorkflowCompetitorIntelligence from "./pages/WorkflowCompetitorIntelligence.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/meta-harness" element={<MetaHarness />} />
           <Route path="/meta-harness-course" element={<MetaHarnessCourse />} />
           <Route path="/meta-harness-talk" element={<MetaHarnessTalk />} />
+          <Route path="/workflows" element={<Workflows />} />
+          <Route path="/workflows/competitor-intelligence" element={<WorkflowCompetitorIntelligence />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
