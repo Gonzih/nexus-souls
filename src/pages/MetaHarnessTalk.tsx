@@ -330,7 +330,7 @@ npm publish --access public`}</Code>
           — Design Philosophy
         </div>
         <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-8">
-          Six principles. No exceptions.
+          Seven principles. No exceptions.
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
           {[
@@ -340,6 +340,7 @@ npm publish --access public`}</Code>
             { n: "4", title: "Ship as definition of done", body: "PR merged + published" },
             { n: "5", title: "Composability through MCP", body: "New capability = new MCP" },
             { n: "6", title: "Ephemerality with persistence", body: "Agents die, coordinator lives" },
+            { n: "7", title: "Constraints as architecture", body: "Rules are the shape, not the words" },
           ].map(({ n, title, body }) => (
             <div key={n} className="flex gap-4 items-start py-3 border-b border-foreground/8">
               <span className="font-mono text-xs text-primary shrink-0 w-5">{n}</span>
@@ -355,6 +356,98 @@ npm publish --access public`}</Code>
   },
   {
     id: 11,
+    label: "Constraints: Wrong Way",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Design Principle · 7
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-10">
+          The traditional approach.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/40 mb-4">
+              Language-layer constraints
+            </div>
+            <LightCode>{`# CLAUDE.md
+Never push to main.
+Only use approved tools.
+Stay under $10 per task.
+Don't merge without review.
+Check the gate before proceeding.`}</LightCode>
+            <p className="mt-4 text-sm text-foreground/55 leading-relaxed">
+              These are instructions. They can be argued with, misinterpreted, overridden in an
+              emergency, or ignored in a sufficiently creative framing.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/40 mb-4">
+              What can go wrong
+            </div>
+            {[
+              "Agent is told it's an emergency — overrides the rule",
+              "Ambiguous framing causes misinterpretation",
+              "Rule is present but silently ignored under pressure",
+              "No mechanism to verify compliance after the fact",
+            ].map((item) => (
+              <div key={item} className="flex gap-3 items-start border-l-2 border-destructive/30 pl-4">
+                <p className="text-sm text-foreground/60 leading-snug">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 12,
+    label: "Constraints: Right Way",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Design Principle · 7 · Meta-harness approach
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
+          The rules don't exist as words.
+          <br />
+          <span className="text-primary italic">They are the shape of the space.</span>
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="space-y-3">
+            {[
+              { soft: '"Don\'t push to main"', hard: "Branch protection (mechanical block)" },
+              { soft: '"Only approved tools"', hard: "MCP config omission (tool doesn't exist)" },
+              { soft: '"Stay under budget"', hard: "max_budget_usd in spawn_agent" },
+              { soft: '"Check the gate"', hard: "Redis gate key — MCP rejects without it" },
+            ].map(({ soft, hard }) => (
+              <div key={soft} className="grid grid-cols-2 gap-3 border-b border-primary-foreground/10 pb-3">
+                <span className="font-mono text-xs text-primary-foreground/40 leading-snug">{soft}</span>
+                <span className="font-mono text-xs text-primary leading-snug">{hard}</span>
+              </div>
+            ))}
+          </div>
+          <div className="bg-black/20 border border-primary-foreground/15 p-6">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-glow mb-4">
+              — The key insight
+            </div>
+            <p className="text-primary-foreground/80 leading-relaxed text-sm">
+              The intelligence operates freely inside a shaped space. It doesn't know the walls exist
+              because the walls aren't instructions — they're the shape of the environment.
+            </p>
+            <p className="mt-4 text-primary-foreground/55 text-xs leading-relaxed">
+              Safety-critical logic has no business being in natural language.
+              All of it belongs in the orchestration layer.
+            </p>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 13,
     label: "The Full Cycle",
     variant: "ink",
     content: (
@@ -381,7 +474,7 @@ npm publish --access public`}</Code>
     ),
   },
   {
-    id: 12,
+    id: 14,
     label: "Live Demo",
     variant: "light",
     content: (
@@ -416,7 +509,7 @@ npm publish --access public`}</Code>
     ),
   },
   {
-    id: 13,
+    id: 15,
     label: "What it replaces",
     variant: "ink",
     content: (
@@ -446,7 +539,7 @@ npm publish --access public`}</Code>
     ),
   },
   {
-    id: 14,
+    id: 16,
     label: "Getting Started",
     variant: "light",
     content: (
@@ -477,7 +570,7 @@ npm publish --access public`}</Code>
     ),
   },
   {
-    id: 15,
+    id: 17,
     label: "Q&A",
     variant: "ink",
     content: (
