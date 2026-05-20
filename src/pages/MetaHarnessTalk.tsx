@@ -875,6 +875,35 @@ pkill node   → launchd respawns immediately
     ),
   },
 
+  // ── Slide: Live System ──────────────────────────────────────────────────────
+  {
+    id: 25,
+    label: "Live System",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-4">
+          — This Is What It Looks Like
+        </div>
+        <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-6 leading-[1.1]">
+          The Grid — Live.
+        </h2>
+        <div className="flex-1 min-h-0 flex flex-col justify-center">
+          <img
+            src="/assets/cc-agent-ui-screenshot.png"
+            alt="cc-agent-ui kanban board showing jobs across multiple repos"
+            className="w-full max-h-[52vh] object-contain rounded border border-foreground/10 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <p className="mt-4 font-mono text-xs text-foreground/50 leading-relaxed">
+            gonzih/cc-agent-ui — 1 running, 37 done, 0 failed.{" "}
+            <span className="text-foreground/70">4 repos in flight simultaneously. One person.</span>
+          </p>
+        </div>
+      </div>
+    ),
+  },
+
   // ── Slide 17: Getting Started ────────────────────────────────────────────────
   {
     id: 17,
