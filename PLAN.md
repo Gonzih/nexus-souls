@@ -1,28 +1,22 @@
-# PLAN: /research page for nexus-souls
+# PLAN — Update /research with full Nexus suite
 
 ## Task restatement
-Build a `/research` page that frames the cc-agent/Gravitas/MCP suite as production research infrastructure for independent researchers studying agentic systems. The page should match the existing nexus-souls design system exactly and be navigable from the footer.
+Replace the existing tool table (7 tools, 3 repos) and research questions (6) on the /research page with the full Nexus suite grouped into 5 architectural layers (12+ tools), plus 5 new research questions enabled by the new tools. Keep hero, independence thesis, data access section, and contact CTA. Verify Repos.tsx index is up to date.
 
-## Approach selected
-Single-page React component (`src/pages/Research.tsx`) following the MetaHarness.tsx pattern exactly — top bar, hero, Section components, footer. Add route to App.tsx and "Research" link to Footer.tsx.
-
-## Page structure
-1. Top bar (back button + "For Researchers" identifier)
-2. Hero — title, subtext, stat grid
-3. Section (cream): "What you can investigate" — 6 research questions as grid cards
-4. Section (ink): Tool suite table — 7 tools with descriptions
-5. Section (cream): "Why this stack" — 5 bullet reasons
-6. Section (ink): Research data access — MCP code block
-7. Section (cream): The independence thesis — blockquote + context
-8. CTA (ink): Contact + external links
-9. Footer
+## Approach
+Single-file edit to `src/pages/Research.tsx` — restructure the `tools` array into `layers`, expand `questions` from 6 to 11, update hero stats. No new components needed.
 
 ## Files to touch
-1. `src/pages/Research.tsx` — new page (primary work)
-2. `src/App.tsx` — add `/research` route
-3. `src/components/nexus/Footer.tsx` — add Research nav link
+- `src/pages/Research.tsx` — layered tools, expanded questions, updated stats
+- `src/components/nexus/Repos.tsx` — already has all public repos; nexus-forge and nexus-infra returned 404 (private) so no changes needed
 
-## Risks and unknowns
-- Footer nav must use `<Link to="/research">` (internal), not `<a href>`
-- `panel-ink` overrides text color — use `text-primary-foreground` / `text-primary` inside, never `text-foreground`
-- Code blocks need `max-w-full overflow-x-auto` for mobile safety
+## Layer structure
+- L1 Orchestration: cc-agent, cc-tg, cc-agent-ui
+- L2 Knowledge & Memory: nexus-gravitas, nexus-reasoning-graph
+- L3 Multi-Model Consensus: nexus-convergence-mcp, nexus-convergence-service, nexus-consensus-service, nexus-evidence-service
+- L4 Safety & Compliance: nexus-compliance-service, nexus-agent-jail
+- L5 Research: nexus-research, nexus-forge
+
+## Risks
+- nexus-forge and nexus-infra READMEs returned 404 — use task-provided descriptions
+- Hero stat counts must match actual content (11 questions, 12 tools, 5 layers)
