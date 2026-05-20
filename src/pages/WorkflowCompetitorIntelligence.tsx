@@ -62,9 +62,9 @@ const metaLayers = [
   {
     n: "06",
     layer: "Video recording",
-    tool: "Playwright page.video",
+    tool: "HyperFrames skill",
     detail:
-      "Playwright page.video.start() captures the feature demo while the agent builds it. The video is the artifact — sent directly to the product team.",
+      "HyperFrames skill creates a polished demo video of the built feature. The video is the artifact — sent directly to the product team.",
   },
 ];
 
@@ -375,7 +375,7 @@ Opus 4.7 (synthesis + action)
   → GPT-4.5 categorizes: "feature request"
   → Sonnet labels: competitor:ProductX, signal:feature_request
   → Opus builds the feature in product codebase
-  → Playwright records demo video
+  → HyperFrames skill creates demo video
   → Video → product team Slack
 
 Competitor customers ask industry question
