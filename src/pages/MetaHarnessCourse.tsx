@@ -16,6 +16,49 @@ interface Step {
   content: React.ReactNode;
 }
 
+const businessPatterns = [
+  {
+    n: "01",
+    name: "Competitor Intelligence Loop",
+    what: "Browser harness sweeps 6 Facebook competitor groups weekly. Three-model pipeline: GPT-4.5 categorizes each post, Sonnet triages signal type, Opus synthesizes and posts a Slack brief every Monday at 9am.",
+    components: ["weekly cron", "browser harness agent", "GPT-4.5 agent", "Sonnet agent", "Opus agent", "Slack MCP tool"],
+    result: "$1.2M → $5.5M ARR in one year",
+    slug: "competitor-intelligence",
+  },
+  {
+    n: "02",
+    name: "Content Waterfall",
+    what: "One newsletter brief sent to coordinator → spawns social post agent (5 posts per platform) → spawns carousel agent → spawns YouTube script agent → spawns Postiz scheduling agent. All platforms updated from one input.",
+    components: ["coordinator", "newsletter brief", "social post agent", "carousel agent", "YouTube script agent", "Postiz agent"],
+    result: "Eliminates 4+ hours of manual distribution per week",
+    slug: "one-person-business",
+  },
+  {
+    n: "03",
+    name: "Inventory to Live Store",
+    what: "Cron watches a photo drop folder → spawns prepare agent (HEIC→JPEG, cluster) → spawns Florence-2 agent (reads brand tags, generates descriptions) → spawns CSV agent → spawns GitHub Pages image host agent → spawns Squarespace import agent.",
+    components: ["folder-watch cron", "prepare agent", "Florence-2 vision agent", "CSV generation agent", "GitHub Pages agent", "Squarespace agent"],
+    result: "50 luxury items listed in under 2 hours",
+    slug: "photo-to-listing",
+  },
+  {
+    n: "04",
+    name: "AI Persona Orchestration",
+    what: "Cron every 30s polls inbox → coordinator reads persona.md + brain.md + voice.md → spawns response agent → appends new facts to brain.md. Cron at 11pm fires voice note agent → ElevenLabs API. Zero human involvement after setup.",
+    components: ["30s cron (inbox)", "11pm cron (voice notes)", "coordinator (4-file context)", "response agent", "ElevenLabs agent"],
+    result: "$43,000 net in 30 days",
+    slug: "ai-creator-persona",
+  },
+  {
+    n: "05",
+    name: "One-Person Business Content Engine",
+    what: "Monday 8am cron → coordinator reads brand strategy from CLAUDE.md → spawns newsletter draft agent → spawns social post agent (pulls from newsletter) → spawns Postiz distribution agent. Week's content published from one trigger.",
+    components: ["Monday 8am cron", "coordinator", "newsletter agent", "social post agent", "Postiz distribution agent"],
+    result: "Week's content on all platforms, one cron trigger, no manual work",
+    slug: "one-person-business",
+  },
+];
+
 const CodeBlock = ({ children }: { children: string }) => (
   <div className="relative group my-4">
     <pre className="font-mono text-xs md:text-sm bg-[hsl(var(--surface-ink))] text-primary-foreground p-5 overflow-x-auto max-w-full border border-primary-foreground/15 leading-relaxed rounded-sm">
@@ -180,6 +223,15 @@ cc-agent list-jobs`}</CodeBlock>
             The agent implemented a task end-to-end. You wrote zero deployment code.
           </p>
         </div>
+        <div className="p-5 border border-primary/30 bg-primary/8 border-l-2 border-l-primary">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — In production
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Content waterfall spawns 4 agents from one coordinator message — social posts, carousels,
+            YouTube script, and distribution all fire from a single newsletter brief.
+          </p>
+        </div>
       </div>
     ),
   },
@@ -338,6 +390,16 @@ If gh pr create fails, check remote tracking and retry.
           Keep CLAUDE.md project-scoped: one per repo. The coordinator's CLAUDE.md governs routing and
           delegation. Each repo's CLAUDE.md governs implementation.
         </p>
+        <div className="p-5 border border-primary/30 bg-primary/8 border-l-2 border-l-primary">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — In production
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            persona.md is CLAUDE.md for an AI creator persona — 1,400 words of backstory, forbidden
+            topics, and voice rules that every agent reads before every output. The persona never
+            contradicts itself across 1,247 simultaneous subscriber conversations.
+          </p>
+        </div>
       </div>
     ),
   },
@@ -488,6 +550,16 @@ update_cron   id="..." schedule="..." task="..."  # update existing`}</CodeBlock
             — it is "the system checks, you only hear about it if something matters." The
             human is out of the loop by design. Cron + Telegram together gives you fully
             autonomous operation with optional human override.
+          </p>
+        </div>
+        <div className="p-5 border border-primary/30 bg-primary/8 border-l-2 border-l-primary">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — In production
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Competitor intelligence sweep fires every Monday — browser harness sweeps 6 Facebook groups,
+            Opus synthesizes and posts the Slack brief by 9am. AI persona inbox check fires every 30
+            seconds — replies land within a minute, around the clock.
           </p>
         </div>
       </div>
@@ -800,6 +872,71 @@ const MetaHarnessCourse = () => {
             </motion.div>
           );
         })}
+      </section>
+
+      {/* What You Can Build With This */}
+      <section className="px-6 md:px-10 py-20 border-t border-foreground/10">
+        <div className="max-w-4xl mx-auto">
+          <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+            — Real Patterns
+          </div>
+          <h2 className="font-serif-display text-3xl md:text-4xl font-light leading-[1.1] mb-6 break-words">
+            What You Can Build With This
+          </h2>
+          <p className="text-foreground/65 leading-relaxed mb-12 max-w-2xl">
+            The patterns below are documented in the /workflows library — each one is a real business
+            automation built on the same architecture you just learned.
+          </p>
+
+          <div className="space-y-0 border-t border-foreground/10">
+            {businessPatterns.map((pattern, i) => (
+              <motion.div
+                key={pattern.n}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="py-8 border-b border-foreground/8 grid md:grid-cols-12 gap-6"
+              >
+                <div className="md:col-span-1 font-mono text-xs text-primary/50 pt-1">
+                  {pattern.n}
+                </div>
+                <div className="md:col-span-11 space-y-3">
+                  <div className="font-serif-display text-xl text-foreground">{pattern.name}</div>
+                  <p className="text-sm text-foreground/70 leading-relaxed">{pattern.what}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {pattern.components.map((c) => (
+                      <span
+                        key={c}
+                        className="font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-1 border border-primary/25 text-primary/70"
+                      >
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/40">
+                      Result:
+                    </span>
+                    <span className="font-mono text-sm text-primary">{pattern.result}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-12 p-6 border border-foreground/15 bg-foreground/3">
+            <p className="text-sm text-foreground/65 leading-relaxed mb-4">
+              These aren't hypothetical. They're running. The architecture is the same. The business
+              problem is different.
+            </p>
+            <Link
+              to="/workflows"
+              className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-primary hover:text-primary/70 transition-colors"
+            >
+              Browse the workflow library →
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* Bottom CTA — always visible */}
