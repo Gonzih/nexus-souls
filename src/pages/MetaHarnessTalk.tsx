@@ -412,40 +412,6 @@ projects ↓  │  ●  ●  ·  ·  ·
     ),
   },
 
-  // ── Slide 8: The Prompt Trick ────────────────────────────────────────────────
-  {
-    id: 8,
-    label: "The Prompt Trick",
-    variant: "light",
-    content: (
-      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — The Prompt Trick
-        </div>
-        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-4">
-          Zero credentials in code. Ever.
-        </h2>
-        <p className="text-foreground/65 leading-relaxed mb-6 max-w-xl">
-          Spawn a Claude subprocess with <code className="font-mono text-primary">cwd</code> set to
-          the project that has the MCP configured. Claude inherits the credential chain.
-        </p>
-        <LightCode>{`spawnSync('claude', [
-  '--print',
-  '--dangerously-skip-permissions',
-  '-p', prompt
-], {
-  cwd: '/Users/you/project',  // ← inherits gmail MCP from ~/.claude.json
-  env: { ...process.env, CLAUDE_CODE_OAUTH_TOKEN: token },
-  timeout: 60_000,
-})`}</LightCode>
-        <p className="mt-6 text-sm text-foreground/55 font-light">
-          No SMTP passwords. No API keys baked into artifacts. The Claude OAuth token is the only
-          secret — it lives in the environment.
-        </p>
-      </div>
-    ),
-  },
-
   // ── Slide 9: Constraints as Architecture ────────────────────────────────────
   {
     id: 9,
