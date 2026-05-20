@@ -22,6 +22,15 @@ const workflows = [
     period: "per 50-item batch",
     tags: ["ecommerce", "vision", "automation", "content"],
   },
+  {
+    slug: "ai-creator-persona",
+    name: "AI Creator Persona System",
+    description:
+      "Four markdown files. One persistent identity. Runs while you sleep. persona.md locks consistency. brain.md tracks every subscriber's name, dog, and tip triggers. Cron schedules voice notes at 11pm and morning catch-ups at 7am. Flux generates images. ElevenLabs clones voice.",
+    result: "$43k",
+    period: "30 days (case study)",
+    tags: ["creator-economy", "automation", "personalization", "ai-persona"],
+  },
 ];
 
 const Workflows = () => {
