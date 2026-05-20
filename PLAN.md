@@ -1,39 +1,27 @@
-# PLAN: Meta-Harness Talk Rewrite
+# Plan: /workflows Library
 
 ## Task
-Full rewrite of `/meta-harness-talk` slide deck. Current version (17 slides) is too generic
-and shallow. New version: 18 slides, the "Orchestration Gap" thesis, audience-specific framing
-for developers who use Claude Code but haven't solved orchestration.
+Add two new pages to nexus-souls:
+1. `/workflows` — index page listing documented Claude Code workflow patterns
+2. `/workflows/competitor-intelligence` — detail page for the Competitor Intelligence Pipeline
 
 ## Approach
-Single approach: replace the `slides` array in `MetaHarnessTalk.tsx` entirely.
-Keep all nav infrastructure (AnimatePresence, keyboard nav, click-half, controls bar).
-The component structure is solid — only content changes.
-
-## Slide Map (18 slides)
-1.  Title — "The Orchestration Gap" / "You have the agents. You don't have the harness."
-2.  The Human Problem — you are still the ops layer
-3.  The Commodity Insight — coding agent is commoditized; orchestration isn't
-4.  What's Actually Missing — frameworks solve wrong problem
-5.  The Mental Model — grid: projects × tasks, single entry point
-6.  Architecture: 3 Tiers — ASCII diagram + tier descriptions
-7.  One Entry Point, Multiple Branches — parallel agents from one message
-8.  The Prompt Trick — zero credentials in code
-9.  Constraints as Architecture — encode in infra, not prompts
-10. Information Flow is Directional — tree not mesh
-11. Self-Healing by Default — launchd KeepAlive, crashes as events
-12. The Compound Effect — harness gets smarter, CLAUDE.md accumulation
-13. What You Can Build On This — concrete use cases
-14. Live Example — 3-repo bug fix, 8 minutes, 1 message
-15. vs. The Alternative — manual 45min vs meta-harness 8min
-16. The Harness Is the Leverage — the orchestration is the leverage
-17. Getting Started — npm, docs, course, access code
-18. Q&A — gonzih@gmail.com
+Static pages following the existing MetaHarness.tsx pattern — no dynamic data loading, no new abstractions. Two page components, two routes, one footer link update.
 
 ## Files to touch
-- `src/pages/MetaHarnessTalk.tsx` — full rewrite of slides array
+1. src/pages/Workflows.tsx — new index page
+2. src/pages/WorkflowCompetitorIntelligence.tsx — new detail page
+3. src/App.tsx — add two routes
+4. src/components/nexus/Footer.tsx — add "Workflows" nav link
+
+## Component conventions
+- Top bar: left link + right label (border-b border-foreground/10)
+- Hero: dot-bg overlay, font-serif-display heading, metrics grid
+- Section + FadeIn from @/components/nexus/Section
+- panel for cream cards, panel-ink for navy cards
+- Code component: pre + font-mono text-xs on dark surface-ink bg
+- glass class doesn't exist — use panel instead
 
 ## Risks
-- Some slides have dense content — keep text minimal, let structure do the work
-- 18 dot-nav dots fit (approx 220px total width)
-- Code blocks must be `string`, not JSX
+- Route /workflows/competitor-intelligence must be declared before catch-all *
+- No nav bar component in this site — footer is the nav; add Workflows link there

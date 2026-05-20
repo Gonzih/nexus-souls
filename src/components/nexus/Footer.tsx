@@ -15,6 +15,7 @@ export const Footer = () => (
         <a href="https://github.com/Gonzih" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">GitHub</a>
         <a href="https://github.com/Gonzih/nexus-protocols" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">Protocols</a>
         <a href="https://github.com/Gonzih?tab=repositories&q=research" target="_blank" rel="noopener noreferrer" className="hover:text-primary-glow transition-colors">Research</a>
+        <Link to="/workflows" className="hover:text-primary-glow transition-colors">Workflows</Link>
         <Link to="/meta-harness" className="hover:text-primary-glow transition-colors">Meta-Harness</Link>
         <Link to="/meta-harness-course" className="hover:text-primary-glow transition-colors">Course</Link>
         <Link to="/meta-harness-talk" className="hover:text-primary-glow transition-colors">Talk</Link>

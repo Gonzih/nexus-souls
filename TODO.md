@@ -1,12 +1,12 @@
-# TODO: Meta-Harness Pages
+# TODO: /workflows Library
 
-- [x] Write PLAN.md and TODO.md
 - [ ] npm install
-- [ ] Create src/pages/MetaHarness.tsx
-- [ ] Create src/pages/MetaHarnessCourse.tsx
-- [ ] Create src/pages/MetaHarnessTalk.tsx
-- [ ] Wire routes + footer links in App.tsx and Footer.tsx
+- [ ] Create src/pages/Workflows.tsx (index page)
+- [ ] Create src/pages/WorkflowCompetitorIntelligence.tsx (detail page)
+- [ ] Add routes to src/App.tsx
+- [ ] Add "Workflows" link to src/components/nexus/Footer.tsx
 - [ ] npm run build (smoke check)
+- [ ] git checkout -b feat/workflows-library
 - [ ] git diff --staged review
 - [ ] git commit + push
 - [ ] gh pr create + gh pr merge --squash
