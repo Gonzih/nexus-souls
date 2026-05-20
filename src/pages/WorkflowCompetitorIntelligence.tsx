@@ -264,6 +264,28 @@ Opus 4.7 (synthesis + action)
         </div>
       </Section>
 
+      {/* Demo video */}
+      <section className="px-6 md:px-10 py-16 border-b border-foreground/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-4">
+            — Pipeline demo
+          </div>
+          <div className="w-full overflow-hidden border border-foreground/10">
+            <video
+              src="/videos/competitor-intel-demo.mp4"
+              controls
+              muted
+              playsInline
+              className="w-full block"
+              style={{ aspectRatio: "1200/500" }}
+            />
+          </div>
+          <p className="mt-4 font-mono text-[11px] text-foreground/40 leading-relaxed">
+            Sweep → capture → 3-model pipeline → Slack brief → auto-action. 20s.
+          </p>
+        </div>
+      </section>
+
       {/* Per-post automation */}
       <Section
         eyebrow="Per-post automation"
