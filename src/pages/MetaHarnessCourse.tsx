@@ -439,6 +439,62 @@ Settings → Branches → Branch protection rules
   },
   {
     n: 7,
+    title: "Adding Cron Triggers",
+    teaser: "Schedule autonomous loops — no human input required.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          Cron is the second entry point into the meta-harness. Instead of waiting for a
+          Telegram message, the harness fires itself on a schedule. The coordinator receives
+          a cron task the same way it receives a Telegram message — same pipeline, same
+          intelligence, different trigger.
+        </p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+          The cron API (MCP tools exposed by cc-agent):
+        </p>
+        <CodeBlock>{`create_cron   schedule="..." task="..."          # create a new cron job
+list_crons                                        # list all active cron jobs
+delete_cron   id="..."                            # remove a cron job
+update_cron   id="..." schedule="..." task="..."  # update existing`}</CodeBlock>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+          Schedule formats:
+        </p>
+        <CodeBlock>{`"every 30s"               # every 30 seconds
+"every 5m"                # every 5 minutes
+"every day at 9am"        # daily at 9:00
+"every monday at 9am"     # weekly, Monday 9:00`}</CodeBlock>
+        <p className="text-foreground/75 leading-relaxed">
+          To add the email monitoring cron from the course:
+        </p>
+        <CodeBlock>{`create_cron: schedule="every 30m", task="check inbox for important emails, notify if found, silence otherwise"`}</CodeBlock>
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — The idempotency constraint
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Cron prompts must be idempotent — running them twice should be safe. Design
+            cron tasks to <em>check state before acting</em>: "notify if found, silence
+            otherwise" rather than "notify every time." The task fires on every tick; the
+            intelligence decides whether anything actually needs to happen.
+          </p>
+        </div>
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — Cron vs. reminders
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Cron is infrastructure-layer scheduling. It is not "remind me to check email"
+            — it is "the system checks, you only hear about it if something matters." The
+            human is out of the loop by design. Cron + Telegram together gives you fully
+            autonomous operation with optional human override.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    n: 8,
     title: "Ship something real",
     teaser: "End-to-end: Telegram message → PR merged → npm published.",
     free: false,
@@ -669,7 +725,7 @@ const MetaHarnessCourse = () => {
         <div className="absolute inset-0 dot-bg opacity-30 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto">
           <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-            — Interactive Course · 8 Steps
+            — Interactive Course · 9 Steps
           </div>
           <h1 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.02] mb-8 break-words">
             Build Your Own{" "}
