@@ -31,6 +31,15 @@ const workflows = [
     period: "30 days (case study)",
     tags: ["creator-economy", "automation", "personalization", "ai-persona"],
   },
+  {
+    slug: "one-person-business",
+    name: "One-Person Business Operating System",
+    description:
+      "Brand + Content + Offer. The $1M/year math, the content waterfall, and the meta-harness mapping that turns one newsletter brief into social posts, carousels, and video scripts — distributed automatically while you sleep.",
+    result: "$1M/yr",
+    period: "as 1 person",
+    tags: ["business", "content", "brand", "solopreneur"],
+  },
 ];
 
 const Workflows = () => {
