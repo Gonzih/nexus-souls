@@ -47,36 +47,123 @@ const questions = [
     title: "How does coordinator context depth affect downstream task agent quality?",
     body: "CLAUDE.md depth, memory system, MCP configuration — each is a dial. Turn one, hold the others fixed. Measure downstream agent output. This is the experimental control most agent research lacks.",
   },
+  {
+    n: "07",
+    tag: "Multi-Model Disagreement",
+    title: "Where do models structurally disagree — and what predicts it?",
+    body: "Fan the same query to 5 LLMs via nexus-convergence. Measure agreement scores, inversion pairs, disputed claims. What query types drive INVERSION vs. STABLE? Is disagreement topic-dependent or model-architecture-dependent?",
+  },
+  {
+    n: "08",
+    tag: "Reasoning Provenance",
+    title: "Which tool results actually influence the final output?",
+    body: "nexus-reasoning-graph embeds every tool call and computes cosine-similarity influence edges. What gets ignored? What gets amplified? Does the influence graph structure predict answer quality?",
+  },
+  {
+    n: "09",
+    tag: "Agent Sandboxing",
+    title: "Does constraining agent action space improve or degrade task success?",
+    body: "nexus-agent-jail restricts available tools at runtime. Run the same task across a sweep of constraint levels. Measure success rate, cost, and failure mode distribution. Is the productivity loss linear or threshold-shaped?",
+  },
+  {
+    n: "10",
+    tag: "Policy Compliance Under Pressure",
+    title: "How often do agents violate policy constraints under different task framings?",
+    body: "nexus-compliance-service evaluates every agent output against HIPAA/EU_AI_ACT/NIST rules. Frame the same task 10 ways. Measure violation rate by framing. Does indirect phrasing bypass BLOCK rules?",
+  },
+  {
+    n: "11",
+    tag: "Evidence Chain Integrity",
+    title: "Does the audit trail accurately reflect what happened in a complex task?",
+    body: "nexus-evidence-service records every pipeline step as an immutable entry. After a multi-step task, compare the Evidence Ladder against actual model outputs. Are all claims traceable to MODEL_EXECUTE sources?",
+  },
 ];
 
-const tools = [
+type LayerTool = { name: string; gives: string };
+type Layer = { id: string; label: string; tools: LayerTool[] };
+
+const layers: Layer[] = [
   {
-    name: "cc-agent",
-    gives: "Job lifecycle data — spawn, run, complete/fail. JSONL trace export. Cost per job. Full prompt + output logs.",
+    id: "L1",
+    label: "Layer 1 — Orchestration Infrastructure",
+    tools: [
+      {
+        name: "cc-agent",
+        gives: "Job lifecycle data — spawn, run, complete/fail. JSONL trace export. Cost per job. Full prompt + output logs. Subagent spawn count and duration.",
+      },
+      {
+        name: "cc-tg",
+        gives: "Coordinator session logs — track how a persistent Claude session evolves over hundreds of interactions. Text, voice, images, files, scheduled prompts, multi-token rotation.",
+      },
+      {
+        name: "cc-agent-ui",
+        gives: "Visual dashboard — infinite scrollable grid of agent terminals. Job status distribution. Score tracking over time.",
+      },
+    ],
   },
   {
-    name: "cc-agent-ui",
-    gives: "Visual dashboard — job grid, status distribution, score tracking over time.",
+    id: "L2",
+    label: "Layer 2 — Knowledge & Memory",
+    tools: [
+      {
+        name: "nexus-gravitas",
+        gives: "Bitemporal knowledge graph — measure factual consistency and temporal accuracy across agent lifetimes. Gravit model: weighted time-bound fact [entity, attribute, value, tx, weight]. Allen interval algebra for temporal queries. Facts decay. Models don't know it.",
+      },
+      {
+        name: "nexus-reasoning-graph",
+        gives: "Reasoning provenance graph — Claude Code hooks capture every tool call, embed with all-MiniLM-L6-v2, compute cosine-similarity influence edges, render as a live D3 force graph. Trace exactly what influenced the final answer and what was ignored.",
+      },
+    ],
   },
   {
-    name: "cc-tg",
-    gives: "Coordinator session logs — track how a persistent Claude session evolves over hundreds of interactions.",
+    id: "L3",
+    label: "Layer 3 — Multi-Model Consensus",
+    tools: [
+      {
+        name: "nexus-convergence-mcp",
+        gives: "MCP gateway to the full pipeline — 4 tools: converge_query, get_evidence_ladder, check_compliance, list_model_disagreements. Any MCP-compatible client (Claude Code, Claude Desktop) gets the full convergence stack.",
+      },
+      {
+        name: "nexus-convergence-service",
+        gives: "7-step pipeline orchestrator — pre-flight compliance check, parallel fan-out to OpenAI/Anthropic/Google/Ollama, Evidence Ladder recording per response, consensus routing, post-consensus compliance verification, structured provenance output.",
+      },
+      {
+        name: "nexus-consensus-service",
+        gives: "Consensus engine — TF-IDF cosine similarity matrix across all response pairs, inversion detection (direct contradictions via negation/antonym matching), truth stability classification: STABLE / CONTESTED / SPLIT / INVERSION, agreement score 0–100.",
+      },
+      {
+        name: "nexus-evidence-service",
+        gives: "Immutable Evidence Ladder — append-only audit trail across all pipeline stages: QUERY → DECOMPOSE → MODEL_EXECUTE → CONSENSUS → VERIFY → CONCLUDE. No mutations. No deletions. JSON export for audit.",
+      },
+    ],
   },
   {
-    name: "nexus-gravitas",
-    gives: "Bitemporal knowledge graph — measure factual consistency, temporal accuracy, and manipulation resistance of agent knowledge.",
+    id: "L4",
+    label: "Layer 4 — Safety & Compliance",
+    tools: [
+      {
+        name: "nexus-compliance-service",
+        gives: "Runtime policy enforcement — HIPAA (PHI/SSN detection), EU AI Act (biometric ID, credit scoring), NIST (PII, API key leaks), CUSTOM rules. Three actions per policy: BLOCK (403), WARN (logged), LOG (audit only). Runs pre-fan-out and post-consensus.",
+      },
+      {
+        name: "nexus-agent-jail",
+        gives: "Sandboxed agent execution + behavioral observers — constrain the agent action space at runtime and measure the effect. Study what happens when you systematically remove tools or restrict output channels.",
+      },
+    ],
   },
   {
-    name: "export_jobs MCP",
-    gives: "Bulk JSONL export for statistical analysis — pull full job traces into your research pipeline.",
-  },
-  {
-    name: "get_cost_report MCP",
-    gives: "Longitudinal cost data grouped by repo, day, and status. 90-day window by default.",
-  },
-  {
-    name: "search_jobs MCP",
-    gives: "Find all jobs matching a task pattern — filter by type, status, date range.",
+    id: "L5",
+    label: "Layer 5 — Research",
+    tools: [
+      {
+        name: "nexus-research",
+        gives: "Working papers on geometry of language, invariant topology in representational state space, adversarial robustness, and AI identity theory. Core thesis: agent identity is a maintained invariant across adversarial transformations, not a fixed set of weights.",
+      },
+      {
+        name: "nexus-forge",
+        gives: "AXIOM substrate lab — LLM optimization research, TurboQuant benchmarks, ensemble model studies. Optimization and quantization research at the model substrate level.",
+      },
+    ],
   },
 ];
 
@@ -143,19 +230,19 @@ const ResearchPage = () => {
             <dl className="grid grid-cols-2 gap-y-6 gap-x-4 font-mono text-xs">
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Research questions</dt>
-                <dd className="text-foreground">6</dd>
+                <dd className="text-foreground">11</dd>
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Tools exposed</dt>
-                <dd className="text-foreground">7</dd>
+                <dd className="text-foreground">12+</dd>
+              </div>
+              <div>
+                <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Architecture layers</dt>
+                <dd className="text-foreground">5</dd>
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">License</dt>
                 <dd className="text-foreground">MIT</dd>
-              </div>
-              <div>
-                <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Data export</dt>
-                <dd className="text-foreground">JSONL</dd>
               </div>
             </dl>
           </div>
@@ -167,7 +254,7 @@ const ResearchPage = () => {
         eyebrow="What you can investigate"
         title={
           <>
-            Six questions the suite is{" "}
+            Eleven questions the suite is{" "}
             <span className="italic text-accent-blue">built to answer.</span>
           </>
         }
@@ -179,7 +266,7 @@ const ResearchPage = () => {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.07 }}
+              transition={{ duration: 0.5, delay: i * 0.06 }}
               className="bg-background p-7 h-full flex flex-col"
             >
               <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">
@@ -199,29 +286,40 @@ const ResearchPage = () => {
         eyebrow="The tool suite for researchers"
         title={
           <>
-            Every layer of the stack{" "}
+            Five layers. Every one{" "}
             <span className="italic text-accent-blue">exposes data.</span>
           </>
         }
         variant="ink"
       >
         <div className="border-t border-primary-foreground/15">
-          {tools.map((tool, i) => (
-            <motion.div
-              key={tool.name}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
-              className="grid md:grid-cols-12 gap-6 py-8 border-b border-primary-foreground/10"
-            >
-              <div className="md:col-span-3">
-                <code className="font-mono text-sm text-primary font-semibold">{tool.name}</code>
+          {layers.map((layer) => (
+            <div key={layer.id}>
+              {/* Layer header */}
+              <div className="py-4 border-b border-primary-foreground/10">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow">
+                  {layer.label}
+                </div>
               </div>
-              <div className="md:col-span-9 text-sm text-primary-foreground/75 leading-relaxed">
-                {tool.gives}
-              </div>
-            </motion.div>
+              {/* Tools in this layer */}
+              {layer.tools.map((tool, i) => (
+                <motion.div
+                  key={tool.name}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                  className="grid md:grid-cols-12 gap-6 py-7 border-b border-primary-foreground/10 pl-4"
+                >
+                  <div className="md:col-span-3">
+                    <code className="font-mono text-sm text-primary font-semibold">{tool.name}</code>
+                  </div>
+                  <div className="md:col-span-9 text-sm text-primary-foreground/75 leading-relaxed">
+                    {tool.gives}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           ))}
         </div>
       </Section>
@@ -305,6 +403,13 @@ get_cost_report(days=90, group_by="repo") → cost attribution
 search_jobs(query="failed to merge")      → failure pattern analysis
 list_jobs()                               → current + historical job list
 get_job_output(job_id)                    → full stdout/stderr per job`}</Code>
+            <p className="text-primary-foreground/75 leading-relaxed mb-2 mt-4">
+              The convergence pipeline adds structured multi-model data via nexus-convergence-mcp:
+            </p>
+            <Code>{`converge_query(query, models, policy_set) → agreement_score, stability, claims
+get_evidence_ladder(query_id)             → full QUERY→CONCLUDE audit trail
+list_model_disagreements(query_id)        → inversions, disputed_claims, low_similarity_pairs
+check_compliance(content, categories)     → passed, violations, warnings`}</Code>
           </div>
           <div className="lg:col-span-2">
             <FadeIn>
@@ -319,6 +424,9 @@ get_job_output(job_id)                    → full stdout/stderr per job`}</Code
                     "Success / failure status + exit code",
                     "Duration and subagent spawn count",
                     "Repository, branch, task description",
+                    "Per-model agreement scores + inversion pairs",
+                    "Immutable Evidence Ladder per convergence run",
+                    "Compliance violation log with severity",
                   ].map((item) => (
                     <li key={item} className="flex gap-3 items-start">
                       <span className="text-primary mt-0.5 shrink-0">—</span>
@@ -383,6 +491,18 @@ get_job_output(job_id)                    → full stdout/stderr per job`}</Code
                     {
                       label: "nexus-gravitas (ISOC grant)",
                       url: "https://github.com/gonzih/nexus-gravitas",
+                    },
+                    {
+                      label: "nexus-convergence-mcp",
+                      url: "https://github.com/gonzih/nexus-convergence-mcp",
+                    },
+                    {
+                      label: "nexus-reasoning-graph",
+                      url: "https://github.com/gonzih/nexus-reasoning-graph",
+                    },
+                    {
+                      label: "nexus-research (working papers)",
+                      url: "https://github.com/gonzih/nexus-research",
                     },
                   ].map((link) => (
                     <li key={link.label}>

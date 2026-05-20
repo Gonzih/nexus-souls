@@ -1,9 +1,7 @@
-# TODO: /research page
+# TODO: /research page — full Nexus suite update
 
-- [ ] Create src/pages/Research.tsx
-- [ ] Add /research route to App.tsx
-- [ ] Add Research nav link to Footer.tsx
+- [ ] git checkout -b feat/research-page-full-nexus-suite
+- [ ] Update src/pages/Research.tsx with 5-layer tool table and 11 research questions
 - [ ] npm install && npm run build — verify build passes
-- [ ] git checkout -b feat/research-page
 - [ ] git diff --staged review
 - [ ] git commit + push + PR + merge
