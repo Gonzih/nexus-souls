@@ -331,6 +331,89 @@ If gh pr create fails, check remote tracking and retry.
   },
   {
     n: 6,
+    title: "Constraints in the harness, not the prompt",
+    teaser: "What belongs in CLAUDE.md vs what belongs in the orchestration layer.",
+    free: false,
+    content: (
+      <div className="space-y-6">
+        <p className="text-foreground/75 leading-relaxed">
+          CLAUDE.md is for describing <em>intent</em> — what done means, how to handle errors, what
+          the PR contract looks like. It is not the place for safety-critical constraints. If
+          violating a constraint has real consequences, it must live in the infrastructure, not in
+          the language.
+        </p>
+        <p className="text-foreground/75 leading-relaxed">
+          Language models can be persuaded to ignore language-level constraints in edge cases,
+          emergencies, or sufficiently creative framing. Infrastructure constraints are immune to
+          persuasion.
+        </p>
+
+        {/* Two-column contrast */}
+        <div className="border border-foreground/10 overflow-hidden">
+          <div className="grid grid-cols-2 bg-foreground/5 border-b border-foreground/10">
+            <div className="px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50">
+              Put in CLAUDE.md
+            </div>
+            <div className="px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-primary border-l border-foreground/10">
+              Put in the harness
+            </div>
+          </div>
+          {[
+            ["What 'done' means", "max_budget_usd per spawn"],
+            ["Branch naming conventions", "Branch protection rules (no push to main)"],
+            ["PR title format", "Allowed-repo set (schema validation)"],
+            ["Error handling preferences", "Redis gate keys (rejected at MCP layer)"],
+            ["Commit message style", "MCP config omission (tool literally unavailable)"],
+          ].map(([soft, hard]) => (
+            <div key={soft} className="grid grid-cols-2 border-b border-foreground/8 last:border-0">
+              <div className="px-4 py-3 text-xs text-foreground/65 leading-snug">{soft}</div>
+              <div className="px-4 py-3 text-xs text-primary font-mono leading-snug border-l border-foreground/10">
+                {hard}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-foreground/75 leading-relaxed">
+          The mental model: if you'd be comfortable publishing the constraint as a comment in a
+          GitHub issue, it can live in CLAUDE.md. If violating it could delete data, expose
+          credentials, or merge untested code, it belongs in the infrastructure.
+        </p>
+
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — Concrete example
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed mb-3">
+            Instead of writing "never push to main" in CLAUDE.md, enable branch protection on
+            GitHub. The agent literally cannot push to main — not because it was told not to, but
+            because the operation is mechanically rejected.
+          </p>
+          <CodeBlock>{`# In CLAUDE.md: describes intent, not policy
+## Branch naming
+feat/, fix/, mvp/ — never push to main directly.
+
+# In GitHub settings: enforces the policy mechanically
+Settings → Branches → Branch protection rules
+  → Require pull request before merging: ✓
+  → Include administrators: ✓`}</CodeBlock>
+        </div>
+
+        <div className="p-5 border border-primary/20 bg-primary/5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+            — Information flow is also architectural
+          </div>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Telegram → coordinator → spawner → task agent. Notifications flow back up. No
+            cross-tier lateral communication is possible — not because agents are instructed to
+            avoid it, but because the pipes don't exist.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    n: 7,
     title: "Ship something real",
     teaser: "End-to-end: Telegram message → PR merged → npm published.",
     free: false,
@@ -561,7 +644,7 @@ const MetaHarnessCourse = () => {
         <div className="absolute inset-0 dot-bg opacity-30 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto">
           <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-            — Interactive Course · 7 Steps
+            — Interactive Course · 8 Steps
           </div>
           <h1 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.02] mb-8 break-words">
             Build Your Own{" "}

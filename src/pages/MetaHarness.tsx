@@ -71,6 +71,11 @@ const principles = [
     title: "Ephemerality with persistence",
     body: "Task agents are ephemeral — they run, ship, and exit. The coordinator is persistent — it holds state, routes work, and remembers context. The separation keeps agents cheap and stateless while keeping the coordinator deep and contextual.",
   },
+  {
+    n: "7",
+    title: "Constraints as architecture",
+    body: "Safety-critical constraints live at the infrastructure layer, not in prompts. Branch protection, MCP omission, budget caps, Redis gate keys — the intelligence operates freely inside a shaped space. It doesn't know the walls exist because the walls aren't instructions; they're the shape of the environment.",
+  },
 ];
 
 const redisChannels = [
@@ -130,7 +135,7 @@ const MetaHarness = () => {
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Design principles</dt>
-                <dd className="text-foreground">6</dd>
+                <dd className="text-foreground">7</dd>
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Human in the loop</dt>
@@ -408,12 +413,91 @@ const MetaHarness = () => {
         </div>
       </Section>
 
+      {/* Constraints as Architecture */}
+      <Section
+        eyebrow="Critical design principle"
+        title={
+          <>
+            Constraints as{" "}
+            <span className="italic text-accent-blue">architecture.</span>
+          </>
+        }
+      >
+        <div className="grid lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-7 space-y-6 text-foreground/75 leading-relaxed">
+            <p>
+              Do not encode safety-critical constraints in natural language prompts or CLAUDE.md.
+              Language-layer constraints can be argued with. Infrastructure-layer constraints cannot.
+            </p>
+            <p>
+              The intelligence operates freely inside a shaped space — it doesn't know the walls
+              exist because the walls aren't instructions, they're the shape of the environment.
+            </p>
+
+            {/* Comparison table */}
+            <div className="border border-foreground/10 overflow-hidden mt-8">
+              <div className="grid grid-cols-2 bg-foreground/5 border-b border-foreground/10">
+                <div className="px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/50">
+                  Language layer — soft, arguable
+                </div>
+                <div className="px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary border-l border-foreground/10">
+                  Infrastructure layer — hard, mechanical
+                </div>
+              </div>
+              {[
+                ['"Please don\'t push to main"', "Branch protection rules"],
+                ['"Only use approved tools"', "MCP config omission"],
+                ['"Stay under budget"', "max_budget_usd in spawn_agent"],
+                ['"Check the gate before proceeding"', "Redis gate key rejection at MCP layer"],
+                ['"Only work on listed repos"', "Allowed-repo set schema validation"],
+                ['"Don\'t merge without review"', "GitHub required reviews (mechanical block)"],
+              ].map(([soft, hard]) => (
+                <div
+                  key={soft}
+                  className="grid grid-cols-2 border-b border-foreground/8 last:border-0"
+                >
+                  <div className="px-5 py-3.5 text-xs text-foreground/50 font-mono leading-snug">
+                    {soft}
+                  </div>
+                  <div className="px-5 py-3.5 text-xs text-primary font-mono leading-snug border-l border-foreground/10">
+                    {hard}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <aside className="panel-ink p-8 space-y-6">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">
+                  — The rule
+                </div>
+                <p className="font-serif-display text-2xl leading-snug text-primary-foreground">
+                  If violating a constraint has real consequences, it belongs in the infrastructure —
+                  not in the language.
+                </p>
+                <div className="pt-6 border-t border-primary-foreground/15 space-y-4">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-glow">
+                    — Information flow is also architectural
+                  </div>
+                  <p className="text-sm text-primary-foreground/70 leading-relaxed">
+                    Telegram → coordinator → spawner → task agent. Notifications flow back up.
+                    No cross-tier lateral communication. The shape of the pipes determines what is
+                    possible — not the instructions inside them.
+                  </p>
+                </div>
+              </aside>
+            </FadeIn>
+          </div>
+        </div>
+      </Section>
+
       {/* Design principles */}
       <Section
         eyebrow="Design philosophy"
         title={
           <>
-            Six principles.{" "}
+            Seven principles.{" "}
             <span className="italic text-accent-blue">No exceptions.</span>
           </>
         }
