@@ -13,6 +13,15 @@ const workflows = [
     period: "1 year",
     tags: ["intelligence", "automation", "content", "saas"],
   },
+  {
+    slug: "photo-to-listing",
+    name: "Photo to Live Listing",
+    description:
+      "Physical inventory → published Squarespace store in under 2 hours. Florence-2 reads brand tags and fabric labels from photos. Claude writes polished listing copy. GitHub Pages hosts images. CSV import publishes everything.",
+    result: "4h → <2h",
+    period: "per 50-item batch",
+    tags: ["ecommerce", "vision", "automation", "content"],
+  },
 ];
 
 const Workflows = () => {
