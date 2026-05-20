@@ -23,6 +23,7 @@ const LightCode = ({ children }: { children: string }) => (
 );
 
 const slides: Slide[] = [
+  // ── Slide 1: Title ──────────────────────────────────────────────────────────
   {
     id: 1,
     label: "Title",
@@ -33,130 +34,176 @@ const slides: Slide[] = [
           — SF AI Meetup · 2026
         </div>
         <h1 className="font-serif-display text-5xl md:text-7xl lg:text-8xl font-light leading-[1.0] text-primary-foreground mb-8">
-          Meta-Harness<br />
-          <span className="text-primary italic">Engineering</span>
+          The Orchestration<br />
+          <span className="text-primary italic">Gap</span>
         </h1>
-        <p className="text-xl md:text-2xl text-primary-foreground/70 font-light max-w-xl leading-relaxed">
-          Building autonomous infrastructure with Claude Code.
+        <p className="text-xl md:text-2xl text-primary-foreground/70 font-light max-w-2xl leading-relaxed">
+          You have the agents.<br />
+          You don't have the harness.
         </p>
         <div className="mt-12 font-mono text-xs text-primary-foreground/40 uppercase tracking-[0.22em]">
-          Maks Soltan · gonzih@gmail.com
+          Maksim Soltan · gonzih@gmail.com
         </div>
       </div>
     ),
   },
+
+  // ── Slide 2: The Human Problem ───────────────────────────────────────────────
   {
     id: 2,
-    label: "The Problem",
-    variant: "light",
+    label: "The Human Problem",
+    variant: "ink",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-8">
           — The Problem
         </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.05] mb-10">
-          Orchestration hell.
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.05] text-primary-foreground mb-10">
+          You are still the<br />
+          <span className="text-primary italic">operations layer.</span>
         </h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="space-y-4 max-w-2xl">
           {[
-            {
-              title: "YAML pipelines",
-              body: "Every workflow is hand-coded. Failures need human diagnosis. Changing requirements = rewriting pipelines.",
-            },
-            {
-              title: "Credential sprawl",
-              body: "API keys in environment variables, secrets in CI config, tokens in build artifacts.",
-            },
-            {
-              title: "Human in the loop",
-              body: "Every deployment needs someone to watch it. Every PR needs a reviewer. Scale breaks human bandwidth.",
-            },
-          ].map(({ title, body }) => (
-            <div key={title} className="border-l-2 border-primary/30 pl-5">
-              <div className="font-mono text-sm text-primary font-semibold mb-2">{title}</div>
-              <p className="text-sm text-foreground/65 leading-relaxed">{body}</p>
+            "5 active projects → 5 Claude sessions open",
+            "Manually context-switching between them",
+            "Checking if tasks finished. Re-explaining context.",
+            "Watching terminals.",
+          ].map((item) => (
+            <div key={item} className="flex gap-3 items-start">
+              <span className="text-primary mt-1 shrink-0">—</span>
+              <p className="text-lg text-primary-foreground/70">{item}</p>
             </div>
           ))}
         </div>
+        <p className="mt-10 font-serif-display text-2xl text-primary-foreground/60 italic">
+          This is the wrong architecture.
+        </p>
       </div>
     ),
   },
+
+  // ── Slide 3: The Commodity Insight ──────────────────────────────────────────
   {
     id: 3,
-    label: "The Insight",
-    variant: "ink",
+    label: "The Commodity Insight",
+    variant: "light",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-8">
           — The Insight
         </div>
-        <p className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] text-primary-foreground mb-8">
-          Claude Code is not just a coding assistant.
-        </p>
-        <p className="text-xl md:text-2xl text-primary-foreground/65 font-light max-w-2xl leading-relaxed">
-          It is a general-purpose intelligence substrate that can be wrapped, orchestrated,
-          and composed into autonomous infrastructure.
-        </p>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light leading-[1.05] mb-10">
+          The coding agent is solved.<br />
+          <span className="text-foreground/35">Or rapidly commoditizing.</span>
+        </h2>
+        <div className="grid md:grid-cols-2 gap-10 max-w-3xl">
+          <div>
+            <div className="font-mono text-xs text-foreground/40 uppercase tracking-[0.18em] mb-3">
+              Agents (commoditizing)
+            </div>
+            <div className="space-y-2 font-mono text-sm text-foreground/55">
+              {["Claude Code", "Codex", "Cursor", "OpenClaw"].map((a) => (
+                <div key={a} className="border-l-2 border-foreground/15 pl-3">
+                  {a}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="font-mono text-xs text-primary uppercase tracking-[0.18em] mb-3">
+              The actual bottleneck
+            </div>
+            <div className="space-y-3">
+              {[
+                "Who decides WHAT to run?",
+                "And WHEN? And WHERE?",
+                "Who knows when it's DONE?",
+              ].map((q) => (
+                <p
+                  key={q}
+                  className="text-sm text-foreground/70 border-l-2 border-primary/30 pl-3"
+                >
+                  {q}
+                </p>
+              ))}
+            </div>
+            <p className="mt-8 font-serif-display text-xl text-foreground italic">
+              That's the orchestration gap.
+            </p>
+          </div>
+        </div>
       </div>
     ),
   },
+
+  // ── Slide 4: What's Actually Missing ────────────────────────────────────────
   {
     id: 4,
-    label: "3-Tier Architecture",
+    label: "What's Missing",
     variant: "light",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Architecture · 3 Tiers
+          — What's Actually Missing
         </div>
-        <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-10">
-          Three tiers. Each with a distinct role.
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8 leading-[1.1]">
+          Most frameworks solve<br />the wrong problem.
         </h2>
-        <LightCode>{`launchd (KeepAlive: true)
-  └── cc-tg  ← coordinator / Telegram bridge
-        └── Claude Code (--continue, project context)
-              └── cc-agent MCP  ← worker spawner
-                    └── claude subprocess  ← ephemeral task agent
-                          └── more subagents...`}</LightCode>
+        <div className="grid md:grid-cols-3 gap-5 mb-10">
+          {[
+            { name: "LangChain", problem: "Chains prompts, not work" },
+            { name: "CrewAI", problem: "Coordinates agents in a single process" },
+            { name: "AutoGPT", problem: "No real human-in-the-loop" },
+          ].map(({ name, problem }) => (
+            <div key={name} className="border border-foreground/10 p-5">
+              <div className="font-mono text-sm text-primary mb-2">{name}</div>
+              <p className="text-sm text-foreground/55 leading-relaxed">{problem}</p>
+            </div>
+          ))}
+        </div>
+        <div className="border-l-4 border-primary pl-6 max-w-2xl">
+          <p className="text-foreground/80 leading-relaxed">
+            Nobody has:{" "}
+            <span className="text-foreground">persistent coordinator</span> +{" "}
+            <span className="text-foreground">async task fleet</span> +{" "}
+            <span className="text-foreground">project grid</span> +{" "}
+            <span className="text-foreground">human-in-the-loop via messaging</span>
+          </p>
+        </div>
       </div>
     ),
   },
+
+  // ── Slide 5: The Mental Model ────────────────────────────────────────────────
   {
     id: 5,
-    label: "Tier 1: Coordinator",
+    label: "Mental Model",
     variant: "ink",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Tier 1 · cc-tg
+          — The Mental Model
         </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
-          The Coordinator
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10 leading-[1.05]">
+          A grid.<br />
+          <span className="text-primary/80">Projects × Tasks in flight.</span>
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="space-y-4 text-primary-foreground/75 leading-relaxed">
-            <p>
-              A Node.js process managed by launchd with{" "}
-              <code className="font-mono text-primary">KeepAlive: true</code>.
-            </p>
-            <p>
-              Bridges Telegram messages to a persistent{" "}
-              <code className="font-mono text-primary">claude --continue</code> session in the target
-              project directory.
-            </p>
-            <p>Holds all project context statefully across days and restarts.</p>
-          </div>
-          <div className="space-y-3">
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          <Code>{`              tasks →
+            ┌─────────────────────
+projects ↓  │  ●  ●  ·  ·  ·
+            │  ·  ●  ●  ·  ·
+            │  ·  ·  ·  ●  ·`}</Code>
+          <div className="space-y-4">
             {[
-              { label: "Persistence", value: "launchd KeepAlive: true" },
-              { label: "Context", value: "claude --continue" },
-              { label: "Restart rule", value: "pkill, never launchctl unload" },
-              { label: "Input", value: "Telegram messages" },
-              { label: "Output", value: "Redis pub/sub + Telegram" },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex justify-between font-mono text-xs border-b border-primary-foreground/10 pb-2">
-                <span className="text-primary-foreground/50 uppercase tracking-[0.15em]">{label}</span>
-                <span className="text-primary">{value}</span>
+              "One entry point: Telegram message",
+              "Coordinator parses intent → branches into tasks",
+              "Each branch runs independently to completion",
+              "You just get notified. No status checks. No re-explaining.",
+            ].map((item, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <span className="font-mono text-primary text-sm shrink-0">{i + 1}.</span>
+                <p className="text-primary-foreground/75 text-sm leading-relaxed">{item}</p>
               </div>
             ))}
           </div>
@@ -164,92 +211,79 @@ const slides: Slide[] = [
       </div>
     ),
   },
+
+  // ── Slide 6: Architecture: 3 Tiers ──────────────────────────────────────────
   {
     id: 6,
-    label: "Tier 2: Worker Spawner",
+    label: "Architecture",
     variant: "light",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Tier 2 · cc-agent MCP
+          — Architecture · 3 Tiers
         </div>
-        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8">
-          The Worker Spawner
+        <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-8">
+          Three tiers. Each with a distinct role.
         </h2>
-        <div className="grid md:grid-cols-2 gap-10">
-          <div>
-            <p className="text-foreground/70 leading-relaxed mb-6">
-              An MCP server that exposes tool calls to the coordinator's Claude session.
-            </p>
-            <LightCode>{`spawn_agent(repo_url, task, branch)
-  → job_id
-
-list_jobs()
-  → [{job_id, status, repo}]
-
-get_job_output(job_id)
-  → stdout/stderr log
-
-cancel_job(job_id) → bool`}</LightCode>
-          </div>
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50 mb-4">
-              Job lifecycle
-            </p>
-            <div className="space-y-2 font-mono text-sm">
-              {["PENDING", "RUNNING", "COMPLETED", "FAILED", "INTERRUPTED"].map((s, i) => (
-                <div
-                  key={s}
-                  className={`px-4 py-2 border-l-2 ${
-                    s === "COMPLETED"
-                      ? "border-primary text-primary"
-                      : s === "FAILED" || s === "INTERRUPTED"
-                      ? "border-destructive text-destructive"
-                      : "border-foreground/20 text-foreground/60"
-                  }`}
-                >
-                  {i > 0 && <span className="text-foreground/30 mr-2">↘</span>}{s}
-                </div>
-              ))}
+        <LightCode>{`launchd (KeepAlive: true)
+  └── cc-tg  ← coordinator / entry point / Telegram bridge
+        └── Claude Code --continue  ← persistent project context
+              └── cc-agent MCP  ← task spawner
+                    └── ephemeral task agents  ← do the actual work`}</LightCode>
+        <div className="grid md:grid-cols-3 gap-5 mt-8">
+          {[
+            { tier: "Tier 1", name: "Coordinator", desc: "Persistent, stateful, always-on" },
+            { tier: "Tier 2", name: "Spawner", desc: "Manages job lifecycle + notifications" },
+            { tier: "Tier 3", name: "Task Agents", desc: "Ephemeral, powerful, run to completion" },
+          ].map(({ tier, name, desc }) => (
+            <div key={tier} className="border-t-2 border-primary/30 pt-4">
+              <div className="font-mono text-xs text-primary mb-1">{tier}</div>
+              <div className="font-mono text-sm text-foreground font-medium mb-1">{name}</div>
+              <p className="text-xs text-foreground/55">{desc}</p>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     ),
   },
+
+  // ── Slide 7: One Entry Point, Multiple Branches ──────────────────────────────
   {
     id: 7,
-    label: "Tier 3: Task Agents",
+    label: "Multiple Branches",
     variant: "ink",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Tier 3 · Ephemeral Agents
+          — One Message → Many Agents
         </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
-          Task Agents
-        </h2>
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          <div className="space-y-4 text-primary-foreground/75 leading-relaxed">
-            <p>
-              Isolated Claude Code sessions spawned into a fresh worktree of the target repo.
-              Ephemeral by design — they run, ship, and exit.
-            </p>
-            <p>Every agent prompt ends with terminal steps. Agents that don't ship are not done.</p>
-          </div>
-          <Code>{`gh pr create \\
-  --title "<verb>: <what>" \\
-  --body "<why>" \\
-  --base main
-
-gh pr merge --squash --auto
-
-npm version patch && \\
-npm publish --access public`}</Code>
+        <div className="bg-black/30 border border-primary/20 p-5 mb-8 font-mono text-sm text-primary-foreground/80 italic max-w-2xl">
+          "Add auth to the API, fix the mobile overflow bug,<br />
+          and write the ISOC grant proposal"
         </div>
+        <Code>{`coordinator parses intent
+  → spawn_agent(api-repo, "add auth")         → agent #1 RUNNING
+  → spawn_agent(mobile-repo, "fix overflow")  → agent #2 RUNNING
+  → spawn_agent(docs-repo, "write grant")     → agent #3 RUNNING`}</Code>
+        <div className="mt-8 grid grid-cols-3 gap-4 max-w-xl">
+          {[
+            "1 message sent",
+            "3 instances working",
+            "3 notifications back",
+          ].map((item) => (
+            <div key={item} className="text-center border-t border-primary/20 pt-4">
+              <p className="text-primary-foreground/65 text-xs">{item}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-6 font-serif-display text-lg text-primary-foreground/50 italic">
+          No context switching. No terminal watching. No manual coordination.
+        </p>
       </div>
     ),
   },
+
+  // ── Slide 8: The Prompt Trick ────────────────────────────────────────────────
   {
     id: 8,
     label: "The Prompt Trick",
@@ -271,7 +305,7 @@ npm publish --access public`}</Code>
   '--dangerously-skip-permissions',
   '-p', prompt
 ], {
-  cwd: '/Users/feral/money-brain',  // inherits gmail-personal MCP
+  cwd: '/Users/you/project',  // ← inherits gmail MCP from ~/.claude.json
   env: { ...process.env, CLAUDE_CODE_OAUTH_TOKEN: token },
   timeout: 60_000,
 })`}</LightCode>
@@ -282,264 +316,346 @@ npm publish --access public`}</Code>
       </div>
     ),
   },
+
+  // ── Slide 9: Constraints as Architecture ────────────────────────────────────
   {
     id: 9,
-    label: "Redis Nervous System",
+    label: "Constraints as Architecture",
     variant: "ink",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Communication
+          — Constraints as Architecture
         </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10">
-          Redis as the nervous system.
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light text-primary-foreground mb-8 leading-[1.05]">
+          Don't put constraints in prompts.<br />
+          <span className="text-primary italic">Encode them in the infrastructure.</span>
         </h2>
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="space-y-3">
-            {[
-              { key: "cca:notify:<project>", purpose: "Agent completion → Telegram" },
-              { key: "cca:chat:log:<project>", purpose: "Full conversation log" },
-              { key: "whiteh:auto_send_queue", purpose: "Email disclosure queue" },
-              { key: "whiteh:disclosures", purpose: "Vuln discovery log" },
-            ].map(({ key, purpose }) => (
-              <div key={key} className="border-b border-primary-foreground/10 pb-3">
-                <code className="font-mono text-xs text-primary block mb-1 break-all">{key}</code>
-                <p className="text-xs text-primary-foreground/55">{purpose}</p>
-              </div>
-            ))}
+        <div className="grid grid-cols-2 gap-4 mb-2 max-w-2xl">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-foreground/30">
+            Words (arguable)
           </div>
-          <Code>{`agent task completes
-  → cc-agent publishes to
-    cca:notify:money-brain
-  → cc-tg subscribes
-  → flushes to Telegram
-  → appends to chat log
-
-# No polling. Push only.`}</Code>
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
+            Infrastructure (mechanical)
+          </div>
         </div>
-      </div>
-    ),
-  },
-  {
-    id: 10,
-    label: "Design Principles",
-    variant: "light",
-    content: (
-      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Design Philosophy
-        </div>
-        <h2 className="font-serif-display text-3xl md:text-5xl font-light mb-8">
-          Seven principles. No exceptions.
-        </h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="space-y-3 max-w-2xl">
           {[
-            { n: "1", title: "Intelligence over orchestration", body: "Natural language, not YAML" },
-            { n: "2", title: "Self-healing by default", body: "KeepAlive: true, always on" },
-            { n: "3", title: "Zero credentials in code", body: "Prompt trick, always" },
-            { n: "4", title: "Ship as definition of done", body: "PR merged + published" },
-            { n: "5", title: "Composability through MCP", body: "New capability = new MCP" },
-            { n: "6", title: "Ephemerality with persistence", body: "Agents die, coordinator lives" },
-            { n: "7", title: "Constraints as architecture", body: "Rules are the shape, not the words" },
-          ].map(({ n, title, body }) => (
-            <div key={n} className="flex gap-4 items-start py-3 border-b border-foreground/8">
-              <span className="font-mono text-xs text-primary shrink-0 w-5">{n}</span>
-              <div>
-                <div className="font-mono text-sm text-foreground font-medium mb-0.5">{title}</div>
-                <div className="text-xs text-foreground/55">{body}</div>
-              </div>
+            { soft: '"Never push to main" in CLAUDE.md', hard: "Branch protection → push mechanically rejected" },
+            { soft: '"Don\'t exceed $50 budget" in prompt', hard: "max_budget_usd in spawn_agent" },
+            { soft: '"Check the gate first"', hard: "Redis gate key — MCP rejects without it" },
+          ].map(({ soft, hard }) => (
+            <div
+              key={soft}
+              className="grid grid-cols-2 gap-6 border-b border-primary-foreground/10 pb-3"
+            >
+              <span className="font-mono text-xs text-primary-foreground/40 leading-snug">{soft}</span>
+              <span className="font-mono text-xs text-primary leading-snug">{hard}</span>
             </div>
           ))}
         </div>
-      </div>
-    ),
-  },
-  {
-    id: 11,
-    label: "Constraints: Wrong Way",
-    variant: "light",
-    content: (
-      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Design Principle · 7
-        </div>
-        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-10">
-          The traditional approach.
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/40 mb-4">
-              Language-layer constraints
-            </div>
-            <LightCode>{`# CLAUDE.md
-Never push to main.
-Only use approved tools.
-Stay under $10 per task.
-Don't merge without review.
-Check the gate before proceeding.`}</LightCode>
-            <p className="mt-4 text-sm text-foreground/55 leading-relaxed">
-              These are instructions. They can be argued with, misinterpreted, overridden in an
-              emergency, or ignored in a sufficiently creative framing.
-            </p>
-          </div>
-          <div className="space-y-4">
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/40 mb-4">
-              What can go wrong
-            </div>
-            {[
-              "Agent is told it's an emergency — overrides the rule",
-              "Ambiguous framing causes misinterpretation",
-              "Rule is present but silently ignored under pressure",
-              "No mechanism to verify compliance after the fact",
-            ].map((item) => (
-              <div key={item} className="flex gap-3 items-start border-l-2 border-destructive/30 pl-4">
-                <p className="text-sm text-foreground/60 leading-snug">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 12,
-    label: "Constraints: Right Way",
-    variant: "ink",
-    content: (
-      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Design Principle · 7 · Meta-harness approach
-        </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
-          The rules don't exist as words.
-          <br />
-          <span className="text-primary italic">They are the shape of the space.</span>
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <div className="space-y-3">
-            {[
-              { soft: '"Don\'t push to main"', hard: "Branch protection (mechanical block)" },
-              { soft: '"Only approved tools"', hard: "MCP config omission (tool doesn't exist)" },
-              { soft: '"Stay under budget"', hard: "max_budget_usd in spawn_agent" },
-              { soft: '"Check the gate"', hard: "Redis gate key — MCP rejects without it" },
-            ].map(({ soft, hard }) => (
-              <div key={soft} className="grid grid-cols-2 gap-3 border-b border-primary-foreground/10 pb-3">
-                <span className="font-mono text-xs text-primary-foreground/40 leading-snug">{soft}</span>
-                <span className="font-mono text-xs text-primary leading-snug">{hard}</span>
-              </div>
-            ))}
-          </div>
-          <div className="bg-black/20 border border-primary-foreground/15 p-6">
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-glow mb-4">
-              — The key insight
-            </div>
-            <p className="text-primary-foreground/80 leading-relaxed text-sm">
-              The intelligence operates freely inside a shaped space. It doesn't know the walls exist
-              because the walls aren't instructions — they're the shape of the environment.
-            </p>
-            <p className="mt-4 text-primary-foreground/55 text-xs leading-relaxed">
-              Safety-critical logic has no business being in natural language.
-              All of it belongs in the orchestration layer.
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 13,
-    label: "The Full Cycle",
-    variant: "ink",
-    content: (
-      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — The Full Cycle
-        </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8">
-          One message. Full stack.
-        </h2>
-        <Code>{`Telegram message
-  → cc-tg coordinator (persistent Claude session)
-  → spawn_agent via cc-agent MCP
-  → task agent: clone → branch → implement → test
-  → PR opened, merged
-  → npm publish, service restart
-  → launchd respawns with latest package
-  → Redis notification
-  → Telegram reply`}</Code>
-        <p className="mt-6 text-primary-foreground/55 text-sm font-light">
-          No human in the loop. One message. Complete stack.
+        <p className="mt-8 text-primary-foreground/55 text-sm max-w-xl leading-relaxed">
+          The intelligence operates freely inside a shaped space. The walls aren't words —
+          they're the environment.
         </p>
       </div>
     ),
   },
+
+  // ── Slide 10: Information Flow is Directional ───────────────────────────────
   {
-    id: 14,
-    label: "Live Demo",
+    id: 10,
+    label: "Information Flow",
     variant: "light",
     content: (
       <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — Live Demo
+          — Information Flow
         </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light mb-8">
-          Watching it run.
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8 leading-[1.1]">
+          This is not a mesh.<br />
+          <span className="text-foreground/35">It's a tree.</span>
         </h2>
-        <div className="space-y-6">
-          <p className="text-foreground/70 leading-relaxed text-lg">
-            Sending a Telegram message: <em>"Add a /status endpoint to the API. Tests, PR, merge, publish."</em>
-          </p>
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { step: "T+0s", event: "Message received by cc-tg" },
-              { step: "T+5s", event: "spawn_agent called, job PENDING → RUNNING" },
-              { step: "T+90s", event: "Agent: endpoint implemented, tests passing" },
-              { step: "T+120s", event: "PR opened, auto-merged by gh" },
-              { step: "T+140s", event: "npm publish v1.0.3 complete" },
-              { step: "T+145s", event: "Telegram: 'Done. PR #38 merged.'" },
-            ].map(({ step, event }) => (
-              <div key={step} className="border border-foreground/10 px-4 py-3">
-                <div className="font-mono text-xs text-primary mb-1">{step}</div>
-                <div className="text-xs text-foreground/70 leading-snug">{event}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 15,
-    label: "What it replaces",
-    variant: "ink",
-    content: (
-      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
-        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-          — What it replaces
-        </div>
-        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10">
-          What you no longer need.
-        </h2>
-        <div className="grid md:grid-cols-2 gap-x-16 gap-y-6">
+        <LightCode>{`Telegram  →  coordinator  →  spawner  →  task agents
+                                                    ↓
+coordinator  ←  Telegram  ←  spawner  ←  notifications`}</LightCode>
+        <div className="mt-8 space-y-4 max-w-xl">
           {[
-            "Custom GitHub Actions workflows",
-            "CI/CD orchestration layers",
-            "Credential management services",
-            "Deployment approval workflows",
-            "Status polling scripts",
-            "On-call humans for routine deploys",
+            "No lateral cross-agent communication",
+            "The shape of the pipes determines what's possible — not the instructions inside them",
+            "Rigid information flow = predictable, debuggable, trustworthy",
           ].map((item) => (
-            <div key={item} className="flex gap-3 items-center border-b border-primary-foreground/10 pb-4">
-              <span className="text-primary text-lg">—</span>
-              <span className="text-primary-foreground/75 text-sm">{item}</span>
+            <div key={item} className="flex gap-3 items-start border-l-2 border-primary/30 pl-4">
+              <p className="text-sm text-foreground/70 leading-relaxed">{item}</p>
             </div>
           ))}
         </div>
       </div>
     ),
   },
+
+  // ── Slide 11: Self-Healing by Default ───────────────────────────────────────
+  {
+    id: 11,
+    label: "Self-Healing",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Self-Healing by Default
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-8 leading-[1.05]">
+          Crashes are events.<br />
+          <span className="text-primary italic">Not incidents.</span>
+        </h2>
+        <Code>{`# launchd plist — every service is always-on
+<key>KeepAlive</key>
+<true/>
+
+# deploy cycle
+agent builds → npm publish
+pkill node   → launchd respawns immediately
+             → running version = latest published`}</Code>
+        <p className="mt-8 text-primary-foreground/55 text-sm leading-relaxed max-w-xl">
+          No on-call engineer for the harness itself. Atomic: the running version is always
+          the latest published version.
+        </p>
+      </div>
+    ),
+  },
+
+  // ── Slide 12: The Compound Effect ───────────────────────────────────────────
+  {
+    id: 12,
+    label: "The Compound Effect",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — The Compound Effect
+        </div>
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8 leading-[1.1]">
+          The harness gets smarter<br />
+          <span className="text-foreground/35">without you rewriting it.</span>
+        </h2>
+        <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
+          {[
+            {
+              title: "CLAUDE.md",
+              body: "Accumulates institutional knowledge across every task run",
+            },
+            {
+              title: "MCP composition",
+              body: "New capability = new MCP server, not a rewrite of the harness",
+            },
+            {
+              title: "Memory system",
+              body: "Builds project context and user preferences across sessions",
+            },
+            {
+              title: "1000 tasks later",
+              body: "The coordinator knows your codebase better than any new hire",
+            },
+          ].map(({ title, body }) => (
+            <div key={title} className="border-l-2 border-primary/30 pl-5 py-1">
+              <div className="font-mono text-sm text-primary mb-1">{title}</div>
+              <p className="text-sm text-foreground/60 leading-relaxed">{body}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 font-serif-display text-2xl text-foreground/80 italic">
+          This is the moat. Not the agents — anyone can get agents.
+        </p>
+      </div>
+    ),
+  },
+
+  // ── Slide 13: What You Can Build On This ────────────────────────────────────
+  {
+    id: 13,
+    label: "What You Can Build",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-8">
+          — What You Can Build On This
+        </div>
+        <div className="grid md:grid-cols-2 gap-x-16 gap-y-4 max-w-2xl">
+          {[
+            "Autonomous PR review → merge pipeline",
+            "Email monitoring → task dispatch",
+            "Cron-triggered research → report generation",
+            "Multi-repo dependency update coordination",
+            "Customer request → code → deploy → notify",
+            "Security scan → patch → PR → merge",
+          ].map((item) => (
+            <div
+              key={item}
+              className="flex gap-3 items-center py-3 border-b border-primary-foreground/10"
+            >
+              <span className="text-primary text-sm shrink-0">→</span>
+              <span className="text-primary-foreground/75 text-sm">{item}</span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 text-primary-foreground/45 text-sm">
+          All from a Telegram message, or scheduled, or triggered by an event.
+        </p>
+      </div>
+    ),
+  },
+
+  // ── Slide 14: Live Example ───────────────────────────────────────────────────
+  {
+    id: 14,
+    label: "Live Example",
+    variant: "light",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
+          — Live Example
+        </div>
+        <div className="bg-foreground/5 border border-foreground/10 p-4 font-mono text-sm text-foreground/70 mb-8 italic max-w-xl">
+          "Fix the mobile overflow bug across 3 repos"
+        </div>
+        <div className="space-y-3 max-w-xl">
+          {[
+            { t: "T+0s", e: "Message → coordinator" },
+            { t: "T+5s", e: "3 agents spawn, each with repo-specific context" },
+            { t: "T+6m", e: "Agents: fix applied, tests passing in all 3" },
+            { t: "T+7m", e: "3 PRs opened, auto-merged by gh" },
+            { t: "T+8m", e: "3 Telegram notifications: 'PR #47 merged — overflow fixed'" },
+          ].map(({ t, e }) => (
+            <div
+              key={t}
+              className="grid grid-cols-[80px_1fr] gap-4 border-b border-foreground/8 pb-3"
+            >
+              <span className="font-mono text-xs text-primary">{t}</span>
+              <span className="text-sm text-foreground/70">{e}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 flex gap-10 font-mono">
+          <div>
+            <div className="text-foreground/40 text-xs uppercase tracking-[0.18em] mb-1">
+              Human involvement
+            </div>
+            <div className="text-foreground text-2xl font-semibold">1 message</div>
+          </div>
+          <div>
+            <div className="text-foreground/40 text-xs uppercase tracking-[0.18em] mb-1">
+              Total time
+            </div>
+            <div className="text-foreground text-2xl font-semibold">~8 minutes</div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  // ── Slide 15: vs. The Alternative ───────────────────────────────────────────
+  {
+    id: 15,
+    label: "vs. The Alternative",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-8">
+          — vs. The Alternative
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="border border-primary-foreground/15 p-6">
+            <div className="font-mono text-xs text-primary-foreground/40 uppercase tracking-[0.15em] mb-5">
+              Manual
+            </div>
+            <div className="space-y-3">
+              {[
+                "Open 3 terminals",
+                "Clone 3 repos",
+                "Context-switch 6+ times",
+                "Manually PR each",
+                "Remember to check back",
+              ].map((item) => (
+                <div key={item} className="flex gap-2 items-center text-sm text-primary-foreground/55">
+                  <span className="text-primary-foreground/30">×</span> {item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 border-t border-primary-foreground/10 pt-4 space-y-1 font-mono text-xs">
+              <div>
+                <span className="text-primary-foreground/35">Time: </span>
+                <span className="text-primary-foreground/65">45 minutes</span>
+              </div>
+              <div>
+                <span className="text-primary-foreground/35">Cognitive load: </span>
+                <span className="text-primary-foreground/65">High</span>
+              </div>
+            </div>
+          </div>
+          <div className="border border-primary/30 p-6 bg-primary/5">
+            <div className="font-mono text-xs text-primary uppercase tracking-[0.15em] mb-5">
+              Meta-harness
+            </div>
+            <div className="space-y-3">
+              {[
+                "Send one message",
+                "Do something else entirely",
+                "Get 3 notifications",
+              ].map((item) => (
+                <div key={item} className="flex gap-2 items-center text-sm text-primary-foreground/80">
+                  <span className="text-primary">✓</span> {item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 border-t border-primary/20 pt-4 space-y-1 font-mono text-xs">
+              <div>
+                <span className="text-primary/50">Time: </span>
+                <span className="text-primary font-semibold">8 minutes</span>
+              </div>
+              <div>
+                <span className="text-primary/50">Cognitive load: </span>
+                <span className="text-primary font-semibold">Zero</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  // ── Slide 16: The Harness Is the Leverage ───────────────────────────────────
   {
     id: 16,
+    label: "The Leverage",
+    variant: "ink",
+    content: (
+      <div className="flex flex-col justify-center h-full px-8 md:px-20 max-w-5xl mx-auto">
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-10">
+          — The Leverage
+        </div>
+        <p className="font-serif-display text-2xl md:text-3xl font-light text-primary-foreground/40 mb-3">
+          You are not 10× more productive
+        </p>
+        <p className="font-serif-display text-2xl md:text-3xl font-light text-primary-foreground/40 mb-10">
+          because Claude Code is better.
+        </p>
+        <p className="font-serif-display text-4xl md:text-6xl font-light text-primary-foreground mb-10 leading-[1.1]">
+          You are 10× more productive because you stopped being the ops layer.
+        </p>
+        <div className="border-t border-primary/30 pt-6 max-w-xl">
+          <p className="text-lg font-mono">
+            <span className="text-primary">The intelligence is the commodity.</span>
+            <br />
+            <span className="text-primary-foreground/70">The orchestration is the leverage.</span>
+          </p>
+        </div>
+      </div>
+    ),
+  },
+
+  // ── Slide 17: Getting Started ────────────────────────────────────────────────
+  {
+    id: 17,
     label: "Getting Started",
     variant: "light",
     content: (
@@ -547,30 +663,47 @@ Check the gate before proceeding.`}</LightCode>
         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
           — Getting Started
         </div>
-        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-8">
-          Start with the reference. Build with the course.
+        <h2 className="font-serif-display text-4xl md:text-5xl font-light mb-10">
+          Start today.
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="border border-foreground/10 p-6">
-            <div className="font-mono text-xs text-primary mb-3">Technical Reference</div>
-            <p className="text-foreground/65 text-sm leading-relaxed mb-4">
-              Full architecture docs, code samples, and design principles.
-            </p>
-            <p className="font-mono text-sm text-foreground">gonzih.github.io/meta-harness</p>
-          </div>
-          <div className="border border-primary/30 p-6 bg-primary/5">
-            <div className="font-mono text-xs text-primary mb-3">Interactive Course</div>
-            <p className="text-foreground/65 text-sm leading-relaxed mb-4">
-              7 steps, hands-on. From prerequisites to end-to-end autonomous deploy.
-            </p>
-            <p className="font-mono text-sm text-foreground">gonzih.github.io/meta-harness-course</p>
-          </div>
+        <div className="grid md:grid-cols-3 gap-5">
+          {[
+            {
+              label: "Open source · MIT",
+              title: "cc-agent",
+              detail: "npm install -g @gonzih/cc-agent",
+              sub: "github.com/gonzih/cc-agent",
+            },
+            {
+              label: "Architecture reference",
+              title: "gonzih.github.io/meta-harness",
+              detail: "Full docs, code samples, design principles",
+              sub: "Free",
+            },
+            {
+              label: "Interactive course",
+              title: "gonzih.github.io/meta-harness-course",
+              detail: "7 steps, hands-on build",
+              sub: "Access code: HARNESS2026",
+            },
+          ].map(({ label, title, detail, sub }) => (
+            <div key={label} className="border border-foreground/10 p-6">
+              <div className="font-mono text-xs text-primary mb-2 uppercase tracking-[0.15em]">
+                {label}
+              </div>
+              <div className="font-mono text-sm text-foreground mb-3 break-all">{title}</div>
+              <p className="text-xs text-foreground/50 mb-1 leading-relaxed">{detail}</p>
+              <p className="text-xs text-foreground/40 font-mono mt-2">{sub}</p>
+            </div>
+          ))}
         </div>
       </div>
     ),
   },
+
+  // ── Slide 18: Q&A ───────────────────────────────────────────────────────────
   {
-    id: 17,
+    id: 18,
     label: "Q&A",
     variant: "ink",
     content: (
@@ -582,11 +715,14 @@ Check the gate before proceeding.`}</LightCode>
           Questions?
         </h2>
         <p className="text-xl text-primary-foreground/55 font-light mb-12">
-          The infrastructure pattern, not the product. <br />The product is whatever the agents build.
+          Want to go deeper? Let's build your harness.
         </p>
         <div className="space-y-2 font-mono text-sm text-primary-foreground/60">
-          <p>Maks Soltan</p>
-          <a href="mailto:gonzih@gmail.com" className="text-primary hover:text-primary-glow transition-colors">
+          <p>Maksim Soltan</p>
+          <a
+            href="mailto:gonzih@gmail.com"
+            className="text-primary hover:text-primary-glow transition-colors"
+          >
             gonzih@gmail.com
           </a>
           <p className="text-primary-foreground/40 text-xs mt-4">gonzih.github.io</p>
@@ -690,14 +826,18 @@ const MetaHarnessTalk = () => {
         {current > 0 && (
           <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none">
             <ArrowLeft
-              className={`w-6 h-6 ${slide.variant === "ink" ? "text-primary-foreground" : "text-foreground"}`}
+              className={`w-6 h-6 ${
+                slide.variant === "ink" ? "text-primary-foreground" : "text-foreground"
+              }`}
             />
           </div>
         )}
         {current < slides.length - 1 && (
           <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none">
             <ArrowRight
-              className={`w-6 h-6 ${slide.variant === "ink" ? "text-primary-foreground" : "text-foreground"}`}
+              className={`w-6 h-6 ${
+                slide.variant === "ink" ? "text-primary-foreground" : "text-foreground"
+              }`}
             />
           </div>
         )}
@@ -729,14 +869,12 @@ const MetaHarnessTalk = () => {
                 setDirection(i > current ? 1 : -1);
                 setCurrent(i);
               }}
-              className={`w-1.5 h-1.5 rounded-full transition-all ${
+              className={`h-1.5 rounded-full transition-all ${
                 i === current
-                  ? slide.variant === "ink"
-                    ? "bg-primary w-4"
-                    : "bg-primary w-4"
+                  ? "bg-primary w-4"
                   : slide.variant === "ink"
-                  ? "bg-primary-foreground/20"
-                  : "bg-foreground/20"
+                  ? "bg-primary-foreground/20 w-1.5"
+                  : "bg-foreground/20 w-1.5"
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />
