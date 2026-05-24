@@ -813,6 +813,99 @@ def handle_answer(message):
         </div>
       </Section>
 
+      {/* meatbag-api package */}
+      <Section
+        eyebrow="The package"
+        title={
+          <>
+            <span className="text-primary">meatbag-api</span>{" "}
+            <span className="italic text-accent-blue">— the signal file, productized.</span>
+          </>
+        }
+      >
+        <div className="grid lg:grid-cols-5 gap-10">
+          <div className="lg:col-span-3 space-y-6 text-foreground/75 leading-relaxed">
+            <p>
+              The signal-file pattern from this post — screenshot the challenge, write a path,
+              poll for the answer — is now a real-time WebSocket service:{" "}
+              <code className="font-mono text-xs bg-primary/10 px-1.5 py-0.5 text-foreground/80">
+                @gonzih/meatbag-api
+              </code>
+              . Redis + WebSocket backend, a React solver UI you open on your phone, and a
+              drop-in TypeScript SDK. Same architecture, no filesystem glue code required.
+            </p>
+            <p>
+              The <code className="font-mono text-xs bg-primary/10 px-1.5 py-0.5 text-foreground/80">MeatbagClient</code> pauses
+              your automation at the checkpoint, sends the screenshot to the solver UI, and
+              resolves when a human clicks the tiles — identical semantics to the signal-file
+              loop above, over a network instead of{" "}
+              <code className="font-mono text-xs bg-primary/10 px-1.5 py-0.5 text-foreground/80">/tmp</code>.
+            </p>
+
+            <Code>{`import { MeatbagClient } from '@gonzih/meatbag-api';
+
+const client = new MeatbagClient({ url: 'http://localhost:3000' });
+
+// screenshotBase64: base64 PNG of the challenge grid
+// Human clicks tiles in the solver UI → resolves with tile indices
+const tiles = await client.solve(screenshotBase64);`}</Code>
+
+            <p>
+              Start a local server in one command — no config, no infra:
+            </p>
+
+            <Code>{`npx @gonzih/meatbag-api`}</Code>
+          </div>
+          <div className="lg:col-span-2">
+            <FadeIn>
+              <aside className="panel-ink p-8 space-y-6">
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">
+                    — What's included
+                  </div>
+                  <ul className="space-y-3 text-sm text-primary-foreground/75 leading-relaxed">
+                    {[
+                      "Redis + WebSocket backend — real-time tile delivery",
+                      "React solver UI — open on any device, click to resolve",
+                      "MeatbagClient SDK — drop-in TypeScript, promise-based",
+                      "npx zero-config start — server up in seconds",
+                    ].map((item) => (
+                      <li key={item} className="flex gap-3 items-start">
+                        <span className="text-primary-glow mt-0.5 shrink-0">—</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="pt-5 border-t border-primary-foreground/15 space-y-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-3">
+                    — Links
+                  </div>
+                  <a
+                    href="https://www.npmjs.com/package/@gonzih/meatbag-api"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 font-mono text-xs text-primary-foreground hover:text-primary-glow transition-colors"
+                  >
+                    <span className="text-primary-glow">→</span>
+                    npm: @gonzih/meatbag-api
+                  </a>
+                  <a
+                    href="https://github.com/gonzih/meatbag-api"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 font-mono text-xs text-primary-foreground hover:text-primary-glow transition-colors"
+                  >
+                    <span className="text-primary-glow">→</span>
+                    github.com/gonzih/meatbag-api
+                  </a>
+                </div>
+              </aside>
+            </FadeIn>
+          </div>
+        </div>
+      </Section>
+
       {/* Tags */}
       <section className="px-6 md:px-10 py-12 border-t border-foreground/10">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center gap-4">
