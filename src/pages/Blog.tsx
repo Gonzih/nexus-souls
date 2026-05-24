@@ -9,7 +9,7 @@ const posts = [
     title: "The Meatbag Checkpoint",
     date: "2026-05-23",
     description:
-      "An AI agent read my emails, found a hackathon, read my repos, wrote the submission, recorded the demo video, and hit submit — autonomously. One human checkpoint: 3 seconds on a reCAPTCHA tile grid. Total API cost: ~$3. A dispatch on adversarial tokens, autonomous form submission, and what it means when the unit of work is the task, not the session.",
+      "An AI agent read my emails, found a hackathon, read my repos, wrote the submission, recorded the demo video, and hit submit — autonomously. One human checkpoint: 3 seconds on a reCAPTCHA tile grid. Total API cost: ~$3. A dispatch on adversarial tokens, autonomous form submission, and what it means when the unit of work is the task, not the session. The signal-file pattern from this post is now @gonzih/meatbag-api — a real-time WebSocket service with a drop-in SDK.",
     tags: ["automation", "architecture", "ai-pipelines", "captcha", "hackathon", "agents"],
   },
 ];
