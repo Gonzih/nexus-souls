@@ -77,7 +77,29 @@
     border: 1px solid hsl(var(--surface-ink));
   }
   .panel-ink .text-muted-foreground { color: hsl(38 20% 70% / 0.7); }
-  .panel-ink .text-foreground { color: hsl(38 30% 96%); }
+  .panel-ink .text-foreground { color: hsl(var(--primary-foreground)); }
+  .panel-ink .text-foreground\/10 { color: hsl(var(--primary-foreground) / 0.10); }
+  .panel-ink .text-foreground\/40 { color: hsl(var(--primary-foreground) / 0.40); }
+  .panel-ink .text-foreground\/50 { color: hsl(var(--primary-foreground) / 0.50); }
+  .panel-ink .text-foreground\/55 { color: hsl(var(--primary-foreground) / 0.55); }
+  .panel-ink .text-foreground\/60 { color: hsl(var(--primary-foreground) / 0.60); }
+  .panel-ink .text-foreground\/70 { color: hsl(var(--primary-foreground) / 0.70); }
+  .panel-ink .text-foreground\/75 { color: hsl(var(--primary-foreground) / 0.75); }
+  .panel-ink .text-foreground\/80 { color: hsl(var(--primary-foreground) / 0.80); }
+  .panel-ink .text-accent-blue { color: hsl(var(--primary-glow)); }
+  /* Restore dark text in nested cream panels inside ink sections */
+  .panel-ink .panel .text-foreground { color: hsl(var(--foreground)); }
+  .panel-ink .panel .text-foreground\/40 { color: hsl(var(--foreground) / 0.40); }
+  .panel-ink .panel .text-foreground\/50 { color: hsl(var(--foreground) / 0.50); }
+  .panel-ink .panel .text-foreground\/55 { color: hsl(var(--foreground) / 0.55); }
+  .panel-ink .panel .text-foreground\/60 { color: hsl(var(--foreground) / 0.60); }
+  .panel-ink .panel .text-foreground\/70 { color: hsl(var(--foreground) / 0.70); }
+  .panel-ink .panel .text-foreground\/75 { color: hsl(var(--foreground) / 0.75); }
+  .panel-ink .panel .text-foreground\/80 { color: hsl(var(--foreground) / 0.80); }
+  .panel-ink .panel .text-accent-blue { color: hsl(var(--primary)); }
+  /* Fix border visibility in ink sections */
+  .panel-ink .border-foreground\/10 { border-color: hsl(var(--primary-foreground) / 0.10); }
+  .panel-ink .border-foreground\/15 { border-color: hsl(var(--primary-foreground) / 0.15); }
 
   .font-serif-display {
     font-family: 'Fraunces', 'Georgia', serif;
