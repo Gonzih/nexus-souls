@@ -5,6 +5,14 @@ import { Footer } from "@/components/nexus/Footer";
 
 const posts = [
   {
+    slug: "delegated-intelligence-os",
+    title: "The Operating System for Delegated Intelligence",
+    date: "2026-05-24",
+    description:
+      "One Telegram chat. One human. Fifteen agent jobs running in parallel across four repos. A manifesto-style architectural essay on cc-suite: the three-layer stack (cc-agent, cc-tg, cc-agent-ui), the Redis nervous system, swarm mode, meta-agents with persistent context, forum-based namespace routing, and the OF stack as a case study in zero-operator-code production systems.",
+    tags: ["architecture", "agents", "redis", "swarm", "telegram", "meta-agents", "cc-suite", "autonomy"],
+  },
+  {
     slug: "captcha-meatbag-checkpoint",
     title: "The Meatbag Checkpoint",
     date: "2026-05-23",
