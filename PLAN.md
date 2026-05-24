@@ -1,32 +1,41 @@
-# PLAN — Expand BlogCaptchaWorkflow into full hackathon post
+# Plan: Sync MetaHarness pages with BlogDelegatedIntelligence specifics
 
-## Task restatement
-Expand `src/pages/BlogCaptchaWorkflow.tsx` from a narrow CAPTCHA post into a full-arc
-blog post covering autonomous hackathon participation: discovery (Gmail MCP), research
-(reading repos), form authorship (17 fields from code), CAPTCHA (existing, reframed),
-demo video recording (Playwright + ffmpeg), resubmission, and the adversarial-tokens
-framework. Update Blog.tsx description to match.
+## Task
+Update MetaHarness.tsx, MetaHarnessCourse.tsx, MetaHarnessTalk.tsx to reflect concrete technical details documented in BlogDelegatedIntelligence.tsx (the canonical cc-suite architecture post). No new sections — only update existing content in place.
 
-## Approach
-Single-file overwrite of `BlogCaptchaWorkflow.tsx` — keep existing 4 sections (setup,
-signal-file pattern, tile indexing, adversarial boundary) but reframe + add 3 new sections
-before them and restructure throughout. Update hero stats. No new components needed.
+## Source of truth (BlogDelegatedIntelligence.tsx)
+- Redis key schema: cc:jobs:<id>, cc:jobs:<id>:log, cc:agents:<id>:heartbeat (5s TTL), cc:chat:<session_id>, cc:swarm:<id>, cc:swarm:<id>:results, cc:coordinator:tasks
+- Timing constants: LOG_FLUSH_DEBOUNCE_MS=800, COORDINATOR_POLL_MS=2000, DEP_RESOLUTION_TICK_MS=3000, heartbeat TTL=5s
+- Swarm 6-step: Goal in → Decompose → Claim → Execute → Collect → Synthesize
+- Forum routing: Telegram topic name → repo → meta-agent session; FORUM_META_AGENT_ROUTING env var; hashtag fallback #of-stack / #gonzih/of-stack
+- OF stack case study: 7 services, zero lines written by hand
 
-## Section structure (alternating cream/ink)
-- Hero: update subtitle, description, stats (human 3s, api ~$3, fields 17, stages 7)
-- S1 (cream): The full arc — 7-stage numbered dispatch, "unit is the task" thesis
-- S2 (ink): Discovery — Gmail MCP, Agora announcement, fit assessment
-- S3 (cream): Research — reading gonzih/oracle-agora + poly-scout, 3-layer agent, metrics
-- S4 (ink): Authoring the form — 17 fields, traction numbers, Playwright submission
-- S5 (cream): The CAPTCHA — existing signal-file sections merged, reframed as one chapter
-- S6 (ink): Video recording — Playwright browser, animated terminal, ffmpeg, resubmission
-- S7 (cream): Adversarial tokens + cost structure — framework + checkpoint table
+## Approach: Targeted text content updates only
+
+### MetaHarness.tsx
+1. Replace `redisChannels` array (old cca:/whiteh: keys) with 7 cc-suite keys from blog
+2. Update notification flow code block to use cc-suite key names
+3. Add timing constants (800ms/2s/3s/5s) as second aside in Redis section
+4. Update "full cycle" code block to include swarm_task parallel path
+5. Update design principle #6 to mention forum routing / meta-agent
+
+### MetaHarnessCourse.tsx
+1. Step 1 content: add swarm_task to MCP tools list
+2. Step 3 content: add FORUM_META_AGENT_ROUTING=true to .env block
+3. "What You Can Build" intro: reference OF stack case study (7 services, zero lines)
+
+### MetaHarnessTalk.tsx
+1. Slide 7 (Multiple Branches): mention swarm_task as higher-level primitive for parallel work
+2. Slide 12 (Compound Effect): update "Memory system" bullet to reference forum routing
+3. Slide 13 (What You Can Build): add OF stack reference (7 services, zero lines)
 
 ## Files to touch
-- `src/pages/BlogCaptchaWorkflow.tsx` — full rewrite/expansion
-- `src/pages/Blog.tsx` — update post description and tags
+- src/pages/MetaHarness.tsx
+- src/pages/MetaHarnessCourse.tsx
+- src/pages/MetaHarnessTalk.tsx
 
-## Risks
-- File is large; ensure all existing code blocks and the checkpoint table carry over
-- Keep alternating Section variants (ink/cream) matching the pattern
-- Mobile overflow: max-w-full on pre, overflow-x-auto on Code
+## Constraints
+- No new <Section> components
+- Keep visual layout/structure
+- Preserve marketing tone in Course and Talk pages
+- Text/data-array changes only

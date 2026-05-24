@@ -69,7 +69,7 @@ const principles = [
   {
     n: "6",
     title: "Ephemerality with persistence",
-    body: "Task agents are ephemeral — they run, ship, and exit. The coordinator is persistent — it holds state, routes work, and remembers context. The separation keeps agents cheap and stateless while keeping the coordinator deep and contextual.",
+    body: "Task agents are ephemeral — they run, ship, and exit. The coordinator is persistent — it holds state, routes work, and remembers context. Forum topic routing extends this: each Telegram topic name maps to a GitHub repo and a persistent meta-agent session (FORUM_META_AGENT_ROUTING=true), so the coordinator accumulates domain knowledge the way a long-tenured engineer accumulates codebase knowledge.",
   },
   {
     n: "7",
@@ -79,12 +79,13 @@ const principles = [
 ];
 
 const redisChannels = [
-  { key: "cca:notify:<project>", purpose: "pub/sub — agent completion notifications to Telegram" },
-  { key: "cca:chat:log:<project>", purpose: "append-only log of all Telegram ↔ Claude exchanges" },
-  { key: "whiteh:auto_send_queue", purpose: "disclosure email queue (white-hat scanner)" },
-  { key: "whiteh:disclosures", purpose: "rolling list of discovered vulnerabilities" },
-  { key: "whiteh:sent_emails", purpose: "sent email log (capped at 500)" },
-  { key: "whiteh:dead_letter_emails", purpose: "failed sends after MAX_REQUEUE_ATTEMPTS" },
+  { key: "cc:jobs:<job_id>", purpose: "Hash — job state, progress, output" },
+  { key: "cc:jobs:<job_id>:log", purpose: "Stream — structured log events (append-only)" },
+  { key: "cc:agents:<agent_id>:heartbeat", purpose: "String, 5s TTL — liveness signal (missing key = dead agent)" },
+  { key: "cc:chat:<session_id>", purpose: "Stream — chat log shared across all subscribers without coupling" },
+  { key: "cc:swarm:<swarm_id>", purpose: "Hash — swarm state + sub-task index" },
+  { key: "cc:swarm:<swarm_id>:results", purpose: "List — completed sub-task outputs collected for synthesis" },
+  { key: "cc:coordinator:tasks", purpose: "List — coordinator work queue" },
 ];
 
 const MetaHarness = () => {
@@ -356,14 +357,37 @@ const MetaHarness = () => {
                   — Notification flow
                 </div>
                 <Code>{`agent task completes
-  → cc-agent publishes to
-    cca:notify:money-brain
-  → cc-tg receives notification
-  → flushes to Telegram
-  → appends to Redis log`}</Code>
+  → writes cc:jobs:<job_id>:log (Stream)
+  → heartbeat cc:agents:<id>:heartbeat
+    expires after 5s TTL (liveness)
+  → cc-tg reads cc:chat:<session_id>
+  → flushes to Telegram`}</Code>
                 <p className="text-xs text-primary-foreground/60 leading-relaxed mt-4">
                   The coordinator never polls. It subscribes. Every state change is a push.
                 </p>
+              </aside>
+            </FadeIn>
+            <FadeIn delay={0.1}>
+              <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">
+                  — Timing constants
+                </div>
+                <dl className="space-y-3 font-mono text-xs">
+                  {[
+                    { key: "Log flush debounce", val: "800ms", note: "UI update batching — prevents thrash at high agent output" },
+                    { key: "Coordinator poll", val: "2s", note: "Swarm orchestration heartbeat — fast enough, not Redis-hammering" },
+                    { key: "Dependency tick", val: "3s", note: "Unblock tasks waiting on other tasks' output" },
+                    { key: "Heartbeat TTL", val: "5s", note: "Missing key = dead agent, no health-check endpoint needed" },
+                  ].map(({ key, val, note }) => (
+                    <div key={key} className="border-b border-primary-foreground/10 pb-3 last:border-0 last:pb-0">
+                      <div className="flex justify-between items-baseline mb-0.5">
+                        <span className="text-primary-foreground/55">{key}</span>
+                        <span className="text-primary-foreground font-serif-display text-lg font-light">{val}</span>
+                      </div>
+                      <p className="text-[10px] text-primary-foreground/35 leading-relaxed">{note}</p>
+                    </div>
+                  ))}
+                </dl>
               </aside>
             </FadeIn>
           </div>
@@ -529,7 +553,8 @@ const MetaHarness = () => {
         }
       >
         <div className="max-w-3xl">
-          <Code>{`Telegram message
+          <Code>{`# Single task:
+Telegram message
   → cc-tg coordinator (persistent Claude session)
   → spawn_agent via cc-agent MCP
   → task agent clones repo, creates branch
@@ -537,11 +562,21 @@ const MetaHarness = () => {
   → PR opened, merged
   → npm publish, service restart
   → launchd spawns new process with latest package
-  → Redis notification
+  → Redis notification (cc:jobs:<id>:log)
+  → Telegram reply
+
+# Wide parallel work (swarm_task):
+Telegram message → cc-tg → swarm_task(goal, max_agents=8)
+  → decompose → N sub-tasks written to cc:coordinator:tasks
+  → N agents spin up, each runs full job lifecycle in parallel
+  → results collected in cc:swarm:<id>:results
+  → synthesis agent reads all outputs → single deliverable
   → Telegram reply`}</Code>
           <p className="mt-6 text-lg text-foreground/70 leading-relaxed font-light">
             This is the infrastructure pattern, not the product. The product is whatever the agents
-            build.
+            build. Use <code className="font-mono text-primary text-sm">spawn_agent</code> for deep
+            single tasks; <code className="font-mono text-primary text-sm">swarm_task</code> for wide
+            parallel work (research N repos, audit N endpoints, generate N content variants).
           </p>
         </div>
       </Section>
