@@ -152,9 +152,13 @@ redis-cli ping        # should print PONG`}</CodeBlock>
         <p className="text-foreground/75 leading-relaxed">
           cc-agent is an MCP server that exposes <code className="font-mono text-primary">spawn_agent</code>,{" "}
           <code className="font-mono text-primary">list_jobs</code>,{" "}
-          <code className="font-mono text-primary">get_job_output</code>, and{" "}
-          <code className="font-mono text-primary">cancel_job</code> as tool calls. It runs as a
-          subprocess of your coordinator Claude session.
+          <code className="font-mono text-primary">get_job_output</code>,{" "}
+          <code className="font-mono text-primary">cancel_job</code>, and{" "}
+          <code className="font-mono text-primary">swarm_task</code> as tool calls. It runs as a
+          subprocess of your coordinator Claude session. Use <code className="font-mono text-primary">spawn_agent</code> for single
+          deep tasks; use <code className="font-mono text-primary">swarm_task</code> when you want to decompose a goal into N
+          parallel sub-tasks (research 40 repos, generate 50 variants, audit an entire codebase),
+          run them simultaneously, and synthesize the results into a single deliverable.
         </p>
         <CodeBlock>{`# Install cc-agent globally
 npm install -g @gonzih/cc-agent
@@ -254,7 +258,13 @@ npm install -g @gonzih/cc-tg
 TELEGRAM_BOT_TOKEN=<your-bot-token>
 CLAUDE_CODE_OAUTH_TOKEN=<your-claude-token>
 REDIS_URL=redis://localhost:6379
-PROJECT_DIR=/path/to/your/project`}</CodeBlock>
+PROJECT_DIR=/path/to/your/project
+
+# Enable forum topic routing (topic name → repo → persistent meta-agent)
+FORUM_META_AGENT_ROUTING=true
+# Topic "of-stack"  → gonzih/of-stack meta-agent session
+# Topic "cc-suite"  → gonzih/cc-agent meta-agent session
+# Hashtag #of-stack or #gonzih/of-stack routes from any topic`}</CodeBlock>
         <p className="text-foreground/75 leading-relaxed">
           Create a launchd plist at{" "}
           <code className="font-mono text-primary">~/Library/LaunchAgents/cc-tg.plist</code>:
@@ -883,9 +893,13 @@ const MetaHarnessCourse = () => {
           <h2 className="font-serif-display text-3xl md:text-4xl font-light leading-[1.1] mb-6 break-words">
             What You Can Build With This
           </h2>
-          <p className="text-foreground/65 leading-relaxed mb-12 max-w-2xl">
+          <p className="text-foreground/65 leading-relaxed mb-4 max-w-2xl">
             The patterns below are documented in the /workflows library — each one is a real business
             automation built on the same architecture you just learned.
+          </p>
+          <p className="text-foreground/65 leading-relaxed mb-12 max-w-2xl border-l-2 border-primary/40 pl-5 py-1">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary block mb-2">— Real proof of scale</span>
+            gonzih/of-stack: a 7-service production system built entirely by autonomous agents across a few hours — scraper, classifier, messenger, sender, media, video, and supervisor — all talking through Redis Streams. Zero lines written by hand. The operator's role was intent and routing only.
           </p>
 
           <div className="space-y-0 border-t border-foreground/10">

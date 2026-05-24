@@ -393,12 +393,19 @@ projects ↓  │  ●  ●  ·  ·  ·
         <Code>{`coordinator parses intent
   → spawn_agent(api-repo, "add auth")         → agent #1 RUNNING
   → spawn_agent(mobile-repo, "fix overflow")  → agent #2 RUNNING
-  → spawn_agent(docs-repo, "write grant")     → agent #3 RUNNING`}</Code>
+  → spawn_agent(docs-repo, "write grant")     → agent #3 RUNNING
+
+# Wide parallel work? Use swarm_task instead:
+  → swarm_task(goal="research 40 repos", max_agents=8)
+      decompose → N sub-tasks (cc:coordinator:tasks)
+      N agents claim + execute in parallel
+      results → cc:swarm:<id>:results
+      synthesis agent → single deliverable`}</Code>
         <div className="mt-8 grid grid-cols-3 gap-4 max-w-xl">
           {[
             "1 message sent",
-            "3 instances working",
-            "3 notifications back",
+            "N instances working",
+            "1 deliverable back",
           ].map((item) => (
             <div key={item} className="text-center border-t border-primary/20 pt-4">
               <p className="text-primary-foreground/65 text-xs">{item}</p>
@@ -682,12 +689,12 @@ pkill node   → launchd respawns immediately
               body: "New capability = new MCP server, not a rewrite of the harness",
             },
             {
-              title: "Memory system",
-              body: "Builds project context and user preferences across sessions",
+              title: "Forum routing",
+              body: "Topic name → repo → persistent meta-agent (FORUM_META_AGENT_ROUTING=true). Each domain gets an agent that reads commits and builds institutional memory over time.",
             },
             {
               title: "1000 tasks later",
-              body: "The coordinator knows your codebase better than any new hire",
+              body: "The coordinator knows your codebase better than any new hire — design decisions, fragile areas, evolving constraints",
             },
           ].map(({ title, body }) => (
             <div key={title} className="border-l-2 border-primary/30 pl-5 py-1">
@@ -720,7 +727,7 @@ pkill node   → launchd respawns immediately
             "Cron-triggered research → report generation",
             "Multi-repo dependency update coordination",
             "Customer request → code → deploy → notify",
-            "Security scan → patch → PR → merge",
+            "OF stack: 7 services built by agents, zero lines by hand",
           ].map((item) => (
             <div
               key={item}
