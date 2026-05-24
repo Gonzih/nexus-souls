@@ -9,8 +9,8 @@ const posts = [
     title: "The Meatbag Checkpoint",
     date: "2025-05-23",
     description:
-      "Adversarial tokens are compute designed to burn AI resources — reCAPTCHA is the canonical example. The right architecture isn't to throw more AI at it. It's to identify the exact adversarial boundary and route a human there for 3 seconds. Everything else stays automated.",
-    tags: ["automation", "architecture", "ai-pipelines", "captcha"],
+      "An AI agent read my emails, found a hackathon, read my repos, wrote the submission, recorded the demo video, and hit submit — autonomously. One human checkpoint: 3 seconds on a reCAPTCHA tile grid. Total API cost: ~$3. A dispatch on adversarial tokens, autonomous form submission, and what it means when the unit of work is the task, not the session.",
+    tags: ["automation", "architecture", "ai-pipelines", "captcha", "hackathon", "agents"],
   },
 ];
 
