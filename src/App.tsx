@@ -17,6 +17,8 @@ import WorkflowPhotoToListing from "./pages/WorkflowPhotoToListing.tsx";
 import WorkflowAiCreatorPersona from "./pages/WorkflowAiCreatorPersona.tsx";
 import WorkflowOnePersonBusiness from "./pages/WorkflowOnePersonBusiness.tsx";
 import Research from "./pages/Research.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogCaptchaWorkflow from "./pages/BlogCaptchaWorkflow.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -42,6 +44,8 @@ const App = () => (
           <Route path="/workflows/ai-creator-persona" element={<WorkflowAiCreatorPersona />} />
           <Route path="/workflows/one-person-business" element={<WorkflowOnePersonBusiness />} />
           <Route path="/research" element={<Research />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/captcha-meatbag-checkpoint" element={<BlogCaptchaWorkflow />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
