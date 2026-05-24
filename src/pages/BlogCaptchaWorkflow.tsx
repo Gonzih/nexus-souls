@@ -23,7 +23,7 @@ const BlogCaptchaWorkflow = () => {
             <ArrowLeft className="w-3.5 h-3.5" /> Blog
           </Link>
           <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/50">
-            2025-05-23
+            2026-05-23
           </span>
         </div>
       </div>
@@ -71,7 +71,7 @@ const BlogCaptchaWorkflow = () => {
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Date</dt>
-                <dd className="text-foreground">2025-05-23</dd>
+                <dd className="text-foreground">2026-05-23</dd>
               </div>
               <div>
                 <dt className="uppercase tracking-[0.18em] text-foreground/50 mb-1.5">Human time</dt>

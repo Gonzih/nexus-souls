@@ -7,7 +7,7 @@ const posts = [
   {
     slug: "captcha-meatbag-checkpoint",
     title: "The Meatbag Checkpoint",
-    date: "2025-05-23",
+    date: "2026-05-23",
     description:
       "An AI agent read my emails, found a hackathon, read my repos, wrote the submission, recorded the demo video, and hit submit — autonomously. One human checkpoint: 3 seconds on a reCAPTCHA tile grid. Total API cost: ~$3. A dispatch on adversarial tokens, autonomous form submission, and what it means when the unit of work is the task, not the session.",
     tags: ["automation", "architecture", "ai-pipelines", "captcha", "hackathon", "agents"],
