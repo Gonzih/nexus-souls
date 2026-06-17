@@ -224,10 +224,7 @@ const CVPage = () => {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-lg md:text-xl text-foreground/70 leading-relaxed max-w-2xl font-light"
             >
-              Started in Grodno, Belarus. Wrote assembly on microcontrollers in college.
-              Turned a 15-year unprofitable company profitable at Elmar Reizen.
-              Rewrote ML pipelines in Go at Kira Systems — 10h to 1h build.
-              Building trust infrastructure for agentic systems.
+              Full-stack systems engineer. 18 years across the stack — Rust, Go, TypeScript, Clojure, Scala. ML infrastructure, distributed systems, agentic runtimes. Currently: trust infrastructure for autonomous agents.
             </motion.p>
             <motion.div
               initial={{ opacity: 0 }}
