@@ -63,7 +63,7 @@ const timeline = [
   },
   {
     year: "2022–2023",
-    role: "Lead Engineer",
+    role: "Co-Founder / CTO",
     org: "Agentic Labs",
     location: "Remote",
     desc: "Built autonomous agents in 2022 — before the word existed in the mainstream. Laid the conceptual and technical groundwork for what the industry now calls 'agentic AI.'",
@@ -94,13 +94,12 @@ const timeline = [
     tags: ["cto", "architecture"],
   },
   {
-    year: "2024–Present",
+    year: "2024–March 2026",
     role: "Founder / Architect",
     org: "AMAI Labs",
     location: "Remote",
     desc: "Trust infrastructure for the agentic economy. agent-jail (eBPF observable sandbox), soul-core (async agentic runtime, 692 tests), id-service, GCG inversion research. The question driving everything: how do you make intelligent systems verifiable, not just trusted?",
     tags: ["rust", "ebpf", "agents", "trust-infra"],
-    current: true,
   },
 ];
 
@@ -178,8 +177,8 @@ const stats = [
   { label: "Years building", value: "18+" },
   { label: "Coding since", value: "Grade 2" },
   { label: "Languages shipped", value: "8+" },
-  { label: "Conference talks", value: "2 co-created" },
-  { label: "Tests in soul-core", value: "692" },
+  { label: "Conferences Founded", value: "2" },
+  { label: "GitHub Repos", value: "500+" },
   { label: "Public repo stars", value: "900+" },
 ];
 
@@ -220,8 +219,8 @@ const CVPage = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.02] mb-8 break-words max-w-4xl"
             >
-              Coding since grade&nbsp;2.{" "}
-              <span className="text-accent-blue italic">Still not done.</span>
+              Engineer. Founder. Mentor.{" "}
+              <span className="text-accent-blue italic">Still shipping.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
