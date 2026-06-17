@@ -157,9 +157,7 @@ const stack = [
   { name: "TypeScript", level: 85, note: "full-stack, Kafka pipelines, cc-suite" },
   { name: "Clojure/CLJS", level: 82, note: "596★ cljs-electron, glue, Kira Systems core" },
   { name: "Scala + Spark", level: 72, note: "Elmar Reizen big-data pipelines" },
-  { name: "eBPF / Aya", level: 70, note: "agent-jail syscall tracing layer" },
-  { name: "C++ / Java", level: 65, note: "prior ML stack at Kira" },
-  { name: "Assembly", level: 55, note: "microcontrollers in college" },
+  { name: "C++ / Java", level: 65, note: "applying CRF models on NLP problems" },
 ];
 
 const langColors: Record<string, string> = {
@@ -168,9 +166,7 @@ const langColors: Record<string, string> = {
   TypeScript: "#3178C6",
   "Clojure/CLJS": "#5881D8",
   "Scala + Spark": "#DC322F",
-  "eBPF / Aya": "hsl(222 90% 55%)",
   "C++ / Java": "#A97BFF",
-  Assembly: "#888",
 };
 
 const stats = [
@@ -285,7 +281,7 @@ const CVPage = () => {
         eyebrow="Technical stack"
         title={
           <>
-            Assembly to eBPF.{" "}
+            Rust to Lisp.{" "}
             <span className="italic text-accent-blue">All layers.</span>
           </>
         }
