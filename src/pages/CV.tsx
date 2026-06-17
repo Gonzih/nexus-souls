@@ -10,7 +10,7 @@ const timeline = [
     role: "First Professional Code",
     org: "ITUnit",
     location: "Grodno, Belarus",
-    desc: "Age 17. Startup environment from day one. Freelance engagements running in parallel. The compulsion had a budget.",
+    desc: "Age 17. Startup environment from day one. Freelance engagements running in parallel.",
     tags: ["freelance", "startup"],
   },
   {
@@ -18,7 +18,7 @@ const timeline = [
     role: "Software Engineer",
     org: "Elmar Reizen",
     location: "Amsterdam, Netherlands",
-    desc: "Inherited a 15-year unprofitable travel platform. Built Scala + Spark data pipelines that changed the unit economics. Company turned profitable and was acquired. First time code moved a P&L.",
+    desc: "Inherited a 15-year unprofitable travel platform. Built Scala + Spark data pipelines that changed the unit economics. Company turned profitable and was acquired.",
     tags: ["scala", "spark", "big-data"],
   },
   {
@@ -26,7 +26,7 @@ const timeline = [
     role: "Co-creator",
     org: "Clojure Dutch Days",
     location: "Amsterdam",
-    desc: "Built the Clojure community in the Netherlands from scratch. Three editions. Real practitioners. Not a meetup — a conference.",
+    desc: "Co-created the Clojure conference in the Netherlands. Three editions.",
     tags: ["clojure", "community"],
   },
   {
@@ -34,7 +34,7 @@ const timeline = [
     role: "Software Engineer → Staff",
     org: "Kira Systems",
     location: "Toronto, Canada",
-    desc: "Legal tech ML platform serving the US market. Rewrote the core ML pipeline in Go: build time collapsed from 10 hours to 1 hour. CPU-only inference at scale. Also ran Clojure in production across the stack.",
+    desc: "Legal tech ML platform serving the US market. Rewrote the core ML pipeline in Go: build time from 10 hours to 1 hour. CPU-only inference at scale. Clojure in production across the stack.",
     tags: ["go", "clojure", "ml", "legal-tech"],
   },
   {
@@ -42,7 +42,7 @@ const timeline = [
     role: "Co-creator",
     org: "gocon.ca",
     location: "Canada",
-    desc: "Canada's Go conference. Because communities don't build themselves.",
+    desc: "Co-created Canada's Go conference.",
     tags: ["go", "community"],
   },
   {
@@ -50,7 +50,7 @@ const timeline = [
     role: "Senior Engineer",
     org: "Horizon Blockchain Games",
     location: "Toronto, Canada",
-    desc: "Built the blockchain indexer and core infrastructure for Skyweaver. High-throughput event processing at the intersection of gaming and on-chain state.",
+    desc: "Built the blockchain indexer and core infrastructure for Skyweaver. High-throughput event processing across gaming and on-chain state.",
     tags: ["blockchain", "go", "indexer"],
   },
   {
@@ -58,7 +58,7 @@ const timeline = [
     role: "Co-founder / Engineer",
     org: "funkt.ai",
     location: "Remote",
-    desc: "Pre-GPT AI copywriting system. Built the pipeline before the word 'prompt engineering' existed. Learned what the crowd would figure out two years later.",
+    desc: "AI copywriting system. Built the LLM pipeline and prompt infrastructure before the tooling ecosystem existed.",
     tags: ["ai", "nlp", "typescript"],
   },
   {
@@ -66,7 +66,7 @@ const timeline = [
     role: "Co-Founder / CTO",
     org: "Agentic Labs",
     location: "Remote",
-    desc: "Built autonomous agents in 2022 — before the word existed in the mainstream. Laid the conceptual and technical groundwork for what the industry now calls 'agentic AI.'",
+    desc: "Built autonomous agent systems in 2022.",
     tags: ["agents", "rust", "autonomous"],
   },
   {
@@ -74,7 +74,7 @@ const timeline = [
     role: "Engineer",
     org: "avro.ai",
     location: "Remote",
-    desc: "LLM-based structured data extraction from unstructured documents. Production pipelines, real accuracy requirements, enterprise contracts.",
+    desc: "LLM-based structured data extraction from unstructured documents. Production pipelines, enterprise contracts.",
     tags: ["llm", "extraction", "typescript"],
   },
   {
@@ -82,7 +82,7 @@ const timeline = [
     role: "GenAI Tech Lead",
     org: "Northwestern Mutual Venture Studio",
     location: "Milwaukee, WI",
-    desc: "$32B AUM context. Led GenAI technical strategy inside the venture arm of one of the largest financial institutions in the US. Translated frontier AI capabilities into institutional constraints.",
+    desc: "$32B AUM context. Led GenAI technical strategy inside the venture arm of Northwestern Mutual. Translated frontier AI capabilities into institutional constraints.",
     tags: ["genai", "enterprise", "fintech"],
   },
   {
@@ -90,7 +90,7 @@ const timeline = [
     role: "CTO",
     org: "8LAB",
     location: "Remote",
-    desc: "Full technical ownership. Architecture, hiring signal, roadmap. Built for speed.",
+    desc: "Full technical ownership. Architecture, hiring, roadmap.",
     tags: ["cto", "architecture"],
   },
   {
@@ -98,7 +98,7 @@ const timeline = [
     role: "Founder / Architect",
     org: "AMAI Labs",
     location: "Remote",
-    desc: "Trust infrastructure for the agentic economy. agent-jail (eBPF observable sandbox), soul-core (async agentic runtime, 692 tests), id-service, GCG inversion research. The question driving everything: how do you make intelligent systems verifiable, not just trusted?",
+    desc: "Trust infrastructure for the agentic economy. agent-jail (eBPF observable sandbox), soul-core (async agentic runtime, 692 tests), id-service, GCG inversion research.",
     tags: ["rust", "ebpf", "agents", "trust-infra"],
   },
 ];
@@ -108,7 +108,7 @@ const repos = [
     name: "cljs-electron",
     stars: 596,
     lang: "ClojureScript",
-    desc: "ClojureScript + Electron development stack. The community reference implementation.",
+    desc: "ClojureScript + Electron development stack.",
     url: "https://github.com/gonzih/cljs-electron",
   },
   {
@@ -122,7 +122,7 @@ const repos = [
     name: "agent-jail",
     stars: 152,
     lang: "Rust",
-    desc: "eBPF observable sandbox for AI agents. Syscall tracing, Aya framework, 152 tests. Production-grade containment.",
+    desc: "eBPF observable sandbox for AI agents. Syscall tracing via Aya framework. 152 tests.",
     url: "https://github.com/gonzih/agent-jail",
     tests: 152,
   },
@@ -130,14 +130,14 @@ const repos = [
     name: "crabler",
     stars: 93,
     lang: "Rust",
-    desc: "Async web crawler built on Rust's async ecosystem. Clean API, real-world performance.",
+    desc: "Async web crawler built on Rust's async ecosystem.",
     url: "https://github.com/gonzih/crabler",
   },
   {
     name: "soul-core",
     stars: 0,
     lang: "Rust",
-    desc: "Async agentic runtime. The substrate. 692 tests. Built for correctness, not demos.",
+    desc: "Async agentic runtime. 692 tests.",
     url: "https://github.com/gonzih/soul-core",
     tests: 692,
     private: false,
@@ -146,7 +146,7 @@ const repos = [
     name: "nexus-souls",
     stars: 0,
     lang: "TypeScript",
-    desc: "This site. Trust infrastructure research hub. Multi-model consensus, eBPF sandboxing, bitemporal knowledge.",
+    desc: "This site. Multi-model consensus, eBPF sandboxing, bitemporal knowledge.",
     url: "https://github.com/gonzih/nexus-souls",
   },
 ];
@@ -215,8 +215,8 @@ const CVPage = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.02] mb-8 break-words max-w-4xl"
             >
-              Engineer. Founder. Mentor.{" "}
-              <span className="text-accent-blue italic">Still shipping.</span>
+              Engineer. Founder.{" "}
+              <span className="text-accent-blue italic">18 years shipping.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -224,10 +224,10 @@ const CVPage = () => {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-lg md:text-xl text-foreground/70 leading-relaxed max-w-2xl font-light"
             >
-              Born in Belarus with no resources and a secondhand computer. Wrote assembly on
-              microcontrollers in college. Turned a 15-year unprofitable company profitable.
-              Rewrote ML pipelines in Go. Built autonomous agents before the word existed.
-              Now: trust infrastructure for the agentic economy.
+              Started in Grodno, Belarus. Wrote assembly on microcontrollers in college.
+              Turned a 15-year unprofitable company profitable at Elmar Reizen.
+              Rewrote ML pipelines in Go at Kira Systems — 10h to 1h build.
+              Building trust infrastructure for agentic systems.
             </motion.p>
             <motion.div
               initial={{ opacity: 0 }}
@@ -334,23 +334,23 @@ const CVPage = () => {
                   {[
                     {
                       area: "Async Rust",
-                      detail: "soul-core async agentic runtime — correctness-first design, 692 tests. Not a hobby project.",
+                      detail: "soul-core async agentic runtime — 692 tests.",
                     },
                     {
                       area: "eBPF / Aya",
-                      detail: "agent-jail: syscall-level observable sandbox. Real containment, not toy isolation.",
+                      detail: "agent-jail: syscall-level observable sandbox. 152 tests.",
                     },
                     {
                       area: "Go ML infra",
-                      detail: "Kira Systems: 10h → 1h build. CPU-only inference pipeline. No GPU requirement at scale.",
+                      detail: "Kira Systems: 10h → 1h build. CPU-only inference pipeline.",
                     },
                     {
                       area: "WASM",
-                      detail: "First-class constraint across multiple projects. Portable execution where it counts.",
+                      detail: "First-class constraint across multiple projects.",
                     },
                     {
                       area: "Hardware I/O",
-                      detail: "Raspberry Pi GPIO/PWM/ADC/I2C/SPI — still hacking hardware, in Rust, today.",
+                      detail: "Raspberry Pi GPIO/PWM/ADC/I2C/SPI in Rust.",
                     },
                     {
                       area: "Clojure ecosystem",
@@ -374,37 +374,11 @@ const CVPage = () => {
         </div>
       </Section>
 
-      {/* The arc — brief narrative */}
+      {/* Education + Community */}
       <section className="relative px-6 md:px-10 py-20 border-b border-foreground/10 overflow-hidden">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-7">
-            <FadeIn>
-              <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-                — The through-line
-              </div>
-              <blockquote className="border-l-2 border-primary pl-7 mb-8">
-                <p className="font-serif-display text-2xl md:text-3xl leading-snug text-foreground font-light">
-                  "How do you make intelligent systems verifiable, not just trusted?"
-                </p>
-              </blockquote>
-              <div className="space-y-5 text-foreground/70 leading-relaxed">
-                <p>
-                  The question has been there since the beginning — under different names, at
-                  different scales. As a competition math kid in Belarus, it was: does the proof
-                  hold? At Elmar Reizen, it was: does the pipeline produce numbers you can act on?
-                  At Kira Systems: does the legal NLP classify reliably enough to survive a court?
-                </p>
-                <p>
-                  At AMAI Labs, the question has its final form: in a world where autonomous agents
-                  act on your behalf, accountability must be infrastructure — not policy, not
-                  promises, not vibes. Built into the execution substrate. Auditable at the syscall
-                  level. Tested with 692 tests because trust is not optional.
-                </p>
-              </div>
-            </FadeIn>
-          </div>
           <div className="lg:col-span-5">
-            <FadeIn delay={0.15}>
+            <FadeIn>
               <aside className="panel p-8 space-y-5">
                 <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">
                   — Education
@@ -417,8 +391,7 @@ const CVPage = () => {
                     Computer Science · Master's equivalent · 2009–2014
                   </div>
                   <p className="text-sm text-foreground/65 leading-relaxed">
-                    Math and programming competition background. Assembly on microcontrollers before
-                    web frameworks existed in the curriculum.
+                    Math and programming competition background. Assembly on microcontrollers.
                   </p>
                 </div>
                 <div className="pt-4 border-t border-foreground/10">
@@ -448,7 +421,7 @@ const CVPage = () => {
         title={
           <>
             18 years.{" "}
-            <span className="italic text-accent-blue">Still building.</span>
+            <span className="italic text-accent-blue">All stacks.</span>
           </>
         }
       >
@@ -520,8 +493,8 @@ const CVPage = () => {
         eyebrow="Open source"
         title={
           <>
-            Code that{" "}
-            <span className="italic text-accent-blue">people star.</span>
+            Public{" "}
+            <span className="italic text-accent-blue">repositories.</span>
           </>
         }
       >
@@ -589,13 +562,13 @@ const CVPage = () => {
         </div>
       </Section>
 
-      {/* Current work — AMAI */}
+      {/* Current work */}
       <Section
         eyebrow="Current focus"
         title={
           <>
             Trust infrastructure for{" "}
-            <span className="italic text-accent-blue">the agentic economy.</span>
+            <span className="italic text-accent-blue">agentic systems.</span>
           </>
         }
         variant="ink"
@@ -604,15 +577,13 @@ const CVPage = () => {
           <div className="lg:col-span-7 space-y-6">
             <FadeIn>
               <p className="text-primary-foreground/75 text-lg leading-relaxed font-light">
-                The agentic shift is not a product cycle. It's an accountability gap opening up in
-                real time. Autonomous systems act on behalf of humans at scale — and the tooling to
-                verify, contain, and audit that behavior does not exist yet.
+                Autonomous systems acting on behalf of humans at scale require tooling to verify,
+                contain, and audit their behavior. That tooling is largely absent.
               </p>
               <p className="text-primary-foreground/75 leading-relaxed">
-                Building that tooling from the substrate up: eBPF-level syscall tracing in
-                agent-jail, a 692-test async agentic runtime in soul-core, GCG inversion research
-                to understand how adversarial inputs rewrite agent behavior. The question is not
-                "can the agent complete the task?" — it's "can you verify what it did?"
+                Building from the substrate up: eBPF-level syscall tracing in agent-jail,
+                a 692-test async agentic runtime in soul-core, GCG inversion research on
+                adversarial inputs to agent instruction layers.
               </p>
             </FadeIn>
 
@@ -626,22 +597,22 @@ const CVPage = () => {
                     {
                       name: "agent-jail",
                       role: "eBPF observable sandbox",
-                      detail: "Syscall-level tracing via Aya. 152 tests. Containment that's auditable.",
+                      detail: "Syscall-level tracing via Aya. 152 tests.",
                     },
                     {
                       name: "soul-core",
                       role: "Async agentic runtime",
-                      detail: "The execution substrate. 692 tests. Correctness over cleverness.",
+                      detail: "692 tests.",
                     },
                     {
                       name: "id-service",
                       role: "Agent identity layer",
-                      detail: "Cryptographic identity for autonomous actors. Who signed this action?",
+                      detail: "Cryptographic identity for autonomous actors.",
                     },
                     {
                       name: "GCG inversion",
                       role: "Adversarial research",
-                      detail: "Greedy Coordinate Gradient attacks on agent instruction layers. Defense requires understanding the attack.",
+                      detail: "Greedy Coordinate Gradient attacks on agent instruction layers.",
                     },
                   ].map((p) => (
                     <div key={p.name} className="bg-[hsl(var(--surface-ink))] p-5">
@@ -692,30 +663,6 @@ const CVPage = () => {
           </div>
         </div>
       </Section>
-
-      {/* Origin story — closing */}
-      <section className="relative px-6 md:px-10 py-24 md:py-32 border-t border-foreground/10 overflow-hidden">
-        <div className="absolute inset-0 dot-bg opacity-20 pointer-events-none" />
-        <div className="relative max-w-4xl mx-auto">
-          <FadeIn>
-            <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary mb-6">
-              — Origin
-            </div>
-            <blockquote className="border-l-2 border-primary pl-7 mb-8">
-              <p className="font-serif-display text-3xl md:text-4xl leading-snug text-foreground font-light">
-                Grodno, Belarus. Second grade. A computer, a BASIC interpreter, and the realization
-                that you could tell a machine what to do — and it would do it.
-              </p>
-            </blockquote>
-            <p className="text-foreground/65 text-lg leading-relaxed max-w-2xl">
-              That was not a hobby. That was a discovery about the nature of leverage. Everything
-              since — the competition math, the assembly code, the distributed systems, the ML
-              rewrites, the agentic runtimes — has been the same bet, placed bigger each time.
-              Code is the only tool that compounds indefinitely without asking permission.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
 
       <Footer />
     </main>
