@@ -98,8 +98,8 @@ const timeline = [
     role: "Founder / Architect",
     org: "AMAI Labs",
     location: "Remote",
-    desc: "Trust infrastructure for the agentic economy. agent-jail (eBPF observable sandbox), soul-core (async agentic runtime, 692 tests), id-service, GCG inversion research.",
-    tags: ["rust", "ebpf", "agents", "trust-infra"],
+    desc: "Trust infrastructure for the agentic economy. agent-jail (syscall-level observable sandbox), soul-core (async agentic runtime, 692 tests), id-service, GCG inversion research.",
+    tags: ["rust", "agents", "trust-infra"],
   },
 ];
 
@@ -122,7 +122,7 @@ const repos = [
     name: "agent-jail",
     stars: 152,
     lang: "Rust",
-    desc: "eBPF observable sandbox for AI agents. Syscall tracing via Aya framework. 152 tests.",
+    desc: "Syscall-level observable sandbox for AI agents. 152 tests.",
     url: "https://github.com/gonzih/agent-jail",
     tests: 152,
   },
@@ -146,7 +146,7 @@ const repos = [
     name: "nexus-souls",
     stars: 0,
     lang: "TypeScript",
-    desc: "This site. Multi-model consensus, eBPF sandboxing, bitemporal knowledge.",
+    desc: "This site. Multi-model consensus, syscall sandboxing, bitemporal knowledge.",
     url: "https://github.com/gonzih/nexus-souls",
   },
 ];
@@ -215,7 +215,7 @@ const CVPage = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-serif-display text-4xl md:text-6xl lg:text-7xl font-light leading-[1.02] mb-8 break-words max-w-4xl"
             >
-              Engineer. Founder.{" "}
+              Engineer. Founder. Mentor.{" "}
               <span className="text-accent-blue italic">18 years shipping.</span>
             </motion.h1>
             <motion.p
@@ -332,10 +332,6 @@ const CVPage = () => {
                     {
                       area: "Async Rust",
                       detail: "soul-core async agentic runtime — 692 tests.",
-                    },
-                    {
-                      area: "eBPF / Aya",
-                      detail: "agent-jail: syscall-level observable sandbox. 152 tests.",
                     },
                     {
                       area: "Go ML infra",
@@ -572,7 +568,7 @@ const CVPage = () => {
                 contain, and audit their behavior. That tooling is largely absent.
               </p>
               <p className="text-primary-foreground/75 leading-relaxed">
-                Building from the substrate up: eBPF-level syscall tracing in agent-jail,
+                Building from the substrate up: syscall-level tracing in agent-jail,
                 a 692-test async agentic runtime in soul-core, GCG inversion research on
                 adversarial inputs to agent instruction layers.
               </p>
@@ -587,8 +583,8 @@ const CVPage = () => {
                   {[
                     {
                       name: "agent-jail",
-                      role: "eBPF observable sandbox",
-                      detail: "Syscall-level tracing via Aya. 152 tests.",
+                      role: "Syscall-level observable sandbox",
+                      detail: "Kernel-level tracing. 152 tests.",
                     },
                     {
                       name: "soul-core",
