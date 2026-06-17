@@ -563,14 +563,48 @@ const CVPage = () => {
         <div className="max-w-3xl space-y-10">
           <FadeIn>
             <p className="text-primary-foreground/75 text-lg leading-relaxed font-light">
-              Observable sandboxing, cryptographic identity, economic accountability for autonomous agents.
+              Building meta-harnesses for coordinating cohorts of autonomous agents.
             </p>
           </FadeIn>
 
           <FadeIn delay={0.1}>
             <div className="border-t border-primary-foreground/15 pt-8">
               <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-6">
-                — Active projects
+                — cc-suite (active infrastructure)
+              </div>
+              <div className="space-y-0 border border-primary-foreground/15">
+                {[
+                  {
+                    name: "cc-discord",
+                    fact: "Discord-to-Claude bridge. Routes messages, manages sessions, handles cron scheduling.",
+                  },
+                  {
+                    name: "cc-agent",
+                    fact: "MCP job runner. Spawns and supervises Claude Code agents against GitHub repos.",
+                  },
+                  {
+                    name: "cc-agent-ui",
+                    fact: "Job monitoring UI. Live output, status, cost tracking.",
+                  },
+                ].map((p, i, arr) => (
+                  <div
+                    key={p.name}
+                    className={`flex gap-6 items-baseline px-6 py-5 bg-[hsl(var(--surface-ink))]${
+                      i < arr.length - 1 ? " border-b border-primary-foreground/10" : ""
+                    }`}
+                  >
+                    <code className="font-mono text-xs text-primary shrink-0 w-32">{p.name}</code>
+                    <span className="text-sm text-primary-foreground/65 leading-relaxed">{p.fact}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <div className="border-t border-primary-foreground/15 pt-8">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-6">
+                — Trust infrastructure
               </div>
               <div className="space-y-0 border border-primary-foreground/15">
                 {[
