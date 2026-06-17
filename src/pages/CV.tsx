@@ -34,7 +34,7 @@ const timeline = [
     role: "Software Engineer → Staff",
     org: "Kira Systems",
     location: "Toronto, Canada",
-    desc: "Legal tech ML platform serving the US market. Rewrote the core ML pipeline in Go: build time from 10 hours to 1 hour. CPU-only inference at scale. Clojure in production across the stack.",
+    desc: "Legal tech ML platform. Rewrote the core ML pipeline in Go: build time 10h → 1h. CPU-only inference at scale. Clojure in production across the stack.",
     tags: ["go", "clojure", "ml", "legal-tech"],
   },
   {
@@ -50,7 +50,7 @@ const timeline = [
     role: "Senior Engineer",
     org: "Horizon Blockchain Games",
     location: "Toronto, Canada",
-    desc: "Built the blockchain indexer and core infrastructure for Skyweaver. High-throughput event processing across gaming and on-chain state.",
+    desc: "Built the blockchain indexer and core infrastructure for Skyweaver.",
     tags: ["blockchain", "go", "indexer"],
   },
   {
@@ -58,7 +58,7 @@ const timeline = [
     role: "Co-founder / Engineer",
     org: "funkt.ai",
     location: "Remote",
-    desc: "AI copywriting system. Built the LLM pipeline and prompt infrastructure before the tooling ecosystem existed.",
+    desc: "AI copywriting system. Built the LLM pipeline and prompt infrastructure.",
     tags: ["ai", "nlp", "typescript"],
   },
   {
@@ -82,7 +82,7 @@ const timeline = [
     role: "GenAI Tech Lead",
     org: "Northwestern Mutual Venture Studio",
     location: "Milwaukee, WI",
-    desc: "$32B AUM context. Led GenAI technical strategy inside the venture arm of Northwestern Mutual. Translated frontier AI capabilities into institutional constraints.",
+    desc: "$32B AUM context. Led GenAI technical strategy inside the venture arm. Translated frontier AI capabilities into institutional constraints.",
     tags: ["genai", "enterprise", "fintech"],
   },
   {
@@ -115,7 +115,7 @@ const repos = [
     name: "glue",
     stars: 189,
     lang: "ClojureScript",
-    desc: "Vue.js + ClojureScript state management. Zero-boilerplate reactive bindings.",
+    desc: "Vue.js + ClojureScript state management.",
     url: "https://github.com/gonzih/glue",
   },
   {
@@ -130,7 +130,7 @@ const repos = [
     name: "crabler",
     stars: 93,
     lang: "Rust",
-    desc: "Async web crawler built on Rust's async ecosystem.",
+    desc: "Async web crawler.",
     url: "https://github.com/gonzih/crabler",
   },
   {
@@ -278,8 +278,7 @@ const CVPage = () => {
         eyebrow="Technical stack"
         title={
           <>
-            Rust to Lisp.{" "}
-            <span className="italic text-accent-blue">All layers.</span>
+            Rust to Lisp.
           </>
         }
         variant="ink"
