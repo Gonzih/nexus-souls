@@ -549,105 +549,61 @@ const CVPage = () => {
         </div>
       </Section>
 
-      {/* Current work */}
+      {/* Current Focus */}
       <Section
         eyebrow="Current focus"
         title={
           <>
             Trust infrastructure for{" "}
-            <span className="italic text-accent-blue">agentic systems.</span>
+            <span className="italic text-accent-blue">the agentic economy.</span>
           </>
         }
         variant="ink"
       >
-        <div className="grid lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-7 space-y-6">
-            <FadeIn>
-              <p className="text-primary-foreground/75 text-lg leading-relaxed font-light">
-                Autonomous systems acting on behalf of humans at scale require tooling to verify,
-                contain, and audit their behavior. That tooling is largely absent.
-              </p>
-              <p className="text-primary-foreground/75 leading-relaxed">
-                Building from the substrate up: syscall-level tracing in agent-jail,
-                a 692-test async agentic runtime in soul-core, GCG inversion research on
-                adversarial inputs to agent instruction layers.
-              </p>
-            </FadeIn>
+        <div className="max-w-3xl space-y-10">
+          <FadeIn>
+            <p className="text-primary-foreground/75 text-lg leading-relaxed font-light">
+              Observable sandboxing, cryptographic identity, economic accountability for autonomous agents.
+            </p>
+          </FadeIn>
 
-            <FadeIn delay={0.1}>
-              <div className="border-t border-primary-foreground/15 pt-6">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">
-                  — Active projects
-                </div>
-                <div className="grid sm:grid-cols-2 gap-px bg-primary-foreground/10">
-                  {[
-                    {
-                      name: "agent-jail",
-                      role: "Syscall-level observable sandbox",
-                      detail: "Kernel-level tracing. 152 tests.",
-                    },
-                    {
-                      name: "soul-core",
-                      role: "Async agentic runtime",
-                      detail: "692 tests.",
-                    },
-                    {
-                      name: "id-service",
-                      role: "Agent identity layer",
-                      detail: "Cryptographic identity for autonomous actors.",
-                    },
-                    {
-                      name: "GCG inversion",
-                      role: "Adversarial research",
-                      detail: "Greedy Coordinate Gradient attacks on agent instruction layers.",
-                    },
-                  ].map((p) => (
-                    <div key={p.name} className="bg-[hsl(var(--surface-ink))] p-5">
-                      <code className="font-mono text-xs text-primary">{p.name}</code>
-                      <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-primary-foreground/40 mt-1 mb-2">
-                        {p.role}
-                      </div>
-                      <p className="text-xs text-primary-foreground/60 leading-relaxed">
-                        {p.detail}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+          <FadeIn delay={0.1}>
+            <div className="border-t border-primary-foreground/15 pt-8">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-6">
+                — Active projects
               </div>
-            </FadeIn>
-          </div>
-
-          <div className="lg:col-span-5">
-            <FadeIn delay={0.2}>
-              <aside className="panel-ink border border-primary-foreground/15 p-8">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-6">
-                  — What I'm looking for
-                </div>
-                <ul className="space-y-5 text-sm text-primary-foreground/75">
-                  {[
-                    "Teams building at the frontier of agentic systems — runtime, safety, or infra",
-                    "Problems that require correctness, not just velocity",
-                    "Work where Rust is the right tool, not a novelty",
-                    "Orgs that understand the accountability gap is real and needs technical solutions",
-                    "Founding or senior engineering roles with architectural ownership",
-                  ].map((item) => (
-                    <li key={item} className="flex gap-3 items-start">
-                      <span className="text-primary mt-0.5 shrink-0">—</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8 pt-6 border-t border-primary-foreground/15">
-                  <a
-                    href="mailto:gonzih@gmail.com"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.18em] hover:bg-primary-glow transition-colors w-full justify-center"
+              <div className="space-y-0 border border-primary-foreground/15">
+                {[
+                  {
+                    name: "agent-jail",
+                    fact: "Syscall-level observable sandbox. 152 tests.",
+                  },
+                  {
+                    name: "soul-core",
+                    fact: "Async agentic runtime. 692 tests.",
+                  },
+                  {
+                    name: "id-service",
+                    fact: "Ed25519 soulbound keys, trust scoring, immutable behavioral ledger.",
+                  },
+                  {
+                    name: "GCG inversion",
+                    fact: "Adversarial suffix optimization applied to intent alignment.",
+                  },
+                ].map((p, i, arr) => (
+                  <div
+                    key={p.name}
+                    className={`flex gap-6 items-baseline px-6 py-5 bg-[hsl(var(--surface-ink))]${
+                      i < arr.length - 1 ? " border-b border-primary-foreground/10" : ""
+                    }`}
                   >
-                    Get in touch
-                  </a>
-                </div>
-              </aside>
-            </FadeIn>
-          </div>
+                    <code className="font-mono text-xs text-primary shrink-0 w-32">{p.name}</code>
+                    <span className="text-sm text-primary-foreground/65 leading-relaxed">{p.fact}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </Section>
 
