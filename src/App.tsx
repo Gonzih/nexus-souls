@@ -20,6 +20,7 @@ import Research from "./pages/Research.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogCaptchaWorkflow from "./pages/BlogCaptchaWorkflow.tsx";
 import BlogDelegatedIntelligence from "./pages/BlogDelegatedIntelligence.tsx";
+import CV from "./pages/CV.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/captcha-meatbag-checkpoint" element={<BlogCaptchaWorkflow />} />
           <Route path="/blog/delegated-intelligence-os" element={<BlogDelegatedIntelligence />} />
+          <Route path="/cv" element={<CV />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

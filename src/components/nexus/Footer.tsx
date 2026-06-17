@@ -21,6 +21,7 @@ export const Footer = () => (
         <Link to="/meta-harness-talk" className="hover:text-primary-glow transition-colors">Talk</Link>
         <Link to="/research" className="hover:text-primary-glow transition-colors">Research</Link>
         <Link to="/blog" className="hover:text-primary-glow transition-colors">Blog</Link>
+        <Link to="/cv" className="hover:text-primary-glow transition-colors">CV</Link>
       </nav>
 
       <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary-foreground/60">
