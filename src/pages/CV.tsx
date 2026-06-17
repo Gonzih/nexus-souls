@@ -280,6 +280,104 @@ const CVPage = () => {
         </div>
       </section>
 
+      {/* Technical stack */}
+      <Section
+        eyebrow="Technical stack"
+        title={
+          <>
+            Assembly to eBPF.{" "}
+            <span className="italic text-accent-blue">All layers.</span>
+          </>
+        }
+        variant="ink"
+      >
+        <div className="grid lg:grid-cols-2 gap-12">
+          <div className="space-y-4">
+            {stack.map((item, i) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-mono text-xs text-primary-foreground">{item.name}</span>
+                  <span className="font-mono text-[10px] text-primary-foreground/40">{item.level}%</span>
+                </div>
+                <div className="h-px bg-primary-foreground/10 relative">
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: i * 0.07 + 0.2 }}
+                    style={{
+                      transformOrigin: "left",
+                      width: `${item.level}%`,
+                      height: "2px",
+                      background: langColors[item.name] ?? "hsl(222 85% 38%)",
+                      position: "absolute",
+                      top: "-0.5px",
+                    }}
+                  />
+                </div>
+                <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-primary-foreground/35 mt-1.5">
+                  {item.note}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div>
+            <FadeIn>
+              <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7 space-y-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">
+                  — Specialist depth
+                </div>
+                <ul className="space-y-5 text-sm text-primary-foreground/75">
+                  {[
+                    {
+                      area: "Async Rust",
+                      detail: "soul-core async agentic runtime — correctness-first design, 692 tests. Not a hobby project.",
+                    },
+                    {
+                      area: "eBPF / Aya",
+                      detail: "agent-jail: syscall-level observable sandbox. Real containment, not toy isolation.",
+                    },
+                    {
+                      area: "Go ML infra",
+                      detail: "Kira Systems: 10h → 1h build. CPU-only inference pipeline. No GPU requirement at scale.",
+                    },
+                    {
+                      area: "WASM",
+                      detail: "First-class constraint across multiple projects. Portable execution where it counts.",
+                    },
+                    {
+                      area: "Hardware I/O",
+                      detail: "Raspberry Pi GPIO/PWM/ADC/I2C/SPI — still hacking hardware, in Rust, today.",
+                    },
+                    {
+                      area: "Clojure ecosystem",
+                      detail: "596★ cljs-electron, glue state management, Kira Systems core, conference co-creator.",
+                    },
+                  ].map((item) => (
+                    <li key={item.area} className="flex gap-3 items-start border-b border-primary-foreground/8 pb-4 last:border-0 last:pb-0">
+                      <span className="text-primary mt-0.5 shrink-0">—</span>
+                      <div>
+                        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary mb-1">
+                          {item.area}
+                        </div>
+                        <span>{item.detail}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            </FadeIn>
+          </div>
+        </div>
+      </Section>
+
       {/* The arc — brief narrative */}
       <section className="relative px-6 md:px-10 py-20 border-b border-foreground/10 overflow-hidden">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
@@ -417,104 +515,6 @@ const CVPage = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* Technical stack */}
-      <Section
-        eyebrow="Technical stack"
-        title={
-          <>
-            Assembly to eBPF.{" "}
-            <span className="italic text-accent-blue">All layers.</span>
-          </>
-        }
-        variant="ink"
-      >
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div className="space-y-4">
-            {stack.map((item, i) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-              >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-mono text-xs text-primary-foreground">{item.name}</span>
-                  <span className="font-mono text-[10px] text-primary-foreground/40">{item.level}%</span>
-                </div>
-                <div className="h-px bg-primary-foreground/10 relative">
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: i * 0.07 + 0.2 }}
-                    style={{
-                      transformOrigin: "left",
-                      width: `${item.level}%`,
-                      height: "2px",
-                      background: langColors[item.name] ?? "hsl(222 85% 38%)",
-                      position: "absolute",
-                      top: "-0.5px",
-                    }}
-                  />
-                </div>
-                <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-primary-foreground/35 mt-1.5">
-                  {item.note}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div>
-            <FadeIn>
-              <aside className="bg-[hsl(var(--surface-ink))] border border-primary-foreground/15 p-7 space-y-5">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-glow mb-4">
-                  — Specialist depth
-                </div>
-                <ul className="space-y-5 text-sm text-primary-foreground/75">
-                  {[
-                    {
-                      area: "Async Rust",
-                      detail: "soul-core async agentic runtime — correctness-first design, 692 tests. Not a hobby project.",
-                    },
-                    {
-                      area: "eBPF / Aya",
-                      detail: "agent-jail: syscall-level observable sandbox. Real containment, not toy isolation.",
-                    },
-                    {
-                      area: "Go ML infra",
-                      detail: "Kira Systems: 10h → 1h build. CPU-only inference pipeline. No GPU requirement at scale.",
-                    },
-                    {
-                      area: "WASM",
-                      detail: "First-class constraint across multiple projects. Portable execution where it counts.",
-                    },
-                    {
-                      area: "Hardware I/O",
-                      detail: "Raspberry Pi GPIO/PWM/ADC/I2C/SPI — still hacking hardware, in Rust, today.",
-                    },
-                    {
-                      area: "Clojure ecosystem",
-                      detail: "596★ cljs-electron, glue state management, Kira Systems core, conference co-creator.",
-                    },
-                  ].map((item) => (
-                    <li key={item.area} className="flex gap-3 items-start border-b border-primary-foreground/8 pb-4 last:border-0 last:pb-0">
-                      <span className="text-primary mt-0.5 shrink-0">—</span>
-                      <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary mb-1">
-                          {item.area}
-                        </div>
-                        <span>{item.detail}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </aside>
-            </FadeIn>
           </div>
         </div>
       </Section>
