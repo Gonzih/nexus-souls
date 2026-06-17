@@ -371,44 +371,38 @@ const CVPage = () => {
         </div>
       </Section>
 
-      {/* Education + Community */}
+      {/* Data */}
       <section className="relative px-6 md:px-10 py-20 border-b border-foreground/10 overflow-hidden">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-5">
-            <FadeIn>
-              <aside className="panel p-8 space-y-5">
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-4">
-                  — Education
-                </div>
-                <div>
-                  <div className="font-serif-display text-lg text-foreground mb-1">
-                    Yanka Kupala State University of Grodno
-                  </div>
-                  <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/50 mb-3">
-                    Computer Science · Master's equivalent · 2009–2014
-                  </div>
-                  <p className="text-sm text-foreground/65 leading-relaxed">
-                    Math and programming competition background. Assembly on microcontrollers.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-foreground/10">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-3">
-                    — Community
-                  </div>
-                  <ul className="space-y-3 text-sm text-foreground/70">
-                    <li className="flex gap-3">
-                      <span className="text-primary shrink-0 mt-0.5">—</span>
-                      <span><strong className="text-foreground">Clojure Dutch Days</strong> — Amsterdam, 2014–2017. Co-creator.</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <span className="text-primary shrink-0 mt-0.5">—</span>
-                      <span><strong className="text-foreground">gocon.ca</strong> — Canada's Go conference, 2018–2019. Co-creator.</span>
-                    </li>
-                  </ul>
-                </div>
-              </aside>
-            </FadeIn>
-          </div>
+        <div className="max-w-6xl mx-auto">
+          <FadeIn>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-6">
+              — Data
+            </div>
+            <pre
+              style={{
+                background: "#111318",
+                color: "#e8e3d5",
+                fontFamily: "ui-monospace, 'Cascadia Code', 'Fira Code', Menlo, monospace",
+                fontSize: "0.8rem",
+                lineHeight: "1.7",
+                padding: "2rem 2.5rem",
+                border: "1px solid rgba(255,255,255,0.08)",
+                overflowX: "auto",
+                display: "inline-block",
+                minWidth: "min(100%, 520px)",
+              }}
+            >
+              <code>{`{:born        "Grodno, Belarus"
+ :degree      {:institution "Yanka Kupala State University of Grodno"
+               :field       :computer-science
+               :years       [2009 2014]}
+ :cities      ["Grodno" "Amsterdam" "Toronto" "Vancouver" "NYC" "Paris" "LA" "SF"]
+ :conferences ["clojuredays.org" "gocon.ca"]
+ :oss-stars   900
+ :repos       500
+ :years-exp   18}`}</code>
+            </pre>
+          </FadeIn>
         </div>
       </section>
 
