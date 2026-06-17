@@ -175,7 +175,7 @@ const langColors: Record<string, string> = {
 
 const stats = [
   { label: "Years building", value: "18+" },
-  { label: "Coding since", value: "Grade 2" },
+  { label: "Cities", value: "8" },
   { label: "Languages shipped", value: "8+" },
   { label: "Conferences Founded", value: "2" },
   { label: "GitHub Repos", value: "500+" },
