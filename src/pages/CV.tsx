@@ -372,7 +372,7 @@ const CVPage = () => {
         <div className="max-w-6xl mx-auto">
           <FadeIn>
             <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-6">
-              — Data
+              — Origin
             </div>
             <pre
               style={{
