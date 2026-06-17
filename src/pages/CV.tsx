@@ -452,7 +452,7 @@ const CVPage = () => {
         title={
           <>
             18 years.{" "}
-            <span className="italic text-accent-blue">One compulsion.</span>
+            <span className="italic text-accent-blue">Still building.</span>
           </>
         }
       >
