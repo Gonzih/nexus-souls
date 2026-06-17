@@ -273,7 +273,7 @@ const CVPage = () => {
             </dl>
             <div className="mt-8 pt-6 border-t border-foreground/10">
               <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/50">
-                <MapPin className="w-3 h-3" /> Grodno, Belarus → Amsterdam → Toronto → Remote
+                <MapPin className="w-3 h-3" /> Grodno → Amsterdam → Toronto → Vancouver → NYC → Paris → LA → SF
               </div>
             </div>
           </div>
