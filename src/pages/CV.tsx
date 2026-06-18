@@ -10,7 +10,7 @@ const timeline = [
     role: "First Professional Code",
     org: "ITUnit",
     location: "Grodno, Belarus",
-    desc: "Age 17. Startup environment from day one. Freelance engagements running in parallel.",
+    desc: "Age 17. Startup environment. Freelance in parallel.",
     tags: ["freelance", "startup"],
   },
   {
@@ -18,7 +18,7 @@ const timeline = [
     role: "Software Engineer",
     org: "Elmar Reizen",
     location: "Amsterdam, Netherlands",
-    desc: "Inherited a 15-year unprofitable travel platform. Built Scala + Spark data pipelines that changed the unit economics. Company turned profitable and was acquired.",
+    desc: "Inherited a 15-year unprofitable travel platform. Scala + Spark pipelines. Company turned profitable, acquired.",
     tags: ["scala", "spark", "big-data"],
   },
   {
@@ -82,7 +82,7 @@ const timeline = [
     role: "GenAI Tech Lead",
     org: "Northwestern Mutual Venture Studio",
     location: "Milwaukee, WI",
-    desc: "$32B AUM context. Led GenAI technical strategy inside the venture arm. Translated frontier AI capabilities into institutional constraints.",
+    desc: "$32B AUM context. Led GenAI strategy inside the venture arm.",
     tags: ["genai", "enterprise", "fintech"],
   },
   {
@@ -224,7 +224,7 @@ const CVPage = () => {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-lg md:text-xl text-foreground/70 leading-relaxed max-w-2xl font-light"
             >
-              Full-stack systems engineer. 18 years across the stack — Rust, Go, TypeScript, Clojure, Scala. ML infrastructure, distributed systems, agentic runtimes. Currently: trust infrastructure for autonomous agents.
+              Systems engineer. Rust, Go, TypeScript, Clojure, Scala. ML infrastructure, distributed systems, agentic runtimes. Currently: trust infrastructure for autonomous agents.
             </motion.p>
             <motion.div
               initial={{ opacity: 0 }}
@@ -562,7 +562,7 @@ const CVPage = () => {
         <div className="max-w-3xl space-y-10">
           <FadeIn>
             <p className="text-primary-foreground/75 text-lg leading-relaxed font-light">
-              Building meta-harnesses for coordinating cohorts of autonomous agents.
+              Coordinating cohorts of autonomous agents.
             </p>
           </FadeIn>
 

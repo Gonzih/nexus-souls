@@ -118,8 +118,8 @@ export const Hero = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-serif-display text-5xl md:text-6xl lg:text-7xl font-light leading-[0.95] text-foreground break-words"
             >
-              Identity <span className="text-accent-blue italic">for</span><br />
-              autonomous <span className="text-accent-blue italic">agents.</span>
+              Identity <span className="text-accent-blue italic">as</span><br />
+              alignment <span className="text-accent-blue italic">infrastructure.</span>
             </motion.h1>
 
             <motion.p
@@ -128,9 +128,9 @@ export const Hero = () => {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="mt-8 max-w-md text-base text-foreground/70 leading-relaxed"
             >
-              Cryptographic identity, behavioral ledger, and trust scoring
-              for AI agents. Built on research into language geometry,
-              adversarial robustness, and reasoning provenance.
+              Cryptographic identity, behavioral ledger, and intent-scored memory
+              for AI agents. Fight drift and slop via continuous microadjustments
+              grounded in mined intent — not retraining.
             </motion.p>
           </div>
 
@@ -173,8 +173,8 @@ export const Hero = () => {
           <div className="absolute inset-0 dot-bg-ink opacity-30" />
           <div className="relative flex items-start justify-between mb-6">
             <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary-foreground/70 leading-relaxed">
-              Trust at the center.<br />
-              Accountability at scale.
+              Intent mined.<br />
+              Alignment enforced.
             </div>
             <div className="text-primary-foreground/40 font-mono text-[10px]">— 001</div>
           </div>

@@ -1,5 +1,6 @@
 import { Hero } from "@/components/nexus/Hero";
 import { Problem } from "@/components/nexus/Problem";
+import { IntentAlignment } from "@/components/nexus/IntentAlignment";
 import { Architecture } from "@/components/nexus/Architecture";
 import { Convergence } from "@/components/nexus/Convergence";
 import { Harnesses } from "@/components/nexus/Harnesses";
@@ -14,6 +15,7 @@ const Index = () => {
     <main className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
       <Hero />
       <Problem />
+      <IntentAlignment />
       <Architecture />
       <Convergence />
       <Harnesses />
